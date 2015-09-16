@@ -1,0 +1,10 @@
+Responding to a button click
+	Create an interface for the listener, adding method(s) to be called on an action
+	In the container for the button:
+		create a private instance of this listener class
+		Create a public method to set the listener, receiving a parameter of the listener class
+			In this method set the private instance of the listener class to the passed value
+		Create an actionPerformed() method that processes the method 
+	In the container's parent, call the button container's method that sets its listener
+		Use an anonymous function to define what the interface method does
+	
