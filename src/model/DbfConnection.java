@@ -32,7 +32,6 @@ public class DbfConnection {
 		conn = DriverManager.getConnection(this.jdbURL, this.props);
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		
-		// TODO Add selection of start and end dates
 		String sql = "SELECT * FROM " + dbfFile + ";";
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData md = rs.getMetaData();
