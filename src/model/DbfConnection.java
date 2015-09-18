@@ -39,7 +39,7 @@ public class DbfConnection {
 		
 		Object colVal;
 				
-		switch (dbfFile.toLowerCase()) {
+		switch (dbfFile) { // dbfFile has been converted to lower case
 //			case "shift":
 //				ShiftData.importData(rs);
 //				break;
