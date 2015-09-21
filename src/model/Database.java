@@ -60,23 +60,23 @@ public class Database {
 			stmt = db.con.createStatement();
 			// Users table
 			String sql = "CREATE TABLE IF NOT EXISTS USERS "
-					+ "(id INT PRIMARY KEY NOT NULL, "
+					+ "(id INTEGER NOT NULL, "
 					+ "username TEXT NOT NULL, "
 					+ "password TEXT NOT NULL, "
 					+ "first_name TEXT NOT NULL, "
 					+ "last_name TEXT NOT NULL, "
-					+ "position_id INT NOT NULL)";
+					+ "position_id INTEGER NOT NULL)";
 			stmt.executeUpdate(sql);
 
 			// Positions table
 			sql = "CREATE TABLE IF NOT EXISTS POSITIONS "
-					+ "(id INT PRIMARY KEY NOT NULL, "
+					+ "(id INTEGER NOT NULL, "
 					+ "position TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS PERMISSIONS "
-					+ "(id INT PRIMARY KEY NOT NULL, "
-					+ "user_id INT NOT NULL, "
+					+ "(id INTEGER NOT NULL, "
+					+ "user_id INTEGER NOT NULL, "
 					+ "view_change BOOL NOT NULL, "
 					+ "reports BOOL NOT NULL, "
 					+ "orders BOOL NOT NULL, "
@@ -85,17 +85,17 @@ public class Database {
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS PREFERENCES "
-					+ "(id INT PRIMARY KEY NOT NULL, "
-					+ "mainFrameWidth INT NOT NULL, "
-					+ "mainFrameHeight INT NOT NULL, "
+					+ "(id INTEGER NOT NULL, "
+					+ "mainFrameWidth INTEGER NOT NULL, "
+					+ "mainFrameHeight INTEGER NOT NULL, "
 					+ "selectedView TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS SHIFT_DATAS "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-					+ "shift INT NOT NULL, "
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
+					+ "shift INTEGER NOT NULL, "
 					+ "date TEXT NOT NULL, "
-					+ "user_id INT NOT NULL, "
+					+ "user_id INTEGER NOT NULL, "
 					+ "food REAL NOT NULL DEFAULT 0.0, "
 					+ "rest_supp REAL NOT NULL DEFAULT 0.0, "
 					+ "off_supp REAL NOT NULL DEFAULT 0.0, "
@@ -118,45 +118,45 @@ public class Database {
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS OTHER_PAID_OUTS "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-					+ "shifts_data_id INT NOT NULL, "
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
+					+ "shifts_data_id INTEGER NOT NULL, "
 					+ "label TEXT NOT NULL DEFAULT '', "
 					+ "cost REAL NOT NULL DEFAULT 0.0);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS EMPLOYEES "
-					+ "(id INT PRIMARY KEY NOT NULL, "
+					+ "(id INTEGER NOT NULL, "
 					+ "first_name TEXT NOT NULL, "
 					+ "last_name TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS REGISTER_AUDITS "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
 					+ "date_time TEXT NOT NULL, "
-					+ "shift INT NOT NULL, "
+					+ "shift INTEGER NOT NULL, "
 					+ "tape_read REAL NOT NULL, "
 					+ "cash_count REAL NOT NULL, "
-					+ "audit INT NOT NULL, "
+					+ "audit INTEGER NOT NULL, "
 					+ "register TEXT NOT NULL, "
 					+ "manager_id TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS REGISTER_AUDIT_EMPLOYEE "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-					+ "audit_id INT NOT NULL, "
-					+ "employee_id INT NOT NULL);";
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
+					+ "audit_id INTEGER NOT NULL, "
+					+ "employee_id INTEGER NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS VENDORS "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
 					+ "name TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE IF NOT EXISTS VENDOR_INVOICES "
-					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+					+ "(id INTEGER AUTOINCREMENT NOT NULL, "
 					+ "date TEXT NOT NULL, "
-					+ "manager_id INT NOT NULL, "
-					+ "vendor_id INT NOT NULL, "
+					+ "manager_id INTEGER NOT NULL, "
+					+ "vendor_id INTEGER NOT NULL, "
 					+ "invoice_num TEXT NOT NULL, "
 					+ "amount REAL NOT NULL, "
 					+ "include_in_food BOOL NOT NULL DEFAULT TRUE);";
