@@ -15,6 +15,7 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -45,6 +46,9 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 	public MainFrame() throws Exception {
 		super("Dairy Palace of Canton - DairyBooks v3");
+		
+		// Init database in case there have been structural changes
+		Database.init();
 
 		prefs = new DairyPreferences();
 
@@ -481,7 +485,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 		Rectangle bounds = e.getComponent().getParent().getBounds();
 		Dimension size = e.getComponent().getParent().getBounds().getSize();
 
-		prefs.setMainFrameSize(e.getComponent().getParent().getParent().getBounds().getSize());
+		try {
+			prefs.setMainFrameSize(e.getComponent().getParent().getParent().getBounds().getSize());
+		} catch (SQLException ex) {
+			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (ClassNotFoundException ex) {
+			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	@Override

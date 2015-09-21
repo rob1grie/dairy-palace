@@ -15,34 +15,32 @@ import java.util.logging.Logger;
  */
 
 /*
-TODO: Improve form of using JDBC:
-	Add throws Exception clause to methods so that the calling method can check for exceptions
-	Use try/catch in the calling methods
-	NEVER use literal values in SQL, always use a prepared statement so special characters or anything else can be caught
-*/
+ TODO: Improve form of using JDBC:
+ Add throws Exception clause to methods so that the calling method can check for exceptions
+ Use try/catch in the calling methods
+ NEVER use literal values in SQL, always use a prepared statement so special characters or anything else can be caught
+ */
 public class Database {
 
 	public Connection con = null;
 
 	public Database() {
-		
+
 	}
 
 	public void connect() throws SQLException, ClassNotFoundException {
-		if (con != null) {
+		if (this.con != null) {
 			return;
 		}
 
-			Class.forName("org.sqlite.JDBC");
-//			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			con = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-//			con = DriverManager.getConnection("jdbc:derby:dairydb;create=true");
+		Class.forName("org.sqlite.JDBC");
+		this.con = DriverManager.getConnection("jdbc:sqlite:dairy.db");
 	}
-	
+
 	public void disconnect() {
-		if (con != null) {
+		if (this.con != null) {
 			try {
-				con.close();
+				this.con.close();
 			} catch (SQLException ex) {
 				System.out.println("Can't close connection");
 			}
@@ -82,9 +80,9 @@ public class Database {
 					+ "food_expense BOOL NOT NULL, "
 					+ "utilities BOOL NOT NULL);";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "CREATE TABLE IF NOT EXISTS PREFERENCES "
-					+ "(id INTEGER NOT NULL, "
+					+ "(importDirectory TEXT NOT NULL, "
 					+ "mainFrameWidth INTEGER NOT NULL, "
 					+ "mainFrameHeight INTEGER NOT NULL, "
 					+ "selectedView TEXT NOT NULL);";
@@ -172,22 +170,23 @@ public class Database {
 
 		return true;
 	}
-	
+
 	public ResultSet getResultSet(String sql) {
 		ResultSet rs = null;
 		Statement stmt = null;
-		
+
 		try {
 			connect();
-			stmt = con.createStatement();
+			stmt = this.con.createStatement();
 			rs = stmt.executeQuery(sql);
-			
+
 			stmt.close();
-			con.close();
+			this.con.close();
+			disconnect();
 		} catch (Exception ex) {
 			Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+
 		return rs;
 	}
 
@@ -203,7 +202,19 @@ public class Database {
 
 		rs.next();
 		rowId = rs.getInt(1);
-		
+
 		return rowId;
+	}
+
+	public int runUpdate(String sql) throws SQLException, ClassNotFoundException {
+		this.connect();
+		Statement stmt = this.con.createStatement();
+
+		int result = stmt.executeUpdate(sql);
+
+		stmt.close();
+		this.disconnect();
+
+		return result;
 	}
 }

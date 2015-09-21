@@ -426,11 +426,6 @@ public class ShiftData {
 					+ "gift_certs, ecards, discounts, mgr_on_duty) "
 					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
 
-//					+ "VALUES (" + this.shift + ", '" + this.date + "', " + this.userId + ", " + this.food + ", "
-//					+ this.restSupp + ", " + this.offSupp + ", " + this.repMaint + ", " + this.freight + ", " + this.credCards + ", "
-//					+ this.storeCash + ", " + this.zDeptTl + ", " + this.overrings + ", " + this.begCash + ", " + this.zTx + ", "
-//					+ this.zCoupon + ", " + this.schoolCharges + ", " + this.taxExemptSales + ", " + this.donations + ", "
-//					+ this.giftCerts + ", " + this.ecards + ", " + this.discounts + ", '" + this.mgrOnDuty + "');";
 			stmt.setInt(1, this.shift);
 			stmt.setString(2, this.date);
 			stmt.setInt(3, this.userId);
