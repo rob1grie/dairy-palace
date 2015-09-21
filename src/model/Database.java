@@ -64,6 +64,7 @@ public class Database {
 					+ "password TEXT NOT NULL, "
 					+ "first_name TEXT NOT NULL, "
 					+ "last_name TEXT NOT NULL, "
+					+ "initials TEXT NOT NULL, "
 					+ "position_id INTEGER NOT NULL)";
 			stmt.executeUpdate(sql);
 

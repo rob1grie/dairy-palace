@@ -22,6 +22,7 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private String initials;
 	private Position position;
 
 	private Database db;
@@ -32,6 +33,7 @@ public class User {
 		this.password = "";
 		this.firstName = "";
 		this.lastName = "";
+		this.initials = "";
 		this.position = new Position();
 		
 		if (db == null) {
@@ -39,12 +41,20 @@ public class User {
 		}
 	}
 
-	public User(String id, String username, String password, String firstName, String lastName, int position_id) {
+	public User(
+			String id, 
+			String username, 
+			String password, 
+			String firstName, 
+			String lastName, 
+			String initials,
+			int position_id) {
 		this.id = Integer.parseInt(id);
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.initials = initials;
 		this.position = Position.getById(position_id);
 
 		if (db == null) {
@@ -54,11 +64,12 @@ public class User {
 
 	public User(ResultSet rs) throws SQLException {
 		// Constructs User from a ResultSet which is already at the current row
-		this.id = Integer.parseInt(rs.getString("id"));
+		this.id = Integer.parseInt(rs.getString("rowid"));
 		this.username = rs.getString("username");
 		this.password = rs.getString("password");
 		this.firstName = rs.getString("first_name");
 		this.lastName = rs.getString("last_name");
+		this.initials = rs.getString("initials");
 		this.position = Position.getById(rs.getInt("position_id"));
 
 		if (db == null) {
@@ -106,6 +117,14 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public String getInitials() {
+		return initials;
+	}
+
+	public void setInitials(String initials) {
+		this.initials = initials;
+	}
+
 	public Position getPosition() {
 		return position;
 	}
@@ -120,9 +139,10 @@ public class User {
 		this.db.connect();
 
 		Statement stmt = null;
-		String sql = "INSERT INTO USERS (username, password, first_name, last_name, position_id) "
+		String sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
 				+ "VALUES (" + this.username + ", '" + this.password
-				+ "', '" + this.firstName + "', '" + this.lastName + "', " + this.position.getId() + ");";
+				+ "', '" + this.firstName + "', '" + this.lastName
+				+ "', '" + this.initials + "', " + this.position.getId() + ");";
 
 		try {
 			stmt = db.con.createStatement();
@@ -161,6 +181,8 @@ public class User {
 		if (name.length > 1) {
 			usr.lastName = name[1];
 		}
+		
+		usr.initials = rs.getString("inits");
 		usr.username = rs.getString("id");
 		usr.password = rs.getString("password");
 
@@ -188,26 +210,36 @@ public class User {
 	}
 
 	public static User getUserFromUsername(String userName) throws Exception {
+		String sql = "SELECT * FROM USERS WHERE username = '" + userName + "'";
+		
+		User user = User.getUserFromSql(sql);
+		
+		return user;
+	}
+	
+	public static User getUserFromInitials(String initials) throws Exception {
+		String sql = "SELECT * FROM USERS WHERE initials = '" + initials + "'";
+		
+		User user = User.getUserFromSql(sql);
+		
+		return user;
+	}
+	
+	private static User getUserFromSql(String sql) throws Exception {
 		User user = null;
 
 		Database db = new Database();
 		db.connect();
 
 		Statement stmt = db.con.createStatement();
-		String sql = "SELECT * FROM USERS WHERE username = '" + userName + "'";
 		ResultSet rs = stmt.executeQuery(sql);
-		ResultSetMetaData md = rs.getMetaData();
-		int test = md.getColumnCount();
-		for (int i = 1; i <= test; i++) {
-			String col = md.getColumnName(i);
-			int test2 = 0;
-		}
 
 		if (rs.next()) {
 			user = new User(rs);
 		}
 
 		return user;
+		
 	}
 
 }
