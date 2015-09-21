@@ -7,8 +7,6 @@ package controller;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Database;
 import model.DbfConnection;
 import utils.Utils;
