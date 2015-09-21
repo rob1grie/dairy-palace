@@ -40,9 +40,6 @@ public class DbfConnection {
 		Object colVal;
 				
 		switch (dbfFile) { // dbfFile has been converted to lower case
-//			case "shift":
-//				ShiftData.importData(rs);
-//				break;
 //			case "register":
 //				RegisterAudit.importData(rs);
 //				break;
@@ -52,6 +49,9 @@ public class DbfConnection {
 				break;
 			case "users":
 				User.importData(rs);
+				break;
+			case "shift":
+				ShiftData.importData(rs);
 				break;
 		}
 		
