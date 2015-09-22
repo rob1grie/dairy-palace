@@ -340,7 +340,7 @@ public class ShiftData {
 			ShiftData shiftData = ShiftData.getShiftDataFromDbfResultSet(rs);
 			
 			// Get userId
-			User user = User.getUserFromUsername(rs.getString("entered_by"));
+			User user = User.getUserFromInitials(rs.getString("entered_by"));
 			shiftData.userId = user.getId();
 			
 			// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
@@ -430,6 +430,7 @@ public class ShiftData {
 					+ "gift_certs, ecards, discounts, mgr_on_duty) "
 					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
 
+			stmt.setInt(1, this.shift);
 			stmt.setString(2, this.date);
 			stmt.setInt(3, this.userId);
 			stmt.setFloat(4, this.food);

@@ -5,11 +5,11 @@
  */
 package model;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -64,7 +64,8 @@ public class User {
 
 	public User(ResultSet rs) throws SQLException {
 		// Constructs User from a ResultSet which is already at the current row
-		this.id = Integer.parseInt(rs.getString("rowid"));
+		
+		this.id = Integer.parseInt(rs.getString("id"));
 		this.username = rs.getString("username");
 		this.password = rs.getString("password");
 		this.firstName = rs.getString("first_name");
