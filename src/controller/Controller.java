@@ -54,19 +54,6 @@ public class Controller {
 		if (keyedFiles.get("vendinv") != null) {
 			dbf.importDbf("vendinv");
 		}
-		
-//		// TODO import USERS before SHIFT in order to have user_id and username
-//		try {
-//			for (File file : files) {
-//				if (file.getName().length() > 0) {
-//					String fileName = Utils.getFileName(file.getName());
-//					System.out.println(fileName);
-//				dbf.importDbf(fileName);
-//				}
-//			}
-//		} catch (Exception ex) {
-//			Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-//		}
 	}
 	
 	private HashMap reKeyFileList(File[] files) throws Exception {

@@ -427,7 +427,6 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		importDataItem.addActionListener(new ActionListener() {
 			@Override
-			// TODO Add selection of start and end dates
 			public void actionPerformed(ActionEvent e) {
 				DbfFileFilter filter = new DbfFileFilter();
 				fileChooser = new JFileChooser();
