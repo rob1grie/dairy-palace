@@ -15,6 +15,7 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -433,7 +434,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 					try {
 						File selectedFile = fileChooser.getSelectedFile();
 						controller.importDbf(selectedFile.listFiles(filter));
-					} catch (IOException ex) {
+					} catch (ClassNotFoundException ex) {
 						Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 					} catch (Exception ex) {
 						Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -453,8 +454,24 @@ public class MainFrame extends JFrame implements ComponentListener {
 		initDatabaseItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (Database.init()) {
-					JOptionPane.showMessageDialog(MainFrame.this, "Database was successfully initialized");
+				try {
+					if (Database.init()) {
+						JOptionPane.showMessageDialog(MainFrame.this, "Database was successfully initialized");
+					}
+				} catch (SQLException ex) {
+					String msg = ex.getMessage();
+					JOptionPane.showMessageDialog(
+							MainFrame.this, 
+							"There was an error initializing the database:\r\n" + msg, 
+							"Initializing Error", 
+							JOptionPane.ERROR_MESSAGE);
+				} catch (ClassNotFoundException ex) {
+					String msg = ex.getMessage();
+					JOptionPane.showMessageDialog(
+							MainFrame.this, 
+							"There was an error initializing the database:\r\n" + msg, 
+							"Initializing Error", 
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

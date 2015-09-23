@@ -25,7 +25,7 @@ public class Controller {
 		}
 	}
 
-	public void importDbf(File[] files) throws Exception {
+	public void importDbf(File[] files) throws ClassNotFoundException, Exception {
 		DbfConnection dbf = new DbfConnection();
 		
 		HashMap keyedFiles = this.reKeyFileList(files);

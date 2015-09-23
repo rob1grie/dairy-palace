@@ -18,7 +18,7 @@ public class DbfConnection {
 	private Connection conn;
 	private Statement stmt;
 	
-	public DbfConnection() throws Exception {
+	public DbfConnection() throws ClassNotFoundException {
 		jdbURL = "jdbc:dbf:/./data/?caseInsensitive=true";
 		
 		Class.forName("com.caigen.sql.dbf.DBFDriver");
