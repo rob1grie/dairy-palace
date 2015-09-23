@@ -37,6 +37,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private JFileChooser fileChooser;
 	private final DairyPreferences prefs;
 	private final Toolbar toolbar;
+	private MonthYearDialog monthYearDialog;
 
 	// Constants for CardLayout panels
 	final static String STARTPANEL = "Start";
@@ -433,9 +434,14 @@ public class MainFrame extends JFrame implements ComponentListener {
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 				if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
 					try {
-						File selectedFile = fileChooser.getSelectedFile();
-						controller.importDbf(selectedFile.listFiles(filter));
+						// Prompt for month and year to go back to
+						monthYearDialog = new MonthYearDialog(MainFrame.this);
+						monthYearDialog.setVisible(true);
+						
+//						File selectedFile = fileChooser.getSelectedFile();
+//						controller.importDbf(selectedFile.listFiles(filter));
 					} catch (Exception ex) {
 						String msg = ex.getMessage();
 						JOptionPane.showMessageDialog(
