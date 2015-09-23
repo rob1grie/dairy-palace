@@ -7,6 +7,9 @@ package gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -20,16 +23,43 @@ import javax.swing.JTextField;
 public class MonthYearDialog extends JDialog {
 	private JButton okButton;
 	private JButton cancelButton;
-	private JTextField month;
-	private JTextField year;
+	private JTextField monthField;
+	private JTextField yearField;
 	
-	public MonthYearDialog(JFrame parent) {
+	private MonthYearListener monthYearListener;
+		
+	public MonthYearDialog(JFrame parent, int m, int y) {
 		super(parent, "Select Import Date", true);
 		
 		this.layoutComponents();
 		
+		this.monthField.setText(((Integer)m).toString());
+		this.yearField.setText(((Integer)y).toString());
+		
+		okButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (monthYearListener != null) {
+					monthYearListener.monthYearSet(
+							Integer.parseInt(monthField.getText()),
+							Integer.parseInt(yearField.getText()));
+				}
+			}
+		
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		
+		});
+		
 		this.setSize(400, 300);
 		this.setLocationRelativeTo(parent);
+		
 	}
 	
 	private void layoutComponents() {
@@ -44,16 +74,16 @@ public class MonthYearDialog extends JDialog {
 		gc.gridx = 0;
 		add(new JLabel("Month: "), gc);
 		
-		month = new JTextField(5);
+		monthField = new JTextField(5);
 		gc.gridx++;
-		add(month, gc);
+		add(monthField, gc);
 		
 		gc.gridx++;
 		add(new JLabel("Year: "), gc);
 		
-		year = new JTextField(8);
+		yearField = new JTextField(8);
 		gc.gridx++;
-		add(year, gc);
+		add(yearField, gc);
 		
 		gc.gridy++;
 		gc.gridx = 0;
@@ -63,5 +93,22 @@ public class MonthYearDialog extends JDialog {
 		gc.gridx++;
 		cancelButton = new JButton("Cancel");
 		add(cancelButton, gc);
+	}
+
+	public void setMonthYearListener(MonthYearListener monthYearListener) {
+		this.monthYearListener = monthYearListener;
+	}
+	
+	public boolean validateFields() {
+		boolean result = false;
+		
+		int month = Integer.parseInt(this.monthField.getText());
+		int year = Integer.parseInt(this.yearField.getText());
+		int maxYear = Calendar.getInstance().get(Calendar.YEAR);
+		
+		result = (month >= 1) && (month <= 12) 
+				&& (year >= 2000) && (year <= maxYear);
+		
+		return result;
 	}
 }

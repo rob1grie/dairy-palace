@@ -47,9 +47,8 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 	public MainFrame() throws Exception {
 		super("Dairy Palace of Canton - DairyBooks v3");
-		
-		// TODO Check for database at program start
 
+		// TODO Check for database at program start
 		prefs = new DairyPreferences();
 
 		controller = new Controller();
@@ -437,11 +436,32 @@ public class MainFrame extends JFrame implements ComponentListener {
 					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
 					try {
 						// Prompt for month and year to go back to
-						monthYearDialog = new MonthYearDialog(MainFrame.this);
+						monthYearDialog = new MonthYearDialog(MainFrame.this, prefs.getImportMonth(), prefs.getImportYear());
+
+						monthYearDialog.setMonthYearListener(new MonthYearListener() {
+
+							@Override
+							public void monthYearSet(int month, int year) {
+								if (monthYearDialog.validateFields()) {
+									MainFrame.this.prefs.setImportMonth(month);
+									MainFrame.this.prefs.setImportYear(year);
+									System.out.println("Month: " + month + ", Year: " + year);
+									
+									monthYearDialog.setVisible(false);
+								} else {
+									JOptionPane.showMessageDialog(
+											MainFrame.this, 
+											"Please enter a valid month (1-12) and year", 
+											"Invalid Entry", 
+											JOptionPane.ERROR_MESSAGE);
+								}
+							}
+
+						});
 						monthYearDialog.setVisible(true);
-						
-//						File selectedFile = fileChooser.getSelectedFile();
-//						controller.importDbf(selectedFile.listFiles(filter));
+
+						File selectedFile = fileChooser.getSelectedFile();
+						controller.importDbf(selectedFile.listFiles(filter));
 					} catch (Exception ex) {
 						String msg = ex.getMessage();
 						JOptionPane.showMessageDialog(
