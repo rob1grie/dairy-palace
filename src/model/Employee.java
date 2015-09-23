@@ -42,12 +42,8 @@ public class Employee {
 		}
 	}
 
-	public Employee(ResultSet rs) {
-		try {
-			this.getEmployeeFromResultSet(rs);
-		} catch (SQLException ex) {
-			Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
-		}
+	public Employee(ResultSet rs) throws SQLException {
+		this.getEmployeeFromResultSet(rs);
 
 		if (db == null) {
 			db = new Database();
@@ -68,38 +64,19 @@ public class Employee {
 
 		Statement stmt = null;
 		String sql = "INSERT INTO EMPLOYEES (id, first_name, last_name) "
-					+ "VALUES (" + this.number + ", '" + this.firstName + "', '" + this.lastName + "');";
-		
-		try {
-			stmt = db.con.createStatement();
-			stmt.executeUpdate(sql);
-			
-		} catch (Exception e) {
-		} finally {
-			if (stmt != null) { stmt.close(); }
+				+ "VALUES (" + this.number + ", '" + this.firstName + "', '" + this.lastName + "');";
+
+		stmt = db.con.createStatement();
+		stmt.executeUpdate(sql);
+
+		if (stmt != null) {
+			stmt.close();
 		}
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-//			c.setAutoCommit(false);
-//
-//			stmt = c.createStatement();
-//			String sql = "INSERT INTO EMPLOYEES (id, first_name, last_name) "
-//					+ "VALUES (" + this.number + ", '" + this.firstName + "', '" + this.lastName + "');";
-//			stmt.executeUpdate(sql);
-//
-//			stmt.close();
-//			c.commit();
-//			c.close();
-//		} catch (Exception e) {
-//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//			return false;
-//		}
 
 		return result;
 	}
 
-	public static Employee getById(int id) {
+	public static Employee getById(int id) throws SQLException, ClassNotFoundException {
 		// Retrieve Employee with id
 		Database db = new Database();
 		Employee employee = null;
@@ -107,32 +84,27 @@ public class Employee {
 		Connection c = null;
 		Statement stmt = null;
 
-		try {
-			db.connect();
-			c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-			c.setAutoCommit(false);
+		db.connect();
+		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
+		c.setAutoCommit(false);
 
-			stmt = c.createStatement();
-			String sql = "SELECT * FROM EMPLOYEES WHERE id = id;";
+		stmt = c.createStatement();
+		String sql = "SELECT * FROM EMPLOYEES WHERE id = id;";
 
-			ResultSet rs = stmt.executeQuery(sql);
+		ResultSet rs = stmt.executeQuery(sql);
 
-			while (rs.next()) {
-				employee = new Employee(rs.getString("id"), rs.getString("first_name"), rs.getString("last_name"));
-			}
-
-			stmt.close();
-			c.commit();
-			c.close();
-
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		while (rs.next()) {
+			employee = new Employee(rs.getString("id"), rs.getString("first_name"), rs.getString("last_name"));
 		}
+
+		stmt.close();
+		c.commit();
+		c.close();
 
 		return employee;
 	}
 
-	public static boolean importData(ResultSet rs) throws Exception {
+	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
 		/*
 		 Import process:
 		 ***** ResultSet is from the DBF database *****
@@ -140,14 +112,14 @@ public class Employee {
 		 */
 		while (rs.next()) {
 			Employee emp = Employee.getEmployeeFromDbfResultSet(rs);
-			
+
 			emp.insert();
 		}
 
 		return true;
 	}
 
-	public static Employee getEmployeeFromDbfResultSet(ResultSet rs) throws SQLException, Exception {
+	public static Employee getEmployeeFromDbfResultSet(ResultSet rs) throws SQLException {
 		// rs is from a DBF record
 		Employee emp = new Employee();
 

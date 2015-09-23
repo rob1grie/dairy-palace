@@ -46,6 +46,8 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 	public MainFrame() throws Exception {
 		super("Dairy Palace of Canton - DairyBooks v3");
+		
+		// TODO Check for database at program start
 
 		prefs = new DairyPreferences();
 
@@ -434,9 +436,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 					try {
 						File selectedFile = fileChooser.getSelectedFile();
 						controller.importDbf(selectedFile.listFiles(filter));
-					} catch (ClassNotFoundException ex) {
-						Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 					} catch (Exception ex) {
+						String msg = ex.getMessage();
+						JOptionPane.showMessageDialog(
+								MainFrame.this,
+								"There was an error importing the data:\r\n" + msg,
+								"Import Error",
+								JOptionPane.ERROR_MESSAGE);
 						Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 					}
 				}
@@ -461,16 +467,16 @@ public class MainFrame extends JFrame implements ComponentListener {
 				} catch (SQLException ex) {
 					String msg = ex.getMessage();
 					JOptionPane.showMessageDialog(
-							MainFrame.this, 
-							"There was an error initializing the database:\r\n" + msg, 
-							"Initializing Error", 
+							MainFrame.this,
+							"There was an error initializing the database:\r\n" + msg,
+							"Initializing Error",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (ClassNotFoundException ex) {
 					String msg = ex.getMessage();
 					JOptionPane.showMessageDialog(
-							MainFrame.this, 
-							"There was an error initializing the database:\r\n" + msg, 
-							"Initializing Error", 
+							MainFrame.this,
+							"There was an error initializing the database:\r\n" + msg,
+							"Initializing Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}

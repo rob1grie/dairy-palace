@@ -134,7 +134,7 @@ public class User {
 		this.position = position;
 	}
 
-	public boolean insert() throws Exception {
+	public boolean insert() throws SQLException, ClassNotFoundException {
 		// Insert user into the USERS table
 		boolean result = false;
 		this.db.connect();
@@ -145,21 +145,17 @@ public class User {
 				+ "', '" + this.firstName + "', '" + this.lastName
 				+ "', '" + this.initials + "', " + this.position.getId() + ");";
 
-		try {
 			stmt = db.con.createStatement();
 			stmt.executeUpdate(sql);
 
-		} catch (Exception e) {
-		} finally {
 			if (stmt != null) {
 				stmt.close();
 			}
-		}
 
 		return true;
 	}
 
-	public static boolean importData(ResultSet rs) throws Exception {
+	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// rs is from a DBF record
 
 		while (rs.next()) {
@@ -190,7 +186,7 @@ public class User {
 		return usr;
 	}
 
-	public static String getUsernameFromId(int id) throws Exception {
+	public static String getUsernameFromId(int id) throws SQLException, ClassNotFoundException {
 		String username = "";
 
 		Database db = new Database();
@@ -210,7 +206,7 @@ public class User {
 		return username;
 	}
 
-	public static User getUserFromUsername(String userName) throws Exception {
+	public static User getUserFromUsername(String userName) throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM USERS WHERE username = '" + userName + "'";
 		
 		User user = User.getUserFromSql(sql);
@@ -218,7 +214,7 @@ public class User {
 		return user;
 	}
 	
-	public static User getUserFromInitials(String initials) throws Exception {
+	public static User getUserFromInitials(String initials) throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM USERS WHERE initials = '" + initials + "'";
 		
 		User user = User.getUserFromSql(sql);
@@ -226,7 +222,7 @@ public class User {
 		return user;
 	}
 	
-	private static User getUserFromSql(String sql) throws Exception {
+	private static User getUserFromSql(String sql) throws SQLException, ClassNotFoundException {
 		User user = null;
 
 		Database db = new Database();
