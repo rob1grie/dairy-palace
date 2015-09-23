@@ -10,11 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import model.DairyPreferences;
 import model.Database;
 
@@ -38,6 +39,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private final DairyPreferences prefs;
 	private final Toolbar toolbar;
 	private MonthYearDialog monthYearDialog;
+	private boolean continueImport;
 
 	// Constants for CardLayout panels
 	final static String STARTPANEL = "Start";
@@ -435,6 +437,9 @@ public class MainFrame extends JFrame implements ComponentListener {
 				if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
 					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
 					try {
+						// Flag for whether to procede with import
+						continueImport = false;
+
 						// Prompt for month and year to go back to
 						monthYearDialog = new MonthYearDialog(MainFrame.this, prefs.getImportMonth(), prefs.getImportYear());
 
@@ -446,13 +451,15 @@ public class MainFrame extends JFrame implements ComponentListener {
 									MainFrame.this.prefs.setImportMonth(month);
 									MainFrame.this.prefs.setImportYear(year);
 									System.out.println("Month: " + month + ", Year: " + year);
-									
+
 									monthYearDialog.setVisible(false);
+									continueImport = true;
+
 								} else {
 									JOptionPane.showMessageDialog(
-											MainFrame.this, 
-											"Please enter a valid month (1-12) and year", 
-											"Invalid Entry", 
+											MainFrame.this,
+											"Please enter a valid month (1-12) and year",
+											"Invalid Entry",
 											JOptionPane.ERROR_MESSAGE);
 								}
 							}
@@ -460,8 +467,10 @@ public class MainFrame extends JFrame implements ComponentListener {
 						});
 						monthYearDialog.setVisible(true);
 
-						File selectedFile = fileChooser.getSelectedFile();
-						controller.importDbf(selectedFile.listFiles(filter));
+						if (continueImport) {
+							File selectedFile = fileChooser.getSelectedFile();
+							controller.importDbf(selectedFile.listFiles(filter));
+						}
 					} catch (Exception ex) {
 						String msg = ex.getMessage();
 						JOptionPane.showMessageDialog(
@@ -475,6 +484,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 			}
 
 		});
+		importDataItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
 
 		userManageItem.addActionListener(new ActionListener() {
 			@Override

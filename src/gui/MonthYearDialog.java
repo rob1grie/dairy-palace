@@ -5,16 +5,23 @@
  */
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
@@ -57,13 +64,22 @@ public class MonthYearDialog extends JDialog {
 		
 		});
 		
-		this.setSize(400, 300);
+		this.setSize(380, 125);
 		this.setLocationRelativeTo(parent);
 		
 	}
 	
 	private void layoutComponents() {
-		setLayout(new GridBagLayout());
+		JPanel controlsPanel = new JPanel();
+		JPanel buttonsPanel = new JPanel();
+		
+		int space = 15;
+		Border spaceBorder = BorderFactory.createEmptyBorder(space, space, space, space);
+		Border titleBorder = BorderFactory.createTitledBorder("Enter beginning Month and Year for Import");
+		
+		controlsPanel.setBorder(BorderFactory.createCompoundBorder(spaceBorder, titleBorder));
+		
+		controlsPanel.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		
 		gc.gridy = 0;
@@ -71,28 +87,39 @@ public class MonthYearDialog extends JDialog {
 		gc.weighty = 1;
 		gc.fill = GridBagConstraints.NONE;
 		
+		gc.gridy++;
 		gc.gridx = 0;
-		add(new JLabel("Month: "), gc);
+		gc.anchor = GridBagConstraints.EAST;
+		controlsPanel.add(new JLabel("Month: "), gc);
 		
 		monthField = new JTextField(5);
 		gc.gridx++;
-		add(monthField, gc);
+		gc.anchor = GridBagConstraints.WEST;
+		controlsPanel.add(monthField, gc);
 		
 		gc.gridx++;
-		add(new JLabel("Year: "), gc);
+		gc.anchor = GridBagConstraints.EAST;
+		controlsPanel.add(new JLabel("Year: "), gc);
 		
 		yearField = new JTextField(8);
 		gc.gridx++;
-		add(yearField, gc);
+		gc.anchor = GridBagConstraints.WEST;
+		controlsPanel.add(yearField, gc);
 		
-		gc.gridy++;
-		gc.gridx = 0;
+		buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
 		okButton = new JButton("OK");
-		add(okButton, gc);
+		buttonsPanel.add(okButton);
 		
-		gc.gridx++;
 		cancelButton = new JButton("Cancel");
-		add(cancelButton, gc);
+		buttonsPanel.add(cancelButton);
+		
+		Dimension btnSize = cancelButton.getPreferredSize();
+		okButton.setPreferredSize(btnSize);
+		
+		setLayout(new BorderLayout());
+		add(controlsPanel, BorderLayout.CENTER);
+		add(buttonsPanel, BorderLayout.SOUTH);
 	}
 
 	public void setMonthYearListener(MonthYearListener monthYearListener) {
