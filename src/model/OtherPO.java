@@ -24,7 +24,7 @@ public class OtherPO {
 
 	private Database db;
 
-	public OtherPO(int id) throws Exception {
+	public OtherPO(int id) throws SQLException, ClassNotFoundException {
 		if (id == -1) {
 			// Creating a new empty OtherPO
 			this.id = id;
@@ -49,7 +49,7 @@ public class OtherPO {
 		this.cost = cost;
 	}
 
-	public void getOtherPO() throws Exception {
+	public void getOtherPO() throws SQLException, ClassNotFoundException {
 		// Gets OtherPO with this id
 		String sql = "SELECT * FROM OTHER_PAID_OUTS WHERE ID=" + this.id;
 
@@ -104,7 +104,7 @@ public class OtherPO {
 		this.cost = cost;
 	}
 	
-	public void insert() throws Exception {
+	public void insert() throws SQLException, ClassNotFoundException {
 		// Save this to a new record
 		String sql = "INSERT INTO OTHER_PAID_OUTS (shift_data_id, label, cost) " +
 				"VALUES (" + this.shiftDataId + ", '" + this.label + "', " + this.cost + ")";

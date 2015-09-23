@@ -119,13 +119,14 @@ public class Database {
 
 		sql = "CREATE TABLE IF NOT EXISTS OTHER_PAID_OUTS "
 				+ "(id INTEGER PRIMARY KEY, "
-				+ "shifts_data_id INT NOT NULL, "
+				+ "shift_data_id INT NOT NULL, "
 				+ "label TEXT NOT NULL DEFAULT '', "
 				+ "cost REAL NOT NULL DEFAULT 0.0);";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE IF NOT EXISTS EMPLOYEES "
 				+ "(id INTEGER PRIMARY KEY, "
+				+ "emp_id INT NOT NULL, "
 				+ "first_name TEXT NOT NULL, "
 				+ "last_name TEXT NOT NULL);";
 		stmt.executeUpdate(sql);

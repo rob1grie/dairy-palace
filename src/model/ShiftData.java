@@ -47,11 +47,11 @@ public class ShiftData {
 
 	private Database db;
 
-	public ShiftData() throws Exception {
-		
+	public ShiftData() {
+
 	}
-	
-	public ShiftData(int id) throws Exception {
+
+	public ShiftData(int id) throws SQLException, ClassNotFoundException {
 		// Constructor using just the id
 		this.id = id;
 
@@ -120,7 +120,7 @@ public class ShiftData {
 		this.mgrOnDuty = rs.getString("mgr_on_duty");
 	}
 
-	private void getShiftData() throws Exception {
+	private void getShiftData() throws SQLException, ClassNotFoundException {
 		// Gets the ShiftData record with this ID
 		String sql = "SELECT * FROM SHIFT_DATAS WHERE ID = " + this.id;
 
@@ -129,16 +129,11 @@ public class ShiftData {
 		Statement stmt = this.db.con.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 
-		try {
-			if (rs.next()) {
-				this.getShiftDataFromResultSet(rs);
-			}
-			rs.close();
-
-		} catch (SQLException ex) {
-			Logger.getLogger(ShiftData.class.getName()).log(Level.SEVERE, null, ex);
+		if (rs.next()) {
+			this.getShiftDataFromResultSet(rs);
 		}
-		
+		rs.close();
+
 		db.disconnect();
 	}
 
@@ -326,7 +321,7 @@ public class ShiftData {
 		this.mgrOnDuty = mgrOnDuty;
 	}
 
-	public static void importData(ResultSet rs) throws Exception {
+	public static void importData(ResultSet rs) throws SQLException, ClassNotFoundException {
 		/*
 		 Import process:
 		 ***** ResultSet is from the DBF database *****
@@ -338,60 +333,60 @@ public class ShiftData {
 		while (rs.next()) {
 			// ShiftData constructor takes a ResultSet with the row pointer at the desired location
 			ShiftData shiftData = ShiftData.getShiftDataFromDbfResultSet(rs);
-			
+
 			// Get userId
 			User user = User.getUserFromInitials(rs.getString("entered_by"));
 			shiftData.userId = user.getId();
-			
+
 			// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
 			if (rs.getFloat("OTHER1_CST") > 0.0) {
 				/// OtherPO constructor expects strings for all parameters
 				OtherPO otherPO = new OtherPO(
-						shiftData.id, 
-						rs.getString("OTHER1_LAB"), 
+						shiftData.id,
+						rs.getString("OTHER1_LAB"),
 						Float.parseFloat(rs.getString("OTHER1_CST")));
 				otherPO.insert();
 			}
 			if (rs.getFloat("OTHER2_CST") > 0.0) {
 				/// OtherPO constructor expects strings for all parameters
 				OtherPO otherPO = new OtherPO(
-						shiftData.id, 
-						rs.getString("OTHER2_LAB"), 
+						shiftData.id,
+						rs.getString("OTHER2_LAB"),
 						Float.parseFloat(rs.getString("OTHER2_CST")));
 				otherPO.insert();
 			}
 			if (rs.getFloat("OTHER3_CST") > 0.0) {
 				/// OtherPO constructor expects strings for all parameters
 				OtherPO otherPO = new OtherPO(
-						shiftData.id, 
-						rs.getString("OTHER3_LAB"), 
+						shiftData.id,
+						rs.getString("OTHER3_LAB"),
 						Float.parseFloat(rs.getString("OTHER3_CST")));
 				otherPO.insert();
 			}
 			if (rs.getFloat("OTHER4_CST") > 0.0) {
 				/// OtherPO constructor expects strings for all parameters
 				OtherPO otherPO = new OtherPO(
-						shiftData.id, 
-						rs.getString("OTHER4_LAB"), 
+						shiftData.id,
+						rs.getString("OTHER4_LAB"),
 						Float.parseFloat(rs.getString("OTHER4_CST")));
 				otherPO.insert();
 			}
-			
+
 			shiftData.insert();
 		}
 	}
 
-	public static ShiftData getShiftDataFromDbfResultSet(ResultSet rs) throws SQLException, Exception {
+	public static ShiftData getShiftDataFromDbfResultSet(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		ShiftData data = new ShiftData();
-		
+
 		data.shift = rs.getInt("shift");
 		data.date = rs.getString("this_date");
-		
+
 		String userName = rs.getString("entered_by");
 		User user = User.getUserFromInitials(userName);
 		data.userId = user.getId();
-		
+
 		data.food = rs.getFloat("food");
 		data.restSupp = rs.getFloat("rest_supp");
 		data.offSupp = rs.getFloat("off_supp");
@@ -405,11 +400,11 @@ public class ShiftData {
 		data.zTx = rs.getFloat("z_tx");
 		data.zCoupon = rs.getFloat("z_coupon");
 		data.mgrOnDuty = "None";
-		
+
 		return data;
 	}
 
-	public boolean insert() throws Exception {
+	public boolean insert() throws SQLException, ClassNotFoundException {
 		// Insert into Shift_Datas table
 		if (this.db == null) {
 			this.db = new Database();
@@ -420,56 +415,51 @@ public class ShiftData {
 		Connection c = null;
 		PreparedStatement stmt = null;
 
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-			c.setAutoCommit(false);
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
+		c.setAutoCommit(false);
 
-			stmt = c.prepareStatement("INSERT INTO SHIFT_DATAS (shift, date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
-					+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
-					+ "gift_certs, ecards, discounts, mgr_on_duty) "
-					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
+		stmt = c.prepareStatement("INSERT INTO SHIFT_DATAS (shift, date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
+				+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
+				+ "gift_certs, ecards, discounts, mgr_on_duty) "
+				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
 
-			stmt.setInt(1, this.shift);
-			stmt.setString(2, this.date);
-			stmt.setInt(3, this.userId);
-			stmt.setFloat(4, this.food);
-			stmt.setFloat(5, this.restSupp);
-			stmt.setFloat(6, this.offSupp);
-			stmt.setFloat(7, this.repMaint);
-			stmt.setFloat(8, this.freight);
-			stmt.setFloat(9, this.credCards);
-			stmt.setFloat(10, this.storeCash);
-			stmt.setFloat(11, this.zDeptTl);
-			stmt.setFloat(12, this.overrings);
-			stmt.setFloat(13, this.begCash);
-			stmt.setFloat(14, this.zTx);
-			stmt.setFloat(15, this.zCoupon);
-			stmt.setFloat(16, this.schoolCharges);
-			stmt.setFloat(17, this.taxExemptSales);
-			stmt.setFloat(18, this.donations);
-			stmt.setFloat(19, this.giftCerts);
-			stmt.setFloat(20, this.ecards);
-			stmt.setFloat(21, this.discounts);
-			stmt.setString(22, this.mgrOnDuty);
+		stmt.setInt(1, this.shift);
+		stmt.setString(2, this.date);
+		stmt.setInt(3, this.userId);
+		stmt.setFloat(4, this.food);
+		stmt.setFloat(5, this.restSupp);
+		stmt.setFloat(6, this.offSupp);
+		stmt.setFloat(7, this.repMaint);
+		stmt.setFloat(8, this.freight);
+		stmt.setFloat(9, this.credCards);
+		stmt.setFloat(10, this.storeCash);
+		stmt.setFloat(11, this.zDeptTl);
+		stmt.setFloat(12, this.overrings);
+		stmt.setFloat(13, this.begCash);
+		stmt.setFloat(14, this.zTx);
+		stmt.setFloat(15, this.zCoupon);
+		stmt.setFloat(16, this.schoolCharges);
+		stmt.setFloat(17, this.taxExemptSales);
+		stmt.setFloat(18, this.donations);
+		stmt.setFloat(19, this.giftCerts);
+		stmt.setFloat(20, this.ecards);
+		stmt.setFloat(21, this.discounts);
+		stmt.setString(22, this.mgrOnDuty);
 
-			stmt.executeUpdate();
+		stmt.executeUpdate();
 
-			// TODO Import OtherPO for this record
-			stmt.close();
-			c.commit();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			return false;
-		}
+		// TODO Import OtherPO for this record
+		stmt.close();
+		c.commit();
+		c.close();
 
 		db.disconnect();
-		
+
 		return true;
 	}
 
-	public static ResultSet load(String sql) throws Exception {
+	public static ResultSet load(String sql) throws SQLException, ClassNotFoundException {
 		ResultSet rs = null;
 		Database db = new Database();
 		db.connect();
@@ -482,7 +472,7 @@ public class ShiftData {
 		}
 
 		db.disconnect();
-		
+
 		return rs;
 	}
 

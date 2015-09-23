@@ -22,7 +22,7 @@ public class Employee {
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String number;
+	private String empId;
 
 	private Database db;
 
@@ -33,7 +33,7 @@ public class Employee {
 	}
 
 	public Employee(String number, String firstName, String lastName) {
-		this.number = number;
+		this.empId = number;
 		this.firstName = firstName;
 		this.lastName = lastName;
 
@@ -54,7 +54,7 @@ public class Employee {
 		// rs is already at current row, just load values
 		this.firstName = rs.getString("first_name");
 		this.lastName = rs.getString("last_name");
-		this.number = rs.getString(number);
+		this.empId = rs.getString(empId);
 	}
 
 	public boolean insert() throws SQLException, ClassNotFoundException {
@@ -63,8 +63,8 @@ public class Employee {
 		this.db.connect();
 
 		Statement stmt = null;
-		String sql = "INSERT INTO EMPLOYEES (id, first_name, last_name) "
-				+ "VALUES (" + this.number + ", '" + this.firstName + "', '" + this.lastName + "');";
+		String sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
+				+ "VALUES (" + this.empId + ", '" + this.firstName + "', '" + this.lastName + "');";
 
 		stmt = db.con.createStatement();
 		stmt.executeUpdate(sql);
@@ -126,7 +126,7 @@ public class Employee {
 		String[] name = rs.getString("name").split(" ");
 		emp.firstName = name[0];
 		emp.lastName = name[1];
-		emp.number = rs.getString("num");
+		emp.empId = rs.getString("num");
 
 		return emp;
 	}

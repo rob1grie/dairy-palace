@@ -234,6 +234,8 @@ public class User {
 		if (rs.next()) {
 			user = new User(rs);
 		}
+		
+		db.disconnect();
 
 		return user;
 		
