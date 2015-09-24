@@ -40,6 +40,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private final Toolbar toolbar;
 	private MonthYearDialog monthYearDialog;
 	private boolean continueImport;
+	private ImportFilter importFilter;
 
 	// Constants for CardLayout panels
 	final static String STARTPANEL = "Start";
@@ -453,6 +454,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 									monthYearDialog.setVisible(false);
 									continueImport = true;
+									MainFrame.this.importFilter = new ImportFilter(month, year);
 
 								} else {
 									JOptionPane.showMessageDialog(
