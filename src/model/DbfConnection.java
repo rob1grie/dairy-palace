@@ -6,6 +6,7 @@
 package model;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -35,6 +36,12 @@ public class DbfConnection {
 		String sql = "SELECT * FROM " + dbfFile + ";";
 		
 		// Need to handle tables that have a date to filter
+		// SHIFT, REGISTER, VENDINV have THIS_DATE, DEPOSIT has DEP_DATE
+		String[] thisDate = new String[] {"shift", "register", "vendinv"};
+//		ImportFilter importFilter = par
+		if (Arrays.asList(thisDate).contains(dbfFile)) {
+			sql = sql + " WHERE THIS_DATE >= ";
+		}
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		ResultSetMetaData md = rs.getMetaData();

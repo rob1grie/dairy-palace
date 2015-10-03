@@ -100,6 +100,10 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		setVisiblePanel("Start");
 	}
+	
+	public ImportFilter getImportFilter() {
+		return this.importFilter;
+	}
 
 	private JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
