@@ -1,3 +1,7 @@
 /build/
+build.xml
+build-impl.xml
+genfiles.properties
+project.properties
 private.xml
 private.properties
