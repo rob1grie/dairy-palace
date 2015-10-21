@@ -5,12 +5,7 @@
  */
 package model;
 
-import gui.MainFrame;
-import java.awt.Component;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *

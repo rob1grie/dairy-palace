@@ -32,18 +32,18 @@ public class Controller {
 		HashMap keyedFiles = this.reKeyFileList(files);
 
 		// Get data in a sequential order for depencies
-		if (keyedFiles.get("employee") != null) {
-			dbf.importDbf("employee");
-		}
-		
-		if (keyedFiles.get("users") != null) {
-			dbf.importDbf("users");
-		}
-		
-		if (keyedFiles.get("shift") != null) {
-			dbf.importDbf("shift");
-		}
-		
+//		if (keyedFiles.get("employee") != null) {
+//			dbf.importDbf("employee");
+//		}
+//		
+//		if (keyedFiles.get("users") != null) {
+//			dbf.importDbf("users");
+//		}
+//		
+//		if (keyedFiles.get("shift") != null) {
+//			dbf.importDbf("shift");
+//		}
+//		
 		if (keyedFiles.get("register") != null) {
 			dbf.importDbf("register");
 		}

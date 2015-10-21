@@ -36,18 +36,19 @@ public class Utils {
 		return name.substring(slashIndex + 1, pointIndex);
 	}
 
-	public static Date getLocalDate(String dateString) throws ParseException {
+	public static Date getDateFromString(String dateString) throws ParseException {
 		// Receives dateString as mm/dd/yyyy and returns a Date object
 		Object date1 = new SimpleDateFormat("MM/dd/yyyy").parseObject(dateString);
 
 		return (Date) date1;
 	}
 
-	public static String getLocalDateTime(String dateString) throws ParseException {
-		// Receives dateString as mm/dd/yyyy hh:mm am
-		DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.ENGLISH);
+	public static Date getDateTimeFromString(String dateString) throws ParseException {
+		// Receives dateString as yyyy-MM-dd hh:mm am
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.ENGLISH);
 		Date date = format.parse(dateString);
-		return format.format(date);
+		
+		return date;
 	}
 	
 	public static int getDayOfWeek(Date date) {
@@ -64,5 +65,17 @@ public class Utils {
 		
 		// dow is 1-based, days is 0-based
 		return days[dow-1];
+	}
+	
+	public static String parseDateToString(Date date) throws ParseException {
+		// Returns Date object from String MM/dd/yyyy
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		return format.format(date);
+	}
+	
+	public static String parseDateTimeToString(Date date) throws ParseException {
+		// Returns Date object from String MM/dd/yyyy hh:mm a
+		DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+		return format.format(date);
 	}
 }

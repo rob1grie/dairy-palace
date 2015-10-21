@@ -69,22 +69,16 @@ public class RegisterAuditEmployee {
 
 		try {
 			db.connect();
-			c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-			c.setAutoCommit(false);
-			
-			stmt = c.createStatement();
+
 			String sql = "SELECT * FROM REGISTER_AUDIT_EMPLOYEE WHERE audit_id = auditId;";
 			
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = db.getResultSet(sql);
 			
 			while(rs.next()) {
 				employee = new Employee(rs.getString("id"), rs.getString("first_name"), rs.getString("last_name"));
 				employees.add(employee);
 			}
 			
-			stmt.close();
-			c.commit();
-			c.close();
 			db.disconnect();
 			
 		} catch (Exception e) {

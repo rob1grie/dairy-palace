@@ -112,7 +112,8 @@ public class ShiftFormHeader extends JPanel {
 	public void fillFields(ShiftData data) throws ParseException, Exception {
 		dateField.setText(data.getDate());
 		shiftField.setText(String.valueOf(data.getShift()));
-		dowField.setText(Utils.getDayOfWeekString(Utils.getLocalDate(data.getDate())));
+		// TODO What format is the date in ShiftDatas.getDate()?
+		dowField.setText(Utils.getDayOfWeekString(Utils.getDateFromString(data.getDate())));
 		String username = User.getUsernameFromId(data.getUserId());
 		enteredByField.setText(User.getUsernameFromId(data.getUserId()));
 	}
