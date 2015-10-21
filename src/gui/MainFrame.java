@@ -454,7 +454,6 @@ public class MainFrame extends JFrame implements ComponentListener {
 								if (monthYearDialog.validateFields()) {
 									MainFrame.this.prefs.setImportMonth(month);
 									MainFrame.this.prefs.setImportYear(year);
-									System.out.println("Month: " + month + ", Year: " + year);
 
 									monthYearDialog.setVisible(false);
 									continueImport = true;

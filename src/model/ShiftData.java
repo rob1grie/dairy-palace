@@ -411,7 +411,6 @@ public class ShiftData {
 		}
 		db.connect();
 
-		// TODO Change to using Prepared Statement
 		Connection c = null;
 		PreparedStatement stmt = null;
 

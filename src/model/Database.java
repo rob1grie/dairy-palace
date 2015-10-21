@@ -33,6 +33,7 @@ public class Database {
 
 		Class.forName("org.sqlite.JDBC");
 		con = DriverManager.getConnection("jdbc:sqlite:dairy.db");
+		con.setAutoCommit(false);
 	}
 
 	public void disconnect() {

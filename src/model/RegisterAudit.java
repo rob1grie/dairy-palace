@@ -8,7 +8,6 @@ package model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -29,7 +28,7 @@ public class RegisterAudit {
 	private float tapeRead;
 	private float cashCount;
 	private boolean audit;
-	private String register;
+	private int register;
 	private String managerId;
 	private List<Employee> employees;
 
@@ -43,7 +42,7 @@ public class RegisterAudit {
 	}
 
 	public RegisterAudit(String dateTime, int shift, float tapeRead,
-			float cashCount, boolean audit, String register, String managerId) throws ParseException {
+			float cashCount, boolean audit, int register, String managerId) throws ParseException {
 		this.dateTime = Utils.getDateTimeFromString(dateTime);
 		this.shift = shift;
 		this.tapeRead = tapeRead;
@@ -115,11 +114,11 @@ public class RegisterAudit {
 		this.audit = audit;
 	}
 
-	public String getRegister() {
+	public int getRegister() {
 		return register;
 	}
 
-	public void setRegister(String register) {
+	public void setRegister(int register) {
 		this.register = register;
 	}
 
@@ -139,14 +138,16 @@ public class RegisterAudit {
 	public static void importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
 		/*
 		 ***** ResultSet is from the DBF database *****
-
 		 */
 
 		while (rs.next()) {
 			// ShiftData constructor takes a ResultSet with the row pointer at the desired location
 			RegisterAudit registerAuditData = RegisterAudit.getRegisterAuditFromDbfResultSet(rs);
 
-			registerAuditData.insert();
+			int auditId = registerAuditData.insert();
+			
+			RegisterAuditEmployee.insertRegisterAuditEmployeeFromDbf(rs, auditId);
+			
 		}
 	}
 
@@ -159,37 +160,39 @@ public class RegisterAudit {
 
 		String dateTime = rs.getString("this_date") + " " + rs.getString("time") + " " + rs.getString("ampm");
 		data.dateTime = Utils.getDateTimeFromString(dateTime);
+		
+		data.tapeRead = rs.getFloat("tape_read");
+		data.cashCount = rs.getFloat("cash_count");
+		data.audit = rs.getBoolean("audit");
+		data.register = rs.getInt("register");
+		data.managerId = rs.getString("mgr");
 
 		return data;
 	}
-
+	
 	public int insert() throws SQLException, ClassNotFoundException, ParseException {
 		// Insert employee into the EMPLOYEES table
 		db.connect();
 
-		Connection c = null;
-		Statement stmt = null;
 		String sql = null;
 		int auditId = -1;
 
-		Class.forName("org.sqlite.JDBC");
-		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-		c.setAutoCommit(false);
-
-		stmt = c.createStatement();
+		Statement stmt = db.con.createStatement();
 		sql = "INSERT INTO REGISTER_AUDITS (date_time, shift, tape_read, cash_count, audit, register, manager_id) "
-				+ "VALUES ('" + Utils.parseDateTimeToString(this.dateTime) + "', " + this.shift + ", " + this.tapeRead + ", " + this.cashCount + ", "
-				+ (this.audit ? 1 : 0) + ", '" + this.register + "', '" + this.managerId + "');";
+				+ "VALUES ('" + Utils.parseDateTimeToString(this.dateTime) + "', " + 
+				this.shift + ", " + 
+				this.tapeRead + ", " + 
+				this.cashCount + ", " + 
+				(this.audit ? 1 : 0) + ", '" + 
+				this.register + "', '" + 
+				this.managerId + "');";
 
 		stmt.executeUpdate(sql);
 
 		// Get the ID of this RegisterAudit
 		auditId = Database.getLastRowId(stmt, "REGISTER_AUDITS");
 
-		// Get all non-empty Employee IDs and insert them into RegisterAuditEmployee
 		stmt.close();
-		c.commit();
-		c.close();
 
 		db.disconnect();
 

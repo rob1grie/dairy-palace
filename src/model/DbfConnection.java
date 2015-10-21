@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.SwingWorker;
+import utils.Utils;
 
 /**
  *
@@ -53,11 +54,9 @@ public class DbfConnection {
 		}
 		
 		ResultSet rs = stmt.executeQuery(sql);
-		ResultSetMetaData md = rs.getMetaData();
-		int cols = md.getColumnCount();
 		
-		Object colVal;
-				
+		System.out.println("Import results: " + Utils.countResultSetRows(rs));
+		
 		switch (dbfFile) { // dbfFile has been converted to lower case
 			case "employee":
 				Employee.importData(rs);
