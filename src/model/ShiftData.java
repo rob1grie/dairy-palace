@@ -334,10 +334,6 @@ public class ShiftData {
 			// ShiftData constructor takes a ResultSet with the row pointer at the desired location
 			ShiftData shiftData = ShiftData.getShiftDataFromDbfResultSet(rs);
 
-			// Get userId
-			User user = User.getUserFromInitials(rs.getString("entered_by"));
-			shiftData.userId = user.getId();
-
 			// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
 			if (rs.getFloat("OTHER1_CST") > 0.0) {
 				/// OtherPO constructor expects strings for all parameters
@@ -385,7 +381,11 @@ public class ShiftData {
 
 		String userName = rs.getString("entered_by");
 		User user = User.getUserFromInitials(userName);
+		if (user != null) {
 		data.userId = user.getId();
+		} else {
+			data.userId = -1;
+		}
 
 		data.food = rs.getFloat("food");
 		data.restSupp = rs.getFloat("rest_supp");

@@ -5,6 +5,7 @@
  */
 package controller;
 
+import gui.ImportFilter;
 import java.io.File;
 import java.util.HashMap;
 import model.Database;
@@ -25,8 +26,8 @@ public class Controller {
 		}
 	}
 
-	public void importDbf(File[] files) throws ClassNotFoundException, Exception {
-		DbfConnection dbf = new DbfConnection();
+	public void importDbf(File[] files, ImportFilter importFilter) throws ClassNotFoundException, Exception {
+		DbfConnection dbf = new DbfConnection(importFilter);
 		
 		HashMap keyedFiles = this.reKeyFileList(files);
 

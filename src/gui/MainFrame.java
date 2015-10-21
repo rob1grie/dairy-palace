@@ -100,7 +100,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		setVisiblePanel("Start");
 	}
-	
+
 	public ImportFilter getImportFilter() {
 		return this.importFilter;
 	}
@@ -458,7 +458,6 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 									monthYearDialog.setVisible(false);
 									continueImport = true;
-									MainFrame.this.importFilter = new ImportFilter(month, year);
 
 								} else {
 									JOptionPane.showMessageDialog(
@@ -473,8 +472,10 @@ public class MainFrame extends JFrame implements ComponentListener {
 						monthYearDialog.setVisible(true);
 
 						if (continueImport) {
+							MainFrame.this.importFilter = 
+									new ImportFilter(MainFrame.this.prefs.getImportMonth(), MainFrame.this.prefs.getImportYear());
 							File selectedFile = fileChooser.getSelectedFile();
-							controller.importDbf(selectedFile.listFiles(filter));
+							controller.importDbf(selectedFile.listFiles(filter), MainFrame.this.importFilter);
 						}
 					} catch (Exception ex) {
 						String msg = ex.getMessage();

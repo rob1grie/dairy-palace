@@ -5,9 +5,12 @@
  */
 package model;
 
+import gui.ImportFilter;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -18,8 +21,9 @@ public class DbfConnection {
 	private Properties props;
 	private Connection conn;
 	private Statement stmt;
+	private ImportFilter importFilter;
 	
-	public DbfConnection() throws ClassNotFoundException {
+	public DbfConnection(ImportFilter importFilter) throws ClassNotFoundException {
 		jdbURL = "jdbc:dbf:/./data/?caseInsensitive=true";
 		
 		Class.forName("com.caigen.sql.dbf.DBFDriver");
@@ -27,20 +31,25 @@ public class DbfConnection {
 		props = new Properties();
 		props.setProperty("delayedClose", "0");
 				
+		this.importFilter = importFilter;
 	}
 	
 	public void importDbf(String dbfFile) throws SQLException, Exception {
+		
 		conn = DriverManager.getConnection(this.jdbURL, this.props);
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		
-		String sql = "SELECT * FROM " + dbfFile + ";";
+		String sql = "SELECT * FROM " + dbfFile;
 		
 		// Need to handle tables that have a date to filter
 		// SHIFT, REGISTER, VENDINV have THIS_DATE, DEPOSIT has DEP_DATE
 		String[] thisDate = new String[] {"shift", "register", "vendinv"};
 //		ImportFilter importFilter = par
 		if (Arrays.asList(thisDate).contains(dbfFile)) {
-			sql = sql + " WHERE THIS_DATE >= ";
+			sql = sql + " WHERE THIS_DATE >='" + this.importFilter.getStartDate() + "'";
+		}
+		else if (dbfFile.equals("deposit")) {
+			sql = sql + " WHERE DEP_DATE >='" + this.importFilter.getStartDate() + "'";
 		}
 		
 		ResultSet rs = stmt.executeQuery(sql);

@@ -10,10 +10,10 @@ package gui;
  * @author rob
  */
 public class ImportFilter {
-	private String startDate;		// Will be format yyyy-mm-dd
+	private String startDate;		// Will be format mm/dd/yyyy
 	
 	public ImportFilter(int month, int year) {
-		this.startDate = ((Integer)year).toString() + "-" + ((Integer)month).toString() + "-01";
+		this.startDate = ((Integer)month).toString() + "/01/" + ((Integer)year).toString();
 	}
 
 	public String getStartDate() {
