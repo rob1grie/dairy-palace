@@ -8,9 +8,7 @@ package model;
 import gui.ImportFilter;
 import java.sql.*;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
-import javax.swing.SwingWorker;
 import utils.Utils;
 
 /**

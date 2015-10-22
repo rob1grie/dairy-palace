@@ -29,8 +29,7 @@ public class DairyPreferences {
 		this.importMonth = settings.getInt("importYMonth", Calendar.getInstance().get(Calendar.MONTH));
 		this.importYear = settings.getInt("importYear", Calendar.getInstance().get(Calendar.YEAR));
 		
-		// Adding 50 to saved height for better results, don't know why
-		this.mainFrameSize = new Dimension(settings.getInt("mainFrameWidth", 600), settings.getInt("mainFrameHeight", 500)+50);
+		this.mainFrameSize = new Dimension(settings.getInt("mainFrameWidth", 600), settings.getInt("mainFrameHeight", 500));
 	}
 
 	public String getImportDirectory() {

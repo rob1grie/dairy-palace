@@ -48,13 +48,13 @@ public class Controller {
 			dbf.importDbf("register");
 		}
 		
-		if (keyedFiles.get("vendors") != null) {
-			dbf.importDbf("vendors");
-		}
-		
-		if (keyedFiles.get("vendinv") != null) {
-			dbf.importDbf("vendinv");
-		}
+//		if (keyedFiles.get("vendors") != null) {
+//			dbf.importDbf("vendors");
+//		}
+//		
+//		if (keyedFiles.get("vendinv") != null) {
+//			dbf.importDbf("vendinv");
+//		}
 	}
 	
 	private HashMap reKeyFileList(File[] files) throws Exception {

@@ -187,7 +187,7 @@ public class RegisterAudit {
 				this.register + "', '" + 
 				this.managerId + "');";
 
-		stmt.executeUpdate(sql);
+		int test = stmt.executeUpdate(sql);
 
 		// Get the ID of this RegisterAudit
 		auditId = Database.getLastRowId(stmt, "REGISTER_AUDITS");

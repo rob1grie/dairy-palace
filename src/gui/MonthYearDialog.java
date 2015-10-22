@@ -66,7 +66,7 @@ public class MonthYearDialog extends JDialog {
 		
 		this.setSize(380, 125);
 		this.setLocationRelativeTo(parent);
-		
+		this.pack();
 	}
 	
 	private void layoutComponents() {

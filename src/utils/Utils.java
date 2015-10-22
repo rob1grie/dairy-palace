@@ -94,9 +94,9 @@ public class Utils {
 			rs.beforeFirst();
 			rs.last();
 			size = rs.getRow();
+			rs.beforeFirst();
 		}
-		rs.beforeFirst();
-		
+
 		return size;
 	}
 }
