@@ -23,7 +23,8 @@ public class ShiftData {
 
 	private int id;
 	private int shift;
-	private String date;
+	// TODO update all table field references to shift_date
+	private String shiftDate;
 	private int userId;
 	private float food;
 	private float restSupp;
@@ -64,7 +65,7 @@ public class ShiftData {
 			String taxExemptSales, String donations, String giftCerts, String ecards, String discounts, String mgrOnDuty) throws ParseException {
 		// Constructor being passed all values for the object
 		this.shift = Integer.parseInt(shift);
-		this.date = date;
+		this.shiftDate = date;
 		this.userId = userId;
 		this.food = Float.parseFloat(food);
 		this.restSupp = Float.parseFloat(restSupp);
@@ -97,7 +98,7 @@ public class ShiftData {
 	public void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
-		this.date = rs.getString("date");
+		this.shiftDate = rs.getString("date");
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
 		this.restSupp = rs.getFloat("rest_supp");
@@ -154,11 +155,11 @@ public class ShiftData {
 	}
 
 	public String getDate() {
-		return date;
+		return shiftDate;
 	}
 
 	public void setDate(String date) {
-		this.date = date;
+		this.shiftDate = date;
 	}
 
 	public int getUserId() {
@@ -377,7 +378,7 @@ public class ShiftData {
 		ShiftData data = new ShiftData();
 
 		data.shift = rs.getInt("shift");
-		data.date = rs.getString("this_date");
+		data.shiftDate = rs.getString("this_date");
 
 		String userName = rs.getString("entered_by");
 		User user = User.getUserFromInitials(userName);
@@ -424,7 +425,7 @@ public class ShiftData {
 				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
 
 		stmt.setInt(1, this.shift);
-		stmt.setString(2, this.date);
+		stmt.setString(2, this.shiftDate);
 		stmt.setInt(3, this.userId);
 		stmt.setFloat(4, this.food);
 		stmt.setFloat(5, this.restSupp);

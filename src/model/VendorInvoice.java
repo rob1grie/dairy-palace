@@ -13,7 +13,8 @@ import java.sql.Date;
  */
 public class VendorInvoice {
 	private int id;
-	private Date date;
+	// TODO update table field references to invoice_date
+	private Date invoice_date;
 	private int managerId;
 	private int vendorId;
 	private String invoiceNum;
@@ -33,11 +34,11 @@ public class VendorInvoice {
 	}
 
 	public Date getDate() {
-		return date;
+		return invoice_date;
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.invoice_date = date;
 	}
 
 	public int getManagerId() {
