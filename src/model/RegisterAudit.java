@@ -5,8 +5,7 @@
  */
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -145,9 +144,9 @@ public class RegisterAudit {
 			RegisterAudit registerAuditData = RegisterAudit.getRegisterAuditFromDbfResultSet(rs);
 
 			int auditId = registerAuditData.insert();
-			
+
 			RegisterAuditEmployee.insertRegisterAuditEmployeeFromDbf(rs, auditId);
-			
+
 		}
 	}
 
@@ -160,7 +159,7 @@ public class RegisterAudit {
 
 		String dateTime = rs.getString("this_date") + " " + rs.getString("time") + " " + rs.getString("ampm");
 		data.dateTime = Utils.getDateTimeFromString(dateTime);
-		
+
 		data.tapeRead = rs.getFloat("tape_read");
 		data.cashCount = rs.getFloat("cash_count");
 		data.audit = rs.getBoolean("audit");
@@ -169,7 +168,7 @@ public class RegisterAudit {
 
 		return data;
 	}
-	
+
 	public int insert() throws SQLException, ClassNotFoundException, ParseException {
 		// Insert employee into the EMPLOYEES table
 		db.connect();
@@ -177,22 +176,25 @@ public class RegisterAudit {
 		String sql = null;
 		int auditId = -1;
 
-		Statement stmt = db.con.createStatement();
 		sql = "INSERT INTO REGISTER_AUDITS (date_time, shift, tape_read, cash_count, audit, register, manager_id) "
-				+ "VALUES ('" + Utils.parseDateTimeToString(this.dateTime) + "', " + 
-				this.shift + ", " + 
-				this.tapeRead + ", " + 
-				this.cashCount + ", " + 
-				(this.audit ? 1 : 0) + ", '" + 
-				this.register + "', '" + 
-				this.managerId + "');";
+				+ "VALUES ('" + Utils.parseDateTimeToString(this.dateTime) + "', "
+				+ this.shift + ", "
+				+ this.tapeRead + ", "
+				+ this.cashCount + ", "
+				+ (this.audit ? 1 : 0) + ", '"
+				+ this.register + "', '"
+				+ this.managerId + "');";
 
-		int test = stmt.executeUpdate(sql);
+		PreparedStatement ps = db.con.prepareStatement(sql,
+				Statement.RETURN_GENERATED_KEYS);
+
+		ps.execute();
 
 		// Get the ID of this RegisterAudit
-		auditId = Database.getLastRowId(stmt, "REGISTER_AUDITS");
-
-		stmt.close();
+		ResultSet rs = ps.getGeneratedKeys();
+		if (rs.next()) {
+			auditId = rs.getInt(1);
+		}
 
 		db.disconnect();
 

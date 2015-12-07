@@ -73,6 +73,7 @@ public class Employee {
 			stmt.close();
 		}
 
+		this.db.disconnect();
 		return result;
 	}
 

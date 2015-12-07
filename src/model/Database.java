@@ -21,6 +21,7 @@ import java.sql.*;
 public class Database {
 
 	public Connection con = null;
+	private int lastRowId = 0;
 
 	public Database() {
 
@@ -44,6 +45,10 @@ public class Database {
 				System.out.println("Can't close connection");
 			}
 		}
+	}
+
+	public int getLastRowId() {
+		return lastRowId;
 	}
 
 	public static boolean init() throws SQLException, ClassNotFoundException {
@@ -178,15 +183,4 @@ public class Database {
 		return rs;
 	}
 
-	public static int getLastRowId(Statement stmt, String table) throws SQLException {
-		// Get last inserted row id
-		String sql = "SELECT last_insert_rowid() FROM " + table;
-		ResultSet rs = stmt.executeQuery(sql);
-		int rowId;
-
-		rs.next();
-		rowId = rs.getInt(1);
-
-		return rowId;
-	}
 }

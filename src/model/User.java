@@ -152,6 +152,7 @@ public class User {
 				stmt.close();
 			}
 
+		this.db.disconnect();
 		return true;
 	}
 

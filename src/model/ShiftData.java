@@ -23,7 +23,6 @@ public class ShiftData {
 
 	private int id;
 	private int shift;
-	// TODO update all table field references to shift_date
 	private String shiftDate;
 	private int userId;
 	private float food;
@@ -59,13 +58,13 @@ public class ShiftData {
 		this.getShiftData();
 	}
 
-	public ShiftData(String shift, String date, int userId, String food, String restSupp, String offSupp,
+	public ShiftData(String shift, String shiftDate, int userId, String food, String restSupp, String offSupp,
 			String repMaint, String freight, String credCards, String storeCash, String zDeptTl,
 			String overrings, String begCash, String zTx, String zCoupon, String schoolCharges,
 			String taxExemptSales, String donations, String giftCerts, String ecards, String discounts, String mgrOnDuty) throws ParseException {
 		// Constructor being passed all values for the object
 		this.shift = Integer.parseInt(shift);
-		this.shiftDate = date;
+		this.shiftDate = shiftDate;
 		this.userId = userId;
 		this.food = Float.parseFloat(food);
 		this.restSupp = Float.parseFloat(restSupp);
@@ -98,7 +97,7 @@ public class ShiftData {
 	public void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
-		this.shiftDate = rs.getString("date");
+		this.shiftDate = rs.getString("shift_date");
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
 		this.restSupp = rs.getFloat("rest_supp");
@@ -158,8 +157,8 @@ public class ShiftData {
 		return shiftDate;
 	}
 
-	public void setDate(String date) {
-		this.shiftDate = date;
+	public void setDate(String shiftDate) {
+		this.shiftDate = shiftDate;
 	}
 
 	public int getUserId() {
@@ -419,7 +418,7 @@ public class ShiftData {
 		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
 		c.setAutoCommit(false);
 
-		stmt = c.prepareStatement("INSERT INTO SHIFT_DATAS (shift, date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
+		stmt = c.prepareStatement("INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
 				+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
 				+ "gift_certs, ecards, discounts, mgr_on_duty) "
 				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
@@ -449,7 +448,6 @@ public class ShiftData {
 
 		stmt.executeUpdate();
 
-		// TODO Import OtherPO for this record
 		stmt.close();
 		c.commit();
 		c.close();
