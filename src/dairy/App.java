@@ -1,3 +1,5 @@
+package dairy;
+
 
 import gui.MainFrame;
 import java.util.logging.Level;
