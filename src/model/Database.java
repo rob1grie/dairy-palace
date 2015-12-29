@@ -32,9 +32,8 @@ public class Database {
 			return;
 		}
 
-		Class.forName("org.sqlite.JDBC");
-		con = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-		con.setAutoCommit(false);
+		con = DriverManager.getConnection("jdbc:derby:dairydb;create=true");
+		con.setAutoCommit(true);
 	}
 
 	public void disconnect() {
@@ -59,13 +58,13 @@ public class Database {
 
 		stmt = db.con.createStatement();
 		// Users table
-		String sql = "CREATE TABLE IF NOT EXISTS USERS "
-				+ "(id INTEGER PRIMARY KEY, "
-				+ "username TEXT NOT NULL, "
-				+ "password TEXT NOT NULL, "
-				+ "first_name TEXT NOT NULL, "
-				+ "last_name TEXT NOT NULL, "
-				+ "initials TEXT NOT NULL, "
+		String sql = "CREATE TABLE USERS "
+				+ "(id INT PRIMARY KEY, "
+				+ "username VARCHAR(30), "
+				+ "password VARCHAR(30) NOT NULL, "
+				+ "first_name VARCHAR(30) NOT NULL, "
+				+ "last_name VARCHAR(30) NOT NULL, "
+				+ "initials VARCHAR(4) NOT NULL, "
 				+ "position_id INT NOT NULL)";
 		stmt.executeUpdate(sql);
 

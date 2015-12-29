@@ -51,7 +51,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 	public MainFrame() throws Exception {
 		super("Dairy Palace of Canton - DairyBooks v3");
 
-		// TODO Check for database at program start
+		// Check that database exists
+		File f = new File("dairydb");
+		
+		if (!f.exists()) {
+			Database.init();
+		}
+			
 		prefs = new DairyPreferences();
 
 		controller = new Controller();

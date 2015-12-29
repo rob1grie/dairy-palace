@@ -1,31 +1,13 @@
-Sat Dec 05 06:34:16 CST 2015 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat Dec 05 06:34:17 CST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0151-7222-b825-000018be889f 
-on database directory C:\projects\dairy-palace\dairydb with class loader sun.misc.Launcher$AppClassLoader@6f2192a9 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_60/db/lib/derby.jar
+Tue Dec 29 14:39:16 CST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0151-ef77-5eb2-000006941588 
+on database directory /home/rob/NetBeansProjects/dairy-palace/dairydb with class loader sun.misc.Launcher$AppClassLoader@14dad5dc 
+Loaded from file:/home/rob/NetBeansProjects/dairy-palace/src/libraries/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_71-b14
-user.dir=C:\Program Files\Java\jdk1.8.0_60\db
-os.name=Windows 7
+java.runtime.version=1.8.0_66-b17
+user.dir=/home/rob/NetBeansProjects/dairy-palace
+os.name=Linux
 os.arch=amd64
-os.version=6.1
-derby.system.home=C:\projects\dairy-palace
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Sat Dec 05 06:34:24 CST 2015:
-Shutting down instance a816c00e-0151-7222-b825-000018be889f on database directory C:\projects\dairy-palace\dairydb with class loader sun.misc.Launcher$AppClassLoader@6f2192a9 
-Sat Dec 05 06:34:24 CST 2015 Thread[DRDAConnThread_3,5,main] (DATABASE = dairydb), (DRDAID = {2}), Database 'dairydb' shutdown.
-----------------------------------------------------------------
-Sat Dec 05 06:36:13 CST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a65c80ac-0151-7222-b825-000018be889f 
-on database directory C:\projects\dairy-palace\dairydb with class loader sun.misc.Launcher$AppClassLoader@6f2192a9 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_60/db/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_71-b14
-user.dir=C:\Program Files\Java\jdk1.8.0_60\db
-os.name=Windows 7
-os.arch=amd64
-os.version=6.1
-derby.system.home=C:\projects\dairy-palace
+os.version=3.19.0-42-generic
+derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
