@@ -6,6 +6,7 @@ package controller;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Database;
 import model.ShiftData;
 
 /**
@@ -50,7 +51,7 @@ public class ShiftController {
 		// Get the previous record
 		String sql = "SELECT MIN(id) AS id FROM SHIFT_DATAS WHERE id > " + this.data.getId() + ";";
 		try {
-			ResultSet rs = ShiftData.load(sql);
+			ResultSet rs = Database.load(sql);
 			if (rs.next()) {
 				this.nextId = rs.getInt("id");
 			}
@@ -69,7 +70,7 @@ public class ShiftController {
 		// Get the next record
 		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS WHERE id < " + this.data.getId() + ";";
 		try {
-			ResultSet rs = ShiftData.load(sql);
+			ResultSet rs = Database.load(sql);
 			if (rs.next()) {
 				this.prevId = rs.getInt("id");
 			}
@@ -85,11 +86,11 @@ public class ShiftController {
 	}
 
 	public static int getLastDataId() {
-		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS;";
+		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS";
 		int lastId = 0;
 
 		try {
-			ResultSet rs = ShiftData.load(sql);
+			ResultSet rs = Database.load(sql);
 			if (rs.next()) {
 				lastId = rs.getInt("id");
 			}

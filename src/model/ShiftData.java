@@ -5,15 +5,11 @@
  */
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -411,14 +407,9 @@ public class ShiftData {
 		}
 		db.connect();
 
-		Connection c = null;
 		PreparedStatement stmt = null;
 
-		Class.forName("org.sqlite.JDBC");
-		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-		c.setAutoCommit(false);
-
-		stmt = c.prepareStatement("INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
+		stmt = db.con.prepareStatement("INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
 				+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
 				+ "gift_certs, ecards, discounts, mgr_on_duty) "
 				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
@@ -449,29 +440,11 @@ public class ShiftData {
 		stmt.executeUpdate();
 
 		stmt.close();
-		c.commit();
-		c.close();
+		db.con.commit();
 
 		db.disconnect();
 
 		return true;
-	}
-
-	public static ResultSet load(String sql) throws SQLException, ClassNotFoundException {
-		ResultSet rs = null;
-		Database db = new Database();
-		db.connect();
-		Statement stmt = db.con.createStatement();
-
-		try {
-			rs = stmt.executeQuery(sql);
-		} catch (Exception ex) {
-			Logger.getLogger(ShiftData.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-		db.disconnect();
-
-		return rs;
 	}
 
 }
