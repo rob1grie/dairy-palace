@@ -33,17 +33,16 @@ public class Database {
 		if (this.con != null) {
 			return;
 		}
-
+		System.setProperty("derby.system.home", "./");
 		this.con = DriverManager.getConnection("jdbc:derby:dairydb;create=true;user=dairy");
 		this.con.setAutoCommit(false);
 	}
 
-	public void disconnect() {
-		if (this.con != null) {
+	public void disconnect() throws SQLException {
+		if (!this.con.isClosed()) {
 			try {
 				this.con.close();
 			} catch (SQLException ex) {
-				System.out.println("Can't close connection");
 			}
 		}
 	}
@@ -128,7 +127,7 @@ public class Database {
 
 		sql = "CREATE TABLE EMPLOYEES "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-				+ "emp_id INT NOT NULL, "
+				+ "emp_id VARCHAR(16) NOT NULL, "
 				+ "first_name VARCHAR(30) NOT NULL, "
 				+ "last_name VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
@@ -166,7 +165,7 @@ public class Database {
 		stmt.executeUpdate(sql);
 
 		db.con.commit();
-		
+
 		stmt.close();
 		db.con.close();
 
@@ -181,7 +180,7 @@ public class Database {
 		rs = stmt.executeQuery(sql);
 
 		this.con.commit();
-		
+
 		stmt.close();
 		this.con.close();
 

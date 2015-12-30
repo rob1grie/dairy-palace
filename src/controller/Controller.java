@@ -29,7 +29,7 @@ public class Controller {
 	public void importDbf(File[] files, ImportFilter importFilter) throws ClassNotFoundException, Exception {
 		DbfConnection dbf = new DbfConnection(importFilter);
 		
-		HashMap keyedFiles = this.reKeyFileList(files);
+			HashMap keyedFiles = this.reKeyFileList(files);
 
 		// Get data in a sequential order for depencies
 		if (keyedFiles.get("employee") != null) {
@@ -40,14 +40,14 @@ public class Controller {
 			dbf.importDbf("users");
 		}
 		
-		if (keyedFiles.get("shift") != null) {
-			dbf.importDbf("shift");
-		}
-		
-		if (keyedFiles.get("register") != null) {
-			dbf.importDbf("register");
-		}
-		
+//		if (keyedFiles.get("shift") != null) {
+//			dbf.importDbf("shift");
+//		}
+//		
+//		if (keyedFiles.get("register") != null) {
+//			dbf.importDbf("register");
+//		}
+//		
 //		if (keyedFiles.get("vendors") != null) {
 //			dbf.importDbf("vendors");
 //		}

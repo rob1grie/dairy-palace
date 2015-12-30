@@ -139,12 +139,13 @@ public class User {
 
 		Statement stmt = null;
 		String sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
-				+ "VALUES (" + this.username + ", '" + this.password
+				+ "VALUES ('" + this.username + "', '" + this.password
 				+ "', '" + this.firstName + "', '" + this.lastName
 				+ "', '" + this.initials + "', " + this.position.getId() + ")";
 
-			stmt = db.con.createStatement();
+			stmt = this.db.con.createStatement();
 			stmt.executeUpdate(sql);
+			this.db.con.commit();
 
 			if (stmt != null) {
 				stmt.close();

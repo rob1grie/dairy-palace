@@ -55,17 +55,18 @@ public class Employee {
 		this.empId = rs.getString(empId);
 	}
 
-	public boolean insert() throws SQLException, ClassNotFoundException {
+	public int  insert() throws SQLException, ClassNotFoundException {
 		// Insert employee into the EMPLOYEES table
-		boolean result = false;
+		int result = -1;
 		this.db.connect();
 
 		Statement stmt = null;
 		String sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
-				+ "VALUES (" + this.empId + ", '" + this.firstName + "', '" + this.lastName + "')";
+				+ "VALUES ('" + this.empId + "', '" + this.firstName + "', '" + this.lastName + "')";
 
 		stmt = db.con.createStatement();
-		stmt.executeUpdate(sql);
+		result = stmt.executeUpdate(sql);
+		this.db.con.commit();
 
 		if (stmt != null) {
 			stmt.close();
@@ -77,28 +78,18 @@ public class Employee {
 
 	public static Employee getById(int id) throws SQLException, ClassNotFoundException {
 		// Retrieve Employee with id
-		Database db = new Database();
 		Employee employee = null;
 
-		Connection c = null;
-		Statement stmt = null;
-
-		db.connect();
-		c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-		c.setAutoCommit(false);
-
-		stmt = c.createStatement();
 		String sql = "SELECT * FROM EMPLOYEES WHERE id = id;";
 
-		ResultSet rs = stmt.executeQuery(sql);
+		ResultSet rs = Database.load(sql);
 
 		while (rs.next()) {
-			employee = new Employee(rs.getString("id"), rs.getString("first_name"), rs.getString("last_name"));
+			employee = new Employee(
+					rs.getString("id"), 
+					rs.getString("first_name"), 
+					rs.getString("last_name"));
 		}
-
-		stmt.close();
-		c.commit();
-		c.close();
 
 		return employee;
 	}
