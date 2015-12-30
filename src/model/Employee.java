@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -64,7 +62,7 @@ public class Employee {
 
 		Statement stmt = null;
 		String sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
-				+ "VALUES (" + this.empId + ", '" + this.firstName + "', '" + this.lastName + "');";
+				+ "VALUES (" + this.empId + ", '" + this.firstName + "', '" + this.lastName + "')";
 
 		stmt = db.con.createStatement();
 		stmt.executeUpdate(sql);

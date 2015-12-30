@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import model.Database;
 import model.OtherPO;
 import model.ShiftData;
 
@@ -64,7 +65,7 @@ public class OtherPOTableModel extends AbstractTableModel {
 		
 		String sql = "SELECT id FROM OTHER_PAID_OUTS WHERE shift_data_id = " + shiftID + " ORDER BY id;";
 		
-		try (ResultSet rs = ShiftData.load(sql)) {
+		try (ResultSet rs = Database.load(sql)) {
 			while(rs.next()) {
 				OtherPO otherPO = new OtherPO(rs.getInt("id"));
 				data.add(otherPO);

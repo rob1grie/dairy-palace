@@ -61,7 +61,7 @@ public class Database {
 		stmt = db.con.createStatement();
 		// Users table
 		String sql = "CREATE TABLE USERS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "username VARCHAR(30), "
 				+ "password VARCHAR(30) NOT NULL, "
 				+ "first_name VARCHAR(30) NOT NULL, "
@@ -72,12 +72,12 @@ public class Database {
 
 		// Positions table
 		sql = "CREATE TABLE POSITIONS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "position VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE PERMISSIONS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "user_id INT NOT NULL, "
 				+ "view_change BOOLEAN NOT NULL, "
 				+ "reports BOOLEAN NOT NULL, "
@@ -87,14 +87,14 @@ public class Database {
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE PREFERENCES "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "mainFrameWidth INT NOT NULL, "
 				+ "mainFrameHeight INT NOT NULL, "
 				+ "selectedView VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE SHIFT_DATAS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "shift INT NOT NULL, "
 				+ "shift_date DATE NOT NULL, "
 				+ "user_id INT NOT NULL, "
@@ -120,21 +120,21 @@ public class Database {
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE OTHER_PAID_OUTS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "shift_data_id INT NOT NULL, "
 				+ "label VARCHAR(128) NOT NULL DEFAULT '', "
 				+ "cost REAL NOT NULL DEFAULT 0.0)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE EMPLOYEES "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "emp_id INT NOT NULL, "
 				+ "first_name VARCHAR(30) NOT NULL, "
 				+ "last_name VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE REGISTER_AUDITS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "date_time DATE NOT NULL, "
 				+ "shift INT NOT NULL, "
 				+ "tape_read REAL NOT NULL, "
@@ -145,18 +145,18 @@ public class Database {
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE REGISTER_AUDIT_EMPLOYEE "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "audit_id INT NOT NULL, "
 				+ "employee_id INT NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE VENDORS "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "name VARCHAR(256) NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE VENDOR_INVOICES "
-				+ "(id INT PRIMARY KEY, "
+				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "invoice_date DATE NOT NULL, "
 				+ "manager_id INT NOT NULL, "
 				+ "vendor_id INT NOT NULL, "

@@ -183,7 +183,7 @@ public class RegisterAudit {
 				+ this.cashCount + ", "
 				+ (this.audit ? 1 : 0) + ", '"
 				+ this.register + "', '"
-				+ this.managerId + "');";
+				+ this.managerId + "')";
 
 		PreparedStatement ps = db.con.prepareStatement(sql,
 				Statement.RETURN_GENERATED_KEYS);

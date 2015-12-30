@@ -6,10 +6,8 @@
 package model;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  *
@@ -143,7 +141,7 @@ public class User {
 		String sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
 				+ "VALUES (" + this.username + ", '" + this.password
 				+ "', '" + this.firstName + "', '" + this.lastName
-				+ "', '" + this.initials + "', " + this.position.getId() + ");";
+				+ "', '" + this.initials + "', " + this.position.getId() + ")";
 
 			stmt = db.con.createStatement();
 			stmt.executeUpdate(sql);

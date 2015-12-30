@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import model.Database;
 import model.ShiftData;
 
 
@@ -65,7 +66,7 @@ public class ShiftDataTableModel extends AbstractTableModel {
 		// TODO provide means of setting start and count of rows
 		String sql = "SELECT id FROM SHIFT_DATAS LIMIT 0, 25;";
 		
-		try (ResultSet rs = ShiftData.load(sql)) {
+		try (ResultSet rs = Database.load(sql)) {
 			while(rs.next()) {
 				ShiftData shiftData = new ShiftData(rs.getInt("id"));
 				data.add(shiftData);
