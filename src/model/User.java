@@ -5,9 +5,11 @@
  */
 package model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat.Field;
 
 /**
  *
@@ -33,18 +35,18 @@ public class User {
 		this.lastName = "";
 		this.initials = "";
 		this.position = new Position();
-		
+
 		if (db == null) {
 			db = new Database();
 		}
 	}
 
 	public User(
-			String id, 
-			String username, 
-			String password, 
-			String firstName, 
-			String lastName, 
+			String id,
+			String username,
+			String password,
+			String firstName,
+			String lastName,
 			String initials,
 			int position_id) {
 		this.id = Integer.parseInt(id);
@@ -62,7 +64,7 @@ public class User {
 
 	public User(ResultSet rs) throws SQLException {
 		// Constructs User from a ResultSet which is already at the current row
-		
+
 		this.id = Integer.parseInt(rs.getString("id"));
 		this.username = rs.getString("username");
 		this.password = rs.getString("password");
@@ -132,39 +134,42 @@ public class User {
 		this.position = position;
 	}
 
-	public boolean insert() throws SQLException, ClassNotFoundException {
-		// Insert user into the USERS table
-		boolean result = false;
-		this.db.connect();
-
-		Statement stmt = null;
-		String sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
-				+ "VALUES ('" + this.username + "', '" + this.password
-				+ "', '" + this.firstName + "', '" + this.lastName
-				+ "', '" + this.initials + "', " + this.position.getId() + ")";
-
-			stmt = this.db.con.createStatement();
-			stmt.executeUpdate(sql);
-			this.db.con.commit();
-
-			if (stmt != null) {
-				stmt.close();
-			}
-
-		this.db.disconnect();
-		return true;
-	}
-
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// rs is from a DBF record
+		boolean result = true;
 
-		while (rs.next()) {
+		Database db = new Database();
+		db.connect();
+		PreparedStatement stmt = null; 
+		String sql = "";
+
+		while (rs.next() && result) {
 			User usr = User.getUserFromDbfResultSet(rs);
 
-			usr.insert();
+			sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
+					+ "VALUES (?, ?, ?, ?, ?, ?)";
+			
+			stmt = db.con.prepareStatement(sql);
+			stmt.setString(1, usr.username);
+			// One record in the original data has a null value for password
+			// Skip any records that have a null password
+			if (usr.password == null) {
+				continue;
+			}
+			stmt.setString(2, usr.password);
+			stmt.setString(3, usr.firstName);
+			stmt.setString(4, usr.lastName);
+			stmt.setString(5, usr.initials);
+			stmt.setInt(6, usr.position.getId());
+			
+			result = Database.insert(stmt) == 1;
 		}
 
-		return true;
+		stmt.close();
+		db.con.commit();
+		db.disconnect();
+
+		return result;
 	}
 
 	public static User getUserFromDbfResultSet(ResultSet rs) throws SQLException {
@@ -178,7 +183,7 @@ public class User {
 		if (name.length > 1) {
 			usr.lastName = name[1];
 		}
-		
+
 		usr.initials = rs.getString("inits");
 		usr.username = rs.getString("id");
 		usr.password = rs.getString("password");
@@ -208,20 +213,20 @@ public class User {
 
 	public static User getUserFromUsername(String userName) throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM USERS WHERE username = '" + userName + "'";
-		
+
 		User user = User.getUserFromSql(sql);
-		
+
 		return user;
 	}
-	
+
 	public static User getUserFromInitials(String initials) throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM USERS WHERE initials = '" + initials + "'";
-		
+
 		User user = User.getUserFromSql(sql);
-		
+
 		return user;
 	}
-	
+
 	private static User getUserFromSql(String sql) throws SQLException, ClassNotFoundException {
 		User user = null;
 
@@ -234,11 +239,11 @@ public class User {
 		if (rs.next()) {
 			user = new User(rs);
 		}
-		
+
 		db.disconnect();
 
 		return user;
-		
+
 	}
 
 }

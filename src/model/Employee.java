@@ -7,6 +7,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,27 +56,6 @@ public class Employee {
 		this.empId = rs.getString(empId);
 	}
 
-	public int  insert() throws SQLException, ClassNotFoundException {
-		// Insert employee into the EMPLOYEES table
-		int result = -1;
-		this.db.connect();
-
-		Statement stmt = null;
-		String sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
-				+ "VALUES ('" + this.empId + "', '" + this.firstName + "', '" + this.lastName + "')";
-
-		stmt = db.con.createStatement();
-		result = stmt.executeUpdate(sql);
-		this.db.con.commit();
-
-		if (stmt != null) {
-			stmt.close();
-		}
-
-		this.db.disconnect();
-		return result;
-	}
-
 	public static Employee getById(int id) throws SQLException, ClassNotFoundException {
 		// Retrieve Employee with id
 		Employee employee = null;
@@ -95,18 +75,33 @@ public class Employee {
 	}
 
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
-		/*
-		 Import process:
-		 ***** ResultSet is from the DBF database *****
-		 1 - Create Employee object from the ResultSet rs
-		 */
-		while (rs.next()) {
+		// rs is from a DBF record
+		boolean result = true;
+
+		Database db = new Database();
+		db.connect();
+		PreparedStatement stmt = null; 
+		String sql = "";
+
+		while (rs.next() && result) {
 			Employee emp = Employee.getEmployeeFromDbfResultSet(rs);
 
-			emp.insert();
+			sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
+				+ "VALUES (?, ?, ?)";
+			
+			stmt = db.con.prepareStatement(sql);
+			stmt.setString(1, emp.empId);
+			stmt.setString(2, emp.firstName);
+			stmt.setString(3, emp.lastName);
+			
+			result = Database.insert(stmt) == 1;
 		}
 
-		return true;
+		stmt.close();
+		db.con.commit();
+		db.disconnect();
+
+		return result;
 	}
 
 	public static Employee getEmployeeFromDbfResultSet(ResultSet rs) throws SQLException {

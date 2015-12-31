@@ -62,12 +62,12 @@ public class DbfConnection {
 			case "users":
 				User.importData(rs);
 				break;
-			case "shift":
-				ShiftData.importData(rs);
-				break;
-			case "register":
-				RegisterAudit.importData(rs);
-				break;
+//			case "shift":
+//				ShiftData.importData(rs);
+//				break;
+//			case "register":
+//				RegisterAudit.importData(rs);
+//				break;
 		}
 				
 		stmt.close();

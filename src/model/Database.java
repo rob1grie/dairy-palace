@@ -203,4 +203,47 @@ public class Database {
 
 		return rs;
 	}
+
+	public static int insert(String sql) throws SQLException, ClassNotFoundException {
+		Database db = new Database();
+		db.connect();
+
+		Statement stmt = null;
+
+		stmt = db.con.createStatement();
+		int result = stmt.executeUpdate(sql);
+		db.con.commit();
+
+		stmt.close();
+
+		db.disconnect();
+		return result;
+	}
+
+	public static int insert(PreparedStatement stmt) throws SQLException {
+		// Overridden insert method that receives a Statement created by an already open connection
+		int result = stmt.executeUpdate();
+
+		return result;
+	}
+
+	public static int getRowCount(String table) throws SQLException, ClassNotFoundException {
+		Database db = new Database();
+		db.connect();
+
+		String sql = "SELECT COUNT(*) AS C FROM " + table;
+		Statement stmt = db.con.createStatement();
+
+		int c = 0;
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			c = rs.getInt("C");
+		}
+		db.con.commit();
+
+		stmt.close();
+
+		db.disconnect();
+		return c;
+	}
 }

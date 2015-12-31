@@ -32,29 +32,35 @@ public class Controller {
 			HashMap keyedFiles = this.reKeyFileList(files);
 
 		// Get data in a sequential order for depencies
-		if (keyedFiles.get("employee") != null) {
+		if ((keyedFiles.get("employee") != null) &&
+				(Database.getRowCount("employees") == 0)) {
 			dbf.importDbf("employee");
 		}
 		
-		if (keyedFiles.get("users") != null) {
+		if ((keyedFiles.get("users") != null) &&
+				(Database.getRowCount("users") == 0)) {
 			dbf.importDbf("users");
 		}
 		
-//		if (keyedFiles.get("shift") != null) {
-//			dbf.importDbf("shift");
-//		}
-//		
-//		if (keyedFiles.get("register") != null) {
-//			dbf.importDbf("register");
-//		}
-//		
-//		if (keyedFiles.get("vendors") != null) {
-//			dbf.importDbf("vendors");
-//		}
-//		
-//		if (keyedFiles.get("vendinv") != null) {
-//			dbf.importDbf("vendinv");
-//		}
+		if ((keyedFiles.get("shift") != null) &&
+				(Database.getRowCount("shift_datas") == 0)) {
+			dbf.importDbf("shift");
+		}
+		
+		if ((keyedFiles.get("register") != null) &&
+				(Database.getRowCount("register_audits") == 0)) {
+			dbf.importDbf("register");
+		}
+		
+		if ((keyedFiles.get("vendors") != null) &&
+				(Database.getRowCount("vendors") == 0)) {
+			dbf.importDbf("vendors");
+		}
+		
+		if ((keyedFiles.get("vendinv") != null) &&
+				(Database.getRowCount("vendor_invoices") == 0)) {
+			dbf.importDbf("vendinv");
+		}
 	}
 	
 	private HashMap reKeyFileList(File[] files) throws Exception {

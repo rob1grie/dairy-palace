@@ -326,6 +326,33 @@ public class ShiftData {
 		 3 - Test each OTHERn_CST to insert into OTHER_PAID_OUTS
 		 */
 
+/*
+				// rs is from a DBF record
+		boolean result = true;
+
+		Database db = new Database();
+		db.connect();
+		Statement stmt = db.con.createStatement();
+		String sql = "";
+
+		while (rs.next() && result) {
+			User usr = User.getUserFromDbfResultSet(rs);
+
+			sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
+					+ "VALUES ('" + usr.username + "', '" + usr.password
+					+ "', '" + usr.firstName + "', '" + usr.lastName
+					+ "', '" + usr.initials + "', " + usr.position.getId() + ")";
+			result = Database.insert(sql, stmt) == 1;
+		}
+
+		stmt.close();
+		db.con.commit();
+		db.disconnect();
+
+		return result;
+
+		*/		
+		
 		while (rs.next()) {
 			// ShiftData constructor takes a ResultSet with the row pointer at the desired location
 			ShiftData shiftData = ShiftData.getShiftDataFromDbfResultSet(rs);
@@ -412,7 +439,7 @@ public class ShiftData {
 		stmt = db.con.prepareStatement("INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
 				+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
 				+ "gift_certs, ecards, discounts, mgr_on_duty) "
-				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
+				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
 
 		stmt.setInt(1, this.shift);
 		stmt.setString(2, this.shiftDate);
