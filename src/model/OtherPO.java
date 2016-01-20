@@ -8,6 +8,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,9 +119,9 @@ public class OtherPO {
 		db.disconnect();
 	}
 
-	public static boolean importData(ResultSet rs, int id) throws SQLException, ClassNotFoundException {
-		// Receives a ResultSet from a ShiftData DBF record 
-		boolean result = true;
+	public static ArrayList<OtherPO> importData(ResultSet rs, int id) throws SQLException, ClassNotFoundException {
+		// Receives a ResultSet from a ShiftData DBF record and returns an ArrayList of OtherPO objects
+		ArrayList<OtherPO> al = new ArrayList<>();
 
 		// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
 		if (rs.getFloat("OTHER1_CST") > 0.0) {
@@ -129,7 +130,7 @@ public class OtherPO {
 					id,
 					rs.getString("OTHER1_LAB"),
 					Float.parseFloat(rs.getString("OTHER1_CST")));
-			otherPO.insert();
+			al.add(otherPO);
 		}
 		if (rs.getFloat("OTHER2_CST") > 0.0) {
 			/// OtherPO constructor expects strings for all parameters
@@ -137,7 +138,7 @@ public class OtherPO {
 					id,
 					rs.getString("OTHER2_LAB"),
 					Float.parseFloat(rs.getString("OTHER2_CST")));
-			otherPO.insert();
+			al.add(otherPO);
 		}
 		if (rs.getFloat("OTHER3_CST") > 0.0) {
 			/// OtherPO constructor expects strings for all parameters
@@ -145,7 +146,7 @@ public class OtherPO {
 					id,
 					rs.getString("OTHER3_LAB"),
 					Float.parseFloat(rs.getString("OTHER3_CST")));
-			otherPO.insert();
+			al.add(otherPO);
 		}
 		if (rs.getFloat("OTHER4_CST") > 0.0) {
 			/// OtherPO constructor expects strings for all parameters
@@ -153,10 +154,10 @@ public class OtherPO {
 					id,
 					rs.getString("OTHER4_LAB"),
 					Float.parseFloat(rs.getString("OTHER4_CST")));
-			otherPO.insert();
+			al.add(otherPO);
 		}
 
-		return result;
+		return al;
 	}
 
 }

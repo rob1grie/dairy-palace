@@ -7,9 +7,11 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  *
@@ -331,7 +333,7 @@ public class ShiftData {
 
 		Database db = new Database();
 		db.connect();
-		PreparedStatement stmt = null;
+		PreparedStatement pStmt = null;
 		String sql = "";
 
 		while (rs.next() && result) {
@@ -342,39 +344,55 @@ public class ShiftData {
 					+ "gift_certs, ecards, discounts, mgr_on_duty) "
 					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
-			stmt = db.con.prepareStatement(sql);
+			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
 
-			stmt.setInt(1, shift.shift);
-			stmt.setString(2, shift.shiftDate);
-			stmt.setInt(3, shift.userId);
-			stmt.setFloat(4, shift.food);
-			stmt.setFloat(5, shift.restSupp);
-			stmt.setFloat(6, shift.offSupp);
-			stmt.setFloat(7, shift.repMaint);
-			stmt.setFloat(8, shift.freight);
-			stmt.setFloat(9, shift.credCards);
-			stmt.setFloat(10, shift.storeCash);
-			stmt.setFloat(11, shift.zDeptTl);
-			stmt.setFloat(12, shift.overrings);
-			stmt.setFloat(13, shift.begCash);
-			stmt.setFloat(14, shift.zTx);
-			stmt.setFloat(15, shift.zCoupon);
-			stmt.setFloat(16, shift.schoolCharges);
-			stmt.setFloat(17, shift.taxExemptSales);
-			stmt.setFloat(18, shift.donations);
-			stmt.setFloat(19, shift.giftCerts);
-			stmt.setFloat(20, shift.ecards);
-			stmt.setFloat(21, shift.discounts);
-			stmt.setString(22, shift.mgrOnDuty);
+			pStmt.setInt(1, shift.shift);
+			pStmt.setString(2, shift.shiftDate);
+			pStmt.setInt(3, shift.userId);
+			pStmt.setFloat(4, shift.food);
+			pStmt.setFloat(5, shift.restSupp);
+			pStmt.setFloat(6, shift.offSupp);
+			pStmt.setFloat(7, shift.repMaint);
+			pStmt.setFloat(8, shift.freight);
+			pStmt.setFloat(9, shift.credCards);
+			pStmt.setFloat(10, shift.storeCash);
+			pStmt.setFloat(11, shift.zDeptTl);
+			pStmt.setFloat(12, shift.overrings);
+			pStmt.setFloat(13, shift.begCash);
+			pStmt.setFloat(14, shift.zTx);
+			pStmt.setFloat(15, shift.zCoupon);
+			pStmt.setFloat(16, shift.schoolCharges);
+			pStmt.setFloat(17, shift.taxExemptSales);
+			pStmt.setFloat(18, shift.donations);
+			pStmt.setFloat(19, shift.giftCerts);
+			pStmt.setFloat(20, shift.ecards);
+			pStmt.setFloat(21, shift.discounts);
+			pStmt.setString(22, shift.mgrOnDuty);
 
-			result = Database.insert(stmt) == 1;
+			result = Database.insert(pStmt) == 1;
+			ResultSet gk = pStmt.getGeneratedKeys(); // will return the ID in id);
+			ResultSetMetaData md = gk.getMetaData();
 
+			while (gk.next()) {
+				shift.id = gk.getInt("1");
+			}
+			
 			if (result) {
-				result = OtherPO.importData(rs, shift.id);
+				ArrayList<OtherPO> otherPOs = OtherPO.importData(rs, shift.id);
+
+				if (otherPOs.size() > 0) {
+					try (Statement stmt = db.con.createStatement()) {
+						for (OtherPO otherPO : otherPOs) {
+							sql = "INSERT INTO OTHER_PAID_OUTS (shift_data_id, label, cost) "
+									+ "VALUES (" + otherPO.getShiftDataId() + ", '" + otherPO.getLabel() + "', " + otherPO.getCost() + ")";
+							stmt.executeUpdate(sql);
+						}
+					}
+				}
 			}
 		}
 
-		stmt.close();
+		pStmt.close();
 		db.con.commit();
 		db.disconnect();
 
