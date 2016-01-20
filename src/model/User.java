@@ -48,7 +48,7 @@ public class User {
 			String firstName,
 			String lastName,
 			String initials,
-			int position_id) {
+			int position_id) throws SQLException, ClassNotFoundException {
 		this.id = Integer.parseInt(id);
 		this.username = username;
 		this.password = password;
@@ -62,7 +62,7 @@ public class User {
 		}
 	}
 
-	public User(ResultSet rs) throws SQLException {
+	public User(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// Constructs User from a ResultSet which is already at the current row
 
 		this.id = Integer.parseInt(rs.getString("id"));
@@ -140,7 +140,7 @@ public class User {
 
 		Database db = new Database();
 		db.connect();
-		PreparedStatement stmt = null; 
+		PreparedStatement pStmt = null;
 		String sql = "";
 
 		while (rs.next() && result) {
@@ -148,24 +148,24 @@ public class User {
 
 			sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
 					+ "VALUES (?, ?, ?, ?, ?, ?)";
-			
-			stmt = db.con.prepareStatement(sql);
-			stmt.setString(1, usr.username);
+
+			pStmt = db.con.prepareStatement(sql);
+			pStmt.setString(1, usr.username);
 			// One record in the original data has a null value for password
 			// Skip any records that have a null password
 			if (usr.password == null) {
 				continue;
 			}
-			stmt.setString(2, usr.password);
-			stmt.setString(3, usr.firstName);
-			stmt.setString(4, usr.lastName);
-			stmt.setString(5, usr.initials);
-			stmt.setInt(6, usr.position.getId());
-			
-			result = Database.insert(stmt) == 1;
+			pStmt.setString(2, usr.password);
+			pStmt.setString(3, usr.firstName);
+			pStmt.setString(4, usr.lastName);
+			pStmt.setString(5, usr.initials);
+			pStmt.setInt(6, usr.position.getId());
+
+			result = Database.insert(pStmt) == 1;
 		}
 
-		stmt.close();
+		pStmt.close();
 		db.con.commit();
 		db.disconnect();
 

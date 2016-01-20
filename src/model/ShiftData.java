@@ -7,7 +7,6 @@ package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -92,7 +91,7 @@ public class ShiftData {
 		this.getShiftDataFromResultSet(rs);
 	}
 
-	public void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
+	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
 		this.shiftDate = rs.getString("shift_date");
@@ -371,7 +370,6 @@ public class ShiftData {
 
 			result = Database.insert(pStmt) == 1;
 			ResultSet gk = pStmt.getGeneratedKeys(); // will return the ID in id);
-			ResultSetMetaData md = gk.getMetaData();
 
 			while (gk.next()) {
 				shift.id = gk.getInt("1");

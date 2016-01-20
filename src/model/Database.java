@@ -143,7 +143,7 @@ public class Database {
 				+ "manager_id VARCHAR(4) NOT NULL)";
 		stmt.executeUpdate(sql);
 
-		sql = "CREATE TABLE REGISTER_AUDIT_EMPLOYEE "
+		sql = "CREATE TABLE REGISTER_AUDIT_EMPLOYEES "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "audit_id INT NOT NULL, "
 				+ "employee_id INT NOT NULL)";
@@ -188,6 +188,7 @@ public class Database {
 	}
 
 	public static ResultSet load(String sql) throws SQLException, ClassNotFoundException {
+		// Returns a result set using an SQL string
 		ResultSet rs = null;
 		Database db = new Database();
 		db.connect();

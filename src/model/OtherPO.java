@@ -123,7 +123,7 @@ public class OtherPO {
 		// Receives a ResultSet from a ShiftData DBF record and returns an ArrayList of OtherPO objects
 		ArrayList<OtherPO> al = new ArrayList<>();
 
-		// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
+		// Test each OTHERn_CST before adding to al
 		if (rs.getFloat("OTHER1_CST") > 0.0) {
 			/// OtherPO constructor expects strings for all parameters
 			OtherPO otherPO = new OtherPO(

@@ -80,7 +80,7 @@ public class Employee {
 
 		Database db = new Database();
 		db.connect();
-		PreparedStatement stmt = null; 
+		PreparedStatement pStmt = null; 
 		String sql = "";
 
 		while (rs.next() && result) {
@@ -89,15 +89,15 @@ public class Employee {
 			sql = "INSERT INTO EMPLOYEES (emp_id, first_name, last_name) "
 				+ "VALUES (?, ?, ?)";
 			
-			stmt = db.con.prepareStatement(sql);
-			stmt.setString(1, emp.empId);
-			stmt.setString(2, emp.firstName);
-			stmt.setString(3, emp.lastName);
+			pStmt = db.con.prepareStatement(sql);
+			pStmt.setString(1, emp.empId);
+			pStmt.setString(2, emp.firstName);
+			pStmt.setString(3, emp.lastName);
 			
-			result = Database.insert(stmt) == 1;
+			result = Database.insert(pStmt) == 1;
 		}
 
-		stmt.close();
+		pStmt.close();
 		db.con.commit();
 		db.disconnect();
 

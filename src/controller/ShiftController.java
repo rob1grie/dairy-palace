@@ -68,7 +68,7 @@ public class ShiftController {
 
 	private void setPrevId() {
 		// Get the next record
-		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS WHERE id < " + this.data.getId() + ";";
+		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS WHERE id < " + this.data.getId();
 		try {
 			ResultSet rs = Database.load(sql);
 			if (rs.next()) {
