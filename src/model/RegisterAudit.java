@@ -22,7 +22,8 @@ import utils.Utils;
 public class RegisterAudit {
 
 	private int id;
-	private String dateTime;
+	private String auditDate;
+	private String auditTime;
 	private int shift;
 	private float tapeRead;
 	private float cashCount;
@@ -40,9 +41,10 @@ public class RegisterAudit {
 		}
 	}
 
-	public RegisterAudit(String dateTime, int shift, float tapeRead,
+	public RegisterAudit(String auditDate, String auditTime, int shift, float tapeRead,
 			float cashCount, boolean audit, String register, String managerId) throws ParseException {
-		this.dateTime = dateTime;
+		this.auditDate = auditDate;
+		this.auditTime = auditTime;
 		this.shift = shift;
 		this.tapeRead = tapeRead;
 		this.cashCount = cashCount;
@@ -64,15 +66,16 @@ public class RegisterAudit {
 			db = new Database();
 		}
 	}
-	
+
 	public RegisterAudit(ResultSet rs) throws SQLException, ParseException {
 		// Constructor from a ResultSet
 		// Calling method must place ResultSet row pointer
 		this.getRegisterAuditFromResultSet(rs);
 	}
-	
+
 	private void getRegisterAuditFromResultSet(ResultSet rs) throws SQLException, ParseException {
-		this.dateTime = rs.getString("date_time");
+		this.auditDate = rs.getString("audit_date");
+		this.auditTime = rs.getString("audit_time");
 		this.shift = rs.getInt("shfit");
 		this.tapeRead = rs.getFloat("tape_read");
 		this.cashCount = rs.getFloat("cash_count");
@@ -90,12 +93,20 @@ public class RegisterAudit {
 		this.id = id;
 	}
 
-	public String getDateTime() {
-		return dateTime;
+	public String getAuditDate() {
+		return auditDate;
 	}
 
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
+	public void setAuditDate(String auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	public String getAuditTime() {
+		return this.auditTime;
+	}
+
+	public void setAuditTime(String auditTime) {
+		this.auditTime = auditTime;
 	}
 
 	public int getShift() {
@@ -149,7 +160,7 @@ public class RegisterAudit {
 	public List<Employee> loadEmployees() {
 		// Loads Employees from RegisterAuditAmployee
 		ArrayList<Employee> employees = new ArrayList<>();
-		
+
 		return employees;
 	}
 
@@ -164,35 +175,42 @@ public class RegisterAudit {
 
 		while (rs.next() && result) {
 			RegisterAudit audit = RegisterAudit.getRegisterAuditFromDbfResultSet(rs);
-			
-			sql = "INSERT INTO REGISTER_AUDITS (date_time, shift, tape_read, cash_count, audit, register, manager_id) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+			sql = "INSERT INTO REGISTER_AUDITS (audit_date, audit_time, shift, tape_read, cash_count, audit, register, manager_id) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
-			
-			pStmt.setString(1, audit.dateTime.toString());
-			pStmt.setInt(2, audit.shift);
-			pStmt.setFloat(3, audit.tapeRead);
-			pStmt.setFloat(4, audit.cashCount);
-			pStmt.setInt(5, audit.audit ? 1 : 0);
-			pStmt.setString(6, audit.register);
-			pStmt.setString(7, audit.managerId);
-			
+
+			pStmt.setString(1, audit.auditDate);
+			pStmt.setString(2, audit.auditTime);
+			pStmt.setInt(3, audit.shift);
+			pStmt.setFloat(4, audit.tapeRead);
+			pStmt.setFloat(5, audit.cashCount);
+			pStmt.setInt(6, audit.audit ? 1 : 0);
+			pStmt.setString(7, audit.register);
+
+			// managerID is blank on some entries
+			if (audit.managerId != null) {
+				pStmt.setString(8, audit.managerId);
+			} else {
+				pStmt.setString(8, "");
+			}
+
 			result = Database.insert(pStmt) == 1;
 			ResultSet gk = pStmt.getGeneratedKeys(); // will return the ID in id);
 
 			while (gk.next()) {
 				audit.id = gk.getInt("1");
 			}
-			
+
 			if (result) {
 				ArrayList<RegisterAuditEmployee> employees = RegisterAuditEmployee.importData(rs, audit.id);
-				
-				if(employees.size() > 0) {
-					try(Statement stmt = db.con.createStatement()) {
+
+				if (employees.size() > 0) {
+					try (Statement stmt = db.con.createStatement()) {
 						for (RegisterAuditEmployee employee : employees) {
 							sql = "INSERT INTO REGISTER_AUDIT_EMPLOYEES (audit_id, employee_id) "
 									+ "VALUES (" + employee.getAuditId() + ", " + employee.getId() + ")";
-							stmt.executeQuery(sql);
+							stmt.executeUpdate(sql);
 						}
 					}
 				}
@@ -213,8 +231,10 @@ public class RegisterAudit {
 
 		data.shift = rs.getInt("shift");
 
-		String dateTime = rs.getString("this_date") + " " + rs.getString("time") + " " + rs.getString("ampm");
-		data.dateTime = dateTime;
+		String auditDate = rs.getString("this_date");
+		String auditTime = rs.getString("time") + " " + rs.getString("ampm");
+		data.auditDate = auditDate;
+		data.auditTime = auditTime;
 
 		data.tapeRead = rs.getFloat("tape_read");
 		data.cashCount = rs.getFloat("cash_count");
@@ -232,8 +252,9 @@ public class RegisterAudit {
 		String sql = null;
 		int auditId = -1;
 
-		sql = "INSERT INTO REGISTER_AUDITS (date_time, shift, tape_read, cash_count, audit, register, manager_id) "
-				+ "VALUES ('" + this.dateTime + "', "
+		sql = "INSERT INTO REGISTER_AUDITS (audit_date, audit_time, shift, tape_read, cash_count, audit, register, manager_id) "
+				+ "VALUES ('" + this.auditDate + "', '"
+				+ this.auditTime + "', "
 				+ this.shift + ", "
 				+ this.tapeRead + ", "
 				+ this.cashCount + ", "

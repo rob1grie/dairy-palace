@@ -78,13 +78,8 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		setJMenuBar(createMenuBar());
 
-		toolbar.setToolbarListener(new ToolbarListener() {
-
-			@Override
-			public void modeSelected(String name) {
-				setVisiblePanel(name);
-			}
-
+		toolbar.setToolbarListener((String name1) -> {
+			setVisiblePanel(name1);
 		});
 
 		addWindowListener(new WindowAdapter() {
@@ -126,22 +121,16 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add File Menu Action Listeners *********
 		 */
-		exitItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int action = JOptionPane.showConfirmDialog(
-						MainFrame.this, "Do you really want to exit the application?", "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
-				if (action == JOptionPane.OK_OPTION) {
-					WindowListener[] listeners = getWindowListeners();
-
-					for (WindowListener listener : listeners) {
-						listener.windowClosing(new WindowEvent(MainFrame.this, 0));
-					}
+		exitItem.addActionListener((ActionEvent e) -> {
+			int action = JOptionPane.showConfirmDialog(
+					MainFrame.this, "Do you really want to exit the application?", "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
+			if (action == JOptionPane.OK_OPTION) {
+				WindowListener[] listeners = getWindowListeners();
+				
+				for (WindowListener listener : listeners) {
+					listener.windowClosing(new WindowEvent(MainFrame.this, 0));
 				}
-
 			}
-
 		});
 
 		/**
@@ -160,32 +149,20 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add View Menu Action Listeners *********
 		 */
-		shiftViewItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("View Shift Data");
-			}
+		shiftViewItem.addActionListener((ActionEvent e) -> {
+			System.out.println("View Shift Data");
 		});
 
-		registerViewItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("View Register Data");
-			}
+		registerViewItem.addActionListener((ActionEvent e) -> {
+			System.out.println("View Register Data");
 		});
 
-		invoiceViewItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("View Invoice Data");
-			}
+		invoiceViewItem.addActionListener((ActionEvent e) -> {
+			System.out.println("View Invoice Data");
 		});
 
-		inventoryViewItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("View Inventory Data");
-			}
+		inventoryViewItem.addActionListener((ActionEvent e) -> {
+			System.out.println("View Inventory Data");
 		});
 
 		/**
@@ -206,39 +183,24 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Enter Menu Action Listeners *********
 		 */
-		shiftEnterItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enter Shift Data");
-			}
+		shiftEnterItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Enter Shift Data");
 		});
 
-		registerEnterItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enter Register Data");
-			}
+		registerEnterItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Enter Register Data");
 		});
 
-		miscInfoEnterItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enter Misc Info Data");
-			}
+		miscInfoEnterItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Enter Misc Info Data");
 		});
 
-		invoiceEnterItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enter Invoice Data");
-			}
+		invoiceEnterItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Enter Invoice Data");
 		});
 
-		inventoryEnterItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Enter Inventory Data");
-			}
+		inventoryEnterItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Enter Inventory Data");
 		});
 
 		/**
@@ -262,32 +224,20 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Monthly Reports Sub-menu Action Listeners *********
 		 */
-		monthlyAveragesReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Monthly Averages Report");
-			}
+		monthlyAveragesReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Monthly Averages Report");
 		});
 
-		compareMonthsReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Compare Months Report");
-			}
+		compareMonthsReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Compare Months Report");
 		});
 
-		compareMonthlyAveragesReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Compare Monthly Averages Report");
-			}
+		compareMonthlyAveragesReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Compare Monthly Averages Report");
 		});
 
-		monthlyAveragesWPastReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Compare Monthly Averages with Past Report");
-			}
+		monthlyAveragesWPastReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Compare Monthly Averages with Past Report");
 		});
 
 		JMenuItem ytdReportItem = new JMenuItem("Year to Date");
@@ -301,18 +251,12 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Vendor Reports Submenu Action Listeners *********
 		 */
-		vendorTotalReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Vendor Totals Report");
-			}
+		vendorTotalReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Vendor Totals Report");
 		});
 
-		vendorComparisonReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Vendor Comparison Report");
-			}
+		vendorComparisonReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Vendor Comparison Report");
 		});
 
 		JMenu inventoryReportMenu = new JMenu("Inventory Reports");
@@ -324,18 +268,12 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Inventory Reports Sub-menu Action Listeners *********
 		 */
-		inventoryReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Inventory Report");
-			}
+		inventoryReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Inventory Report");
 		});
 
-		blankInventoryReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Blank Inventory Report");
-			}
+		blankInventoryReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Blank Inventory Report");
 		});
 
 		JMenuItem compareReportItem = new JMenuItem("Comparisons");
@@ -351,39 +289,24 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Reports Menu Action Listeners *********
 		 */
-		registerReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Register Report");
-			}
+		registerReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Register Report");
 		});
 
-		eodReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("End of Day Report");
-			}
+		eodReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("End of Day Report");
 		});
 
-		eowReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("End of Week Report");
-			}
+		eowReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("End of Week Report");
 		});
 
-		ytdReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Year to Date Report");
-			}
+		ytdReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Year to Date Report");
 		});
 
-		compareReportItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Comparison Report");
-			}
+		compareReportItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Comparison Report");
 		});
 
 		/**
@@ -408,124 +331,97 @@ public class MainFrame extends JFrame implements ComponentListener {
 		/**
 		 * ******* Add Utilities Menu Action Listeners *********
 		 */
-		configurationItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Configuration");
-			}
+		configurationItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Configuration");
 		});
 
-		employeeListItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Employee List Maintenance");
-			}
+		employeeListItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Employee List Maintenance");
 		});
 
-		vendorListItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Vendor List Maintenance");
-			}
+		vendorListItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Vendor List Maintenance");
 		});
 
-		exportDataItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Export Data");
-			}
+		exportDataItem.addActionListener((ActionEvent e) -> {
+			System.out.println("Export Data");
 		});
 
-		importDataItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DbfFileFilter filter = new DbfFileFilter();
-				fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(prefs.getImportDirectory()));
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
-					try {
-						// Flag for whether to procede with import
-						continueImport = false;
-
-						// Prompt for month and year to go back to
-						monthYearDialog = new MonthYearDialog(MainFrame.this, prefs.getImportMonth(), prefs.getImportYear());
-
-						monthYearDialog.setMonthYearListener(new MonthYearListener() {
-
-							@Override
-							public void monthYearSet(int month, int year) {
-								if (monthYearDialog.validateFields()) {
-									MainFrame.this.prefs.setImportMonth(month);
-									MainFrame.this.prefs.setImportYear(year);
-
-									monthYearDialog.setVisible(false);
-									continueImport = true;
-
-								} else {
-									JOptionPane.showMessageDialog(
-											MainFrame.this,
-											"Please enter a valid month (1-12) and year",
-											"Invalid Entry",
-											JOptionPane.ERROR_MESSAGE);
-								}
-							}
-
-						});
-						monthYearDialog.setVisible(true);
-
-						if (continueImport) {
-							MainFrame.this.importFilter = 
-									new ImportFilter(MainFrame.this.prefs.getImportMonth(), MainFrame.this.prefs.getImportYear());
-							File selectedFile = fileChooser.getSelectedFile();
-							controller.importDbf(selectedFile.listFiles(filter), MainFrame.this.importFilter);
+		importDataItem.addActionListener((ActionEvent e) -> {
+			DbfFileFilter filter = new DbfFileFilter();
+			fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(prefs.getImportDirectory()));
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			
+			if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
+				prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
+				try {
+					// Flag for whether to procede with import
+					continueImport = false;
+					
+					// Prompt for month and year to go back to
+					monthYearDialog = new MonthYearDialog(MainFrame.this, prefs.getImportMonth(), prefs.getImportYear());
+					
+					monthYearDialog.setMonthYearListener((int month, int year) -> {
+						if (monthYearDialog.validateFields()) {
+							MainFrame.this.prefs.setImportMonth(month);
+							MainFrame.this.prefs.setImportYear(year);
+							
+							monthYearDialog.setVisible(false);
+							continueImport = true;
+							
+						} else {
+							JOptionPane.showMessageDialog(
+									MainFrame.this,
+									"Please enter a valid month (1-12) and year",
+									"Invalid Entry",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					} catch (Exception ex) {
-						String msg = ex.getMessage();
-						JOptionPane.showMessageDialog(
-								MainFrame.this,
-								"There was an error importing the data:\r\n" + msg,
-								"Import Error",
-								JOptionPane.ERROR_MESSAGE);
-						Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+					});
+					monthYearDialog.setVisible(true);
+					
+					if (continueImport) {
+						MainFrame.this.importFilter =
+								new ImportFilter(MainFrame.this.prefs.getImportMonth(), MainFrame.this.prefs.getImportYear());
+						File selectedFile = fileChooser.getSelectedFile();
+						controller.importDbf(selectedFile.listFiles(filter), MainFrame.this.importFilter);
 					}
+				} catch (Exception ex) {
+					String msg = ex.getMessage();
+					JOptionPane.showMessageDialog(
+							MainFrame.this,
+							"There was an error importing the data:\r\n" + msg,
+							"Import Error",
+							JOptionPane.ERROR_MESSAGE);
+					Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
-
 		});
 		importDataItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
 
-		userManageItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("User Management");
-			}
+		userManageItem.addActionListener((ActionEvent e) -> {
+			System.out.println("User Management");
 		});
 
-		initDatabaseItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (Database.init()) {
-						JOptionPane.showMessageDialog(MainFrame.this, "Database was successfully initialized");
-					}
-				} catch (SQLException ex) {
-					String msg = ex.getMessage();
-					JOptionPane.showMessageDialog(
-							MainFrame.this,
-							"There was an error initializing the database:\r\n" + msg,
-							"Initializing Error",
-							JOptionPane.ERROR_MESSAGE);
-				} catch (ClassNotFoundException ex) {
-					String msg = ex.getMessage();
-					JOptionPane.showMessageDialog(
-							MainFrame.this,
-							"There was an error initializing the database:\r\n" + msg,
-							"Initializing Error",
-							JOptionPane.ERROR_MESSAGE);
+		initDatabaseItem.addActionListener((ActionEvent e) -> {
+			try {
+				if (Database.init()) {
+					JOptionPane.showMessageDialog(MainFrame.this, "Database was successfully initialized");
 				}
+			} catch (SQLException ex) {
+				String msg = ex.getMessage();
+				JOptionPane.showMessageDialog(
+						MainFrame.this,
+						"There was an error initializing the database:\r\n" + msg,
+						"Initializing Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (ClassNotFoundException ex) {
+				String msg = ex.getMessage();
+				JOptionPane.showMessageDialog(
+						MainFrame.this,
+						"There was an error initializing the database:\r\n" + msg,
+						"Initializing Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		});
 

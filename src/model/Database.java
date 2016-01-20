@@ -15,7 +15,6 @@ import java.util.logging.Logger;
  */
 
 /*
- TODO: Improve form of using JDBC:
  Add throws Exception clause to methods so that the calling method can check for exceptions
  Use try/catch in the calling methods
  NEVER use literal values in SQL, always use a prepared statement so special characters or anything else can be caught
@@ -134,7 +133,8 @@ public class Database {
 
 		sql = "CREATE TABLE REGISTER_AUDITS "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-				+ "date_time DATE NOT NULL, "
+				+ "audit_date DATE NOT NULL, "
+				+ "audit_time TIME NOT NULL, "
 				+ "shift INT NOT NULL, "
 				+ "tape_read REAL NOT NULL, "
 				+ "cash_count REAL NOT NULL, "

@@ -90,31 +90,31 @@ public class RegisterAuditEmployee {
 		ArrayList<RegisterAuditEmployee> al = new ArrayList<>();
 		
 		// Test each EmpnNum before adding to al
-		if (!rs.getString("EMP1NUM").isEmpty()) {
+		if (rs.getString("EMP1NUM") != null) {
 			RegisterAuditEmployee employee = 
 					new RegisterAuditEmployee(Integer.parseInt(rs.getString("EMP1NUM")), id);
 			al.add(employee);
 		}
 		
-		if (!rs.getString("EMP2NUM").isEmpty()) {
+		if (rs.getString("EMP2NUM") != null) {
 			RegisterAuditEmployee employee = 
 					new RegisterAuditEmployee(Integer.parseInt(rs.getString("EMP2NUM")), id);
 			al.add(employee);
 		}
 		
-		if (!rs.getString("EMP3NUM").isEmpty()) {
+		if (rs.getString("EMP3NUM") != null) {
 			RegisterAuditEmployee employee = 
 					new RegisterAuditEmployee(Integer.parseInt(rs.getString("EMP3NUM")), id);
 			al.add(employee);
 		}
 		
-		if (!rs.getString("EMP4NUM").isEmpty()) {
+		if (rs.getString("EMP4NUM") != null) {
 			RegisterAuditEmployee employee = 
 					new RegisterAuditEmployee(Integer.parseInt(rs.getString("EMP4NUM")), id);
 			al.add(employee);
 		}
 		
-		if (!rs.getString("EMP5NUM").isEmpty()) {
+		if (rs.getString("EMP5NUM") != null) {
 			RegisterAuditEmployee employee = 
 					new RegisterAuditEmployee(Integer.parseInt(rs.getString("EMP5NUM")), id);
 			al.add(employee);
