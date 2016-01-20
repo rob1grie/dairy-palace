@@ -103,19 +103,60 @@ public class OtherPO {
 	public void setCost(float cost) {
 		this.cost = cost;
 	}
-	
+
 	public void insert() throws SQLException, ClassNotFoundException {
 		// Save this to a new record
-		String sql = "INSERT INTO OTHER_PAID_OUTS (shift_data_id, label, cost) " +
-				"VALUES (" + this.shiftDataId + ", '" + this.label + "', " + this.cost + ")";
+		String sql = "INSERT INTO OTHER_PAID_OUTS (shift_data_id, label, cost) "
+				+ "VALUES (" + this.shiftDataId + ", '" + this.label + "', " + this.cost + ")";
 		db = new Database();
 		db.connect();
 		Statement stmt = db.con.createStatement();
-		
+
 		int id = stmt.executeUpdate(sql);
 		this.id = id;
-		
+
 		db.disconnect();
+	}
+
+	public static boolean importData(ResultSet rs, int id) throws SQLException, ClassNotFoundException {
+		// Receives a ResultSet from a ShiftData DBF record 
+		boolean result = true;
+
+		// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
+		if (rs.getFloat("OTHER1_CST") > 0.0) {
+			/// OtherPO constructor expects strings for all parameters
+			OtherPO otherPO = new OtherPO(
+					id,
+					rs.getString("OTHER1_LAB"),
+					Float.parseFloat(rs.getString("OTHER1_CST")));
+			otherPO.insert();
+		}
+		if (rs.getFloat("OTHER2_CST") > 0.0) {
+			/// OtherPO constructor expects strings for all parameters
+			OtherPO otherPO = new OtherPO(
+					id,
+					rs.getString("OTHER2_LAB"),
+					Float.parseFloat(rs.getString("OTHER2_CST")));
+			otherPO.insert();
+		}
+		if (rs.getFloat("OTHER3_CST") > 0.0) {
+			/// OtherPO constructor expects strings for all parameters
+			OtherPO otherPO = new OtherPO(
+					id,
+					rs.getString("OTHER3_LAB"),
+					Float.parseFloat(rs.getString("OTHER3_CST")));
+			otherPO.insert();
+		}
+		if (rs.getFloat("OTHER4_CST") > 0.0) {
+			/// OtherPO constructor expects strings for all parameters
+			OtherPO otherPO = new OtherPO(
+					id,
+					rs.getString("OTHER4_LAB"),
+					Float.parseFloat(rs.getString("OTHER4_CST")));
+			otherPO.insert();
+		}
+
+		return result;
 	}
 
 }

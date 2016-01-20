@@ -317,7 +317,7 @@ public class ShiftData {
 		this.mgrOnDuty = mgrOnDuty;
 	}
 
-	public static void importData(ResultSet rs) throws SQLException, ClassNotFoundException {
+	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
 		/*
 		 Import process:
 		 ***** ResultSet is from the DBF database *****
@@ -326,23 +326,52 @@ public class ShiftData {
 		 3 - Test each OTHERn_CST to insert into OTHER_PAID_OUTS
 		 */
 
-/*
-				// rs is from a DBF record
+		// rs is from a DBF record
 		boolean result = true;
 
 		Database db = new Database();
 		db.connect();
-		Statement stmt = db.con.createStatement();
+		PreparedStatement stmt = null;
 		String sql = "";
 
 		while (rs.next() && result) {
-			User usr = User.getUserFromDbfResultSet(rs);
+			ShiftData shift = ShiftData.getShiftDataFromDbfResultSet(rs);
 
-			sql = "INSERT INTO USERS (username, password, first_name, last_name, initials, position_id) "
-					+ "VALUES ('" + usr.username + "', '" + usr.password
-					+ "', '" + usr.firstName + "', '" + usr.lastName
-					+ "', '" + usr.initials + "', " + usr.position.getId() + ")";
-			result = Database.insert(sql, stmt) == 1;
+			sql = "INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
+					+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
+					+ "gift_certs, ecards, discounts, mgr_on_duty) "
+					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+
+			stmt = db.con.prepareStatement(sql);
+
+			stmt.setInt(1, shift.shift);
+			stmt.setString(2, shift.shiftDate);
+			stmt.setInt(3, shift.userId);
+			stmt.setFloat(4, shift.food);
+			stmt.setFloat(5, shift.restSupp);
+			stmt.setFloat(6, shift.offSupp);
+			stmt.setFloat(7, shift.repMaint);
+			stmt.setFloat(8, shift.freight);
+			stmt.setFloat(9, shift.credCards);
+			stmt.setFloat(10, shift.storeCash);
+			stmt.setFloat(11, shift.zDeptTl);
+			stmt.setFloat(12, shift.overrings);
+			stmt.setFloat(13, shift.begCash);
+			stmt.setFloat(14, shift.zTx);
+			stmt.setFloat(15, shift.zCoupon);
+			stmt.setFloat(16, shift.schoolCharges);
+			stmt.setFloat(17, shift.taxExemptSales);
+			stmt.setFloat(18, shift.donations);
+			stmt.setFloat(19, shift.giftCerts);
+			stmt.setFloat(20, shift.ecards);
+			stmt.setFloat(21, shift.discounts);
+			stmt.setString(22, shift.mgrOnDuty);
+
+			result = Database.insert(stmt) == 1;
+
+			if (result) {
+				result = OtherPO.importData(rs, shift.id);
+			}
 		}
 
 		stmt.close();
@@ -350,49 +379,6 @@ public class ShiftData {
 		db.disconnect();
 
 		return result;
-
-		*/		
-		
-		while (rs.next()) {
-			// ShiftData constructor takes a ResultSet with the row pointer at the desired location
-			ShiftData shiftData = ShiftData.getShiftDataFromDbfResultSet(rs);
-
-			// Test each OTHERn_CST before inserting into OTHER_PAID_OUTS
-			if (rs.getFloat("OTHER1_CST") > 0.0) {
-				/// OtherPO constructor expects strings for all parameters
-				OtherPO otherPO = new OtherPO(
-						shiftData.id,
-						rs.getString("OTHER1_LAB"),
-						Float.parseFloat(rs.getString("OTHER1_CST")));
-				otherPO.insert();
-			}
-			if (rs.getFloat("OTHER2_CST") > 0.0) {
-				/// OtherPO constructor expects strings for all parameters
-				OtherPO otherPO = new OtherPO(
-						shiftData.id,
-						rs.getString("OTHER2_LAB"),
-						Float.parseFloat(rs.getString("OTHER2_CST")));
-				otherPO.insert();
-			}
-			if (rs.getFloat("OTHER3_CST") > 0.0) {
-				/// OtherPO constructor expects strings for all parameters
-				OtherPO otherPO = new OtherPO(
-						shiftData.id,
-						rs.getString("OTHER3_LAB"),
-						Float.parseFloat(rs.getString("OTHER3_CST")));
-				otherPO.insert();
-			}
-			if (rs.getFloat("OTHER4_CST") > 0.0) {
-				/// OtherPO constructor expects strings for all parameters
-				OtherPO otherPO = new OtherPO(
-						shiftData.id,
-						rs.getString("OTHER4_LAB"),
-						Float.parseFloat(rs.getString("OTHER4_CST")));
-				otherPO.insert();
-			}
-
-			shiftData.insert();
-		}
 	}
 
 	public static ShiftData getShiftDataFromDbfResultSet(ResultSet rs) throws SQLException, ClassNotFoundException {
@@ -402,10 +388,11 @@ public class ShiftData {
 		data.shift = rs.getInt("shift");
 		data.shiftDate = rs.getString("this_date");
 
+		// Get ID using the initials of this user
 		String userName = rs.getString("entered_by");
 		User user = User.getUserFromInitials(userName);
 		if (user != null) {
-		data.userId = user.getId();
+			data.userId = user.getId();
 		} else {
 			data.userId = -1;
 		}
@@ -425,53 +412,6 @@ public class ShiftData {
 		data.mgrOnDuty = "None";
 
 		return data;
-	}
-
-	public boolean insert() throws SQLException, ClassNotFoundException {
-		// Insert into Shift_Datas table
-		if (this.db == null) {
-			this.db = new Database();
-		}
-		db.connect();
-
-		PreparedStatement stmt = null;
-
-		stmt = db.con.prepareStatement("INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
-				+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
-				+ "gift_certs, ecards, discounts, mgr_on_duty) "
-				+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
-
-		stmt.setInt(1, this.shift);
-		stmt.setString(2, this.shiftDate);
-		stmt.setInt(3, this.userId);
-		stmt.setFloat(4, this.food);
-		stmt.setFloat(5, this.restSupp);
-		stmt.setFloat(6, this.offSupp);
-		stmt.setFloat(7, this.repMaint);
-		stmt.setFloat(8, this.freight);
-		stmt.setFloat(9, this.credCards);
-		stmt.setFloat(10, this.storeCash);
-		stmt.setFloat(11, this.zDeptTl);
-		stmt.setFloat(12, this.overrings);
-		stmt.setFloat(13, this.begCash);
-		stmt.setFloat(14, this.zTx);
-		stmt.setFloat(15, this.zCoupon);
-		stmt.setFloat(16, this.schoolCharges);
-		stmt.setFloat(17, this.taxExemptSales);
-		stmt.setFloat(18, this.donations);
-		stmt.setFloat(19, this.giftCerts);
-		stmt.setFloat(20, this.ecards);
-		stmt.setFloat(21, this.discounts);
-		stmt.setString(22, this.mgrOnDuty);
-
-		stmt.executeUpdate();
-
-		stmt.close();
-		db.con.commit();
-
-		db.disconnect();
-
-		return true;
 	}
 
 }

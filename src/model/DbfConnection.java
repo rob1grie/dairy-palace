@@ -55,6 +55,7 @@ public class DbfConnection {
 		
 		System.out.println("Import results: " + Utils.countResultSetRows(rs));
 		
+		// TODO Need to move switch statement up so that a query isn't ran on every single dbf file
 		switch (dbfFile) { // dbfFile has been converted to lower case
 			case "employee":
 				Employee.importData(rs);
@@ -62,9 +63,9 @@ public class DbfConnection {
 			case "users":
 				User.importData(rs);
 				break;
-//			case "shift":
-//				ShiftData.importData(rs);
-//				break;
+			case "shift":
+				ShiftData.importData(rs);
+				break;
 //			case "register":
 //				RegisterAudit.importData(rs);
 //				break;
