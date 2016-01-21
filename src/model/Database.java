@@ -86,9 +86,11 @@ public class Database {
 
 		sql = "CREATE TABLE PREFERENCES "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-				+ "mainFrameWidth INT NOT NULL, "
-				+ "mainFrameHeight INT NOT NULL, "
-				+ "selectedView VARCHAR(30) NOT NULL)";
+				+ "main_frame_width INT NOT NULL, "
+				+ "main_frame_height INT NOT NULL, "
+				+ "import_month INT NOT NULL, " 
+				+ "import_year INT NOT NULL, "
+				+ "import_directory VARCHAR(128) NOT NULL)";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE SHIFT_DATAS "
@@ -225,6 +227,13 @@ public class Database {
 		// Overridden insert method that receives a Statement created by an already open connection
 		int result = stmt.executeUpdate();
 
+		return result;
+	}
+	
+	public static int update(String sql) throws SQLException, ClassNotFoundException {
+		// Simply implements the Database.insert() method
+		int result = Database.insert(sql);
+		
 		return result;
 	}
 

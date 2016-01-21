@@ -354,7 +354,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			
 			if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
-				prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
+				try {
+					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
+				} catch (SQLException ex) {
+					Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (ClassNotFoundException ex) {
+					Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+				}
 				try {
 					// Flag for whether to procede with import
 					continueImport = false;
@@ -364,8 +370,20 @@ public class MainFrame extends JFrame implements ComponentListener {
 					
 					monthYearDialog.setMonthYearListener((int month, int year) -> {
 						if (monthYearDialog.validateFields()) {
-							MainFrame.this.prefs.setImportMonth(month);
-							MainFrame.this.prefs.setImportYear(year);
+							try {
+								MainFrame.this.prefs.setImportMonth(month);
+							} catch (SQLException ex) {
+								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+							} catch (ClassNotFoundException ex) {
+								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+							}
+							try {
+								MainFrame.this.prefs.setImportYear(year);
+							} catch (SQLException ex) {
+								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+							} catch (ClassNotFoundException ex) {
+								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+							}
 							
 							monthYearDialog.setVisible(false);
 							continueImport = true;
@@ -447,7 +465,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 		Rectangle bounds = e.getComponent().getParent().getBounds();
 		Dimension size = e.getComponent().getParent().getBounds().getSize();
 
-		prefs.setMainFrameSize(e.getComponent().getParent().getParent().getBounds().getSize());
+		try {
+			prefs.setMainFrameSize(e.getComponent().getParent().getParent().getBounds().getSize());
+		} catch (SQLException ex) {
+			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (ClassNotFoundException ex) {
+			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	@Override
