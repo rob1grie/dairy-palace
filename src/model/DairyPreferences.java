@@ -131,6 +131,9 @@ public class DairyPreferences {
 			this.id = gk.getInt("1");
 		}
 		
+		pStmt.close();
+		db.con.commit();
+		db.disconnect();
 	}
 	
 }
