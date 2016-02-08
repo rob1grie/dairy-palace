@@ -73,6 +73,11 @@ public class Database {
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+ "position VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
+		// Initialize POSITIONS table
+		sql = "INSERT INTO POSITIONS (position) VALUES ('Manager')";
+		stmt.executeUpdate(sql);
+		sql = "INSERT INTO POSITIONS (position) VALUES ('Employee')";
+		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE PERMISSIONS "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "

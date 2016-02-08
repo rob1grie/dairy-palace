@@ -5,11 +5,9 @@
  */
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
@@ -46,6 +44,37 @@ public class Position {
 		this.position = position;
 	}
 
+	public boolean insert() throws SQLException, ClassNotFoundException {
+		boolean result = true;
+
+		Database db = new Database();
+		db.connect();
+		String sql = "INSERT INTO POSITIONS (position) "
+				+ "VALUES ('" + this.position + "')";
+
+		result = Database.insert(sql) == 1;
+
+		db.con.commit();
+		db.disconnect();
+
+		return result;
+	}
+	
+	public boolean update() throws SQLException, ClassNotFoundException {
+		boolean result = true;
+		
+		Database db = new Database();
+		db.connect();
+		String sql = "UPDATE POSITIONS SET position='" + this.position + "' WHERE id=" + this.id;
+
+		result = Database.update(sql) == 1;
+
+		db.con.commit();
+		db.disconnect();
+		
+		return result;
+	}
+	
 	public static Position getById(int it) throws SQLException, ClassNotFoundException {
 		Position position = null;
 
@@ -59,4 +88,5 @@ public class Position {
 
 		return position;
 	}
+
 }

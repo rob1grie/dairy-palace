@@ -57,15 +57,15 @@ public class DbfConnection {
 		
 		// TODO Need to move switch statement up so that a query isn't ran on every single dbf file
 		switch (dbfFile) { // dbfFile has been converted to lower case
-//			case "employee":
-//				Employee.importData(rs);
-//				break;
-//			case "users":
-//				User.importData(rs);
-//				break;
-//			case "shift":
-//				ShiftData.importData(rs);
-//				break;
+			case "employee":
+				Employee.importData(rs);
+				break;
+			case "users":
+				User.importData(rs);
+				break;
+			case "shift":
+				ShiftData.importData(rs);
+				break;
 			case "register":
 				RegisterAudit.importData(rs);
 				break;
