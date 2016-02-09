@@ -5,7 +5,6 @@
  */
 package model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -21,6 +20,17 @@ public class Position {
 	public Position() {
 		this.id = -1;
 		this.position = "";
+	}
+	
+	public Position(int id) throws SQLException, ClassNotFoundException {
+		this.id = id;
+		
+		String sql = "SELECT * FROM POSITIONS WHERE id=" + id;
+		ResultSet rs = Database.load(sql);
+		
+		while (rs.next()) {
+			this.position = rs.getString("position");
+		}
 	}
 
 	public Position(int id, String position) {

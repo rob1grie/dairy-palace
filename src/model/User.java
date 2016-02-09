@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat.Field;
 
 /**
  *
@@ -25,8 +24,6 @@ public class User {
 	private String initials;
 	private Position position;
 
-	private Database db;
-
 	public User() {
 		this.id = -1;
 		this.username = "";
@@ -35,10 +32,6 @@ public class User {
 		this.lastName = "";
 		this.initials = "";
 		this.position = new Position();
-
-		if (db == null) {
-			db = new Database();
-		}
 	}
 
 	public User(
@@ -56,10 +49,6 @@ public class User {
 		this.lastName = lastName;
 		this.initials = initials;
 		this.position = Position.getById(position_id);
-
-		if (db == null) {
-			db = new Database();
-		}
 	}
 
 	public User(ResultSet rs) throws SQLException, ClassNotFoundException {
@@ -72,10 +61,6 @@ public class User {
 		this.lastName = rs.getString("last_name");
 		this.initials = rs.getString("initials");
 		this.position = Position.getById(rs.getInt("position_id"));
-
-		if (db == null) {
-			db = new Database();
-		}
 	}
 
 	public int getId() {
