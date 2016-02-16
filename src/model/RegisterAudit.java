@@ -10,8 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import utils.Utils;
 
 /**
  *
@@ -20,8 +23,8 @@ import java.util.List;
 public class RegisterAudit {
 
 	private int id;
-	private String auditDate;
-	private String auditTime;
+	private LocalDate auditDate;
+	private LocalTime auditTime;
 	private int shift;
 	private float tapeRead;
 	private float cashCount;
@@ -39,7 +42,7 @@ public class RegisterAudit {
 		}
 	}
 
-	public RegisterAudit(String auditDate, String auditTime, int shift, float tapeRead,
+	public RegisterAudit(LocalDate auditDate, LocalTime auditTime, int shift, float tapeRead,
 			float cashCount, boolean audit, String register, String managerId) throws ParseException {
 		this.auditDate = auditDate;
 		this.auditTime = auditTime;
@@ -72,9 +75,9 @@ public class RegisterAudit {
 	}
 
 	private void getRegisterAuditFromResultSet(ResultSet rs) throws SQLException, ParseException {
-		this.auditDate = rs.getString("audit_date");
-		this.auditTime = rs.getString("audit_time");
-		this.shift = rs.getInt("shfit");
+		this.auditDate = Utils.getDateFromString(rs.getDate("audit_date").toString());
+		this.auditTime = Utils.getTimeFromString(rs.getTime("audit_time").toString());
+		this.shift = rs.getInt("shift");
 		this.tapeRead = rs.getFloat("tape_read");
 		this.cashCount = rs.getFloat("cash_count");
 		this.audit = rs.getInt("is_audit") == 1;
@@ -91,19 +94,19 @@ public class RegisterAudit {
 		this.id = id;
 	}
 
-	public String getAuditDate() {
+	public LocalDate getAuditDate() {
 		return auditDate;
 	}
 
-	public void setAuditDate(String auditDate) {
+	public void setAuditDate(LocalDate auditDate) {
 		this.auditDate = auditDate;
 	}
 
-	public String getAuditTime() {
+	public LocalTime getAuditTime() {
 		return this.auditTime;
 	}
 
-	public void setAuditTime(String auditTime) {
+	public void setAuditTime(LocalTime auditTime) {
 		this.auditTime = auditTime;
 	}
 
@@ -178,8 +181,8 @@ public class RegisterAudit {
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
 
-			pStmt.setString(1, audit.auditDate);
-			pStmt.setString(2, audit.auditTime);
+			pStmt.setString(1, audit.auditDate.toString());
+			pStmt.setString(2, audit.auditTime.toString());
 			pStmt.setInt(3, audit.shift);
 			pStmt.setFloat(4, audit.tapeRead);
 			pStmt.setFloat(5, audit.cashCount);
@@ -229,8 +232,8 @@ public class RegisterAudit {
 
 		data.shift = rs.getInt("shift");
 
-		String auditDate = rs.getString("this_date");
-		String auditTime = rs.getString("time") + " " + rs.getString("ampm");
+		LocalDate auditDate = Utils.getDateFromString(rs.getString("this_date"));
+		LocalTime auditTime = Utils.getTimeFromString(rs.getString("time") + " " + rs.getString("ampm"));
 		data.auditDate = auditDate;
 		data.auditTime = auditTime;
 

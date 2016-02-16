@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import utils.Utils;
 
 /**
  *
@@ -20,7 +22,7 @@ public class ShiftData {
 
 	private int id;
 	private int shift;
-	private String shiftDate;
+	private LocalDate shiftDate;
 	private int userId;
 	private float food;
 	private float restSupp;
@@ -55,7 +57,7 @@ public class ShiftData {
 		this.getShiftData();
 	}
 
-	public ShiftData(String shift, String shiftDate, int userId, String food, String restSupp, String offSupp,
+	public ShiftData(String shift, LocalDate shiftDate, int userId, String food, String restSupp, String offSupp,
 			String repMaint, String freight, String credCards, String storeCash, String zDeptTl,
 			String overrings, String begCash, String zTx, String zCoupon, String schoolCharges,
 			String taxExemptSales, String donations, String giftCerts, String ecards, String discounts, String mgrOnDuty) throws ParseException {
@@ -94,7 +96,7 @@ public class ShiftData {
 	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
-		this.shiftDate = rs.getString("shift_date");
+//		this.shiftDate = rs.get
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
 		this.restSupp = rs.getFloat("rest_supp");
@@ -150,11 +152,11 @@ public class ShiftData {
 		this.shift = shift;
 	}
 
-	public String getDate() {
+	public LocalDate getDate() {
 		return shiftDate;
 	}
 
-	public void setDate(String shiftDate) {
+	public void setDate(LocalDate shiftDate) {
 		this.shiftDate = shiftDate;
 	}
 
@@ -318,7 +320,7 @@ public class ShiftData {
 		this.mgrOnDuty = mgrOnDuty;
 	}
 
-	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException {
+	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
 		/*
 		 Import process:
 		 ***** ResultSet is from the DBF database *****
@@ -346,7 +348,7 @@ public class ShiftData {
 			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
 
 			pStmt.setInt(1, shift.shift);
-			pStmt.setString(2, shift.shiftDate);
+			pStmt.setString(2, shift.shiftDate.toString());
 			pStmt.setInt(3, shift.userId);
 			pStmt.setFloat(4, shift.food);
 			pStmt.setFloat(5, shift.restSupp);
@@ -397,12 +399,12 @@ public class ShiftData {
 		return result;
 	}
 
-	public static ShiftData getShiftDataFromDbfResultSet(ResultSet rs) throws SQLException, ClassNotFoundException {
+	public static ShiftData getShiftDataFromDbfResultSet(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		ShiftData data = new ShiftData();
 
 		data.shift = rs.getInt("shift");
-		data.shiftDate = rs.getString("this_date");
+		data.shiftDate = Utils.getDateFromString(rs.getDate("this_date").toString());
 
 		// Get ID using the initials of this user
 		String userName = rs.getString("entered_by");

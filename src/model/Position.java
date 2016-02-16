@@ -18,8 +18,10 @@ public class Position {
 	private String position;
 
 	public Position() {
-		this.id = -1;
-		this.position = "";
+		// Default position is Employee
+		// TODO  Take out hard coded default
+		this.id = 2;
+		this.position = "Employee";
 	}
 	
 	public Position(int id) throws SQLException, ClassNotFoundException {
@@ -85,10 +87,10 @@ public class Position {
 		return result;
 	}
 	
-	public static Position getById(int it) throws SQLException, ClassNotFoundException {
+	public static Position getById(int id) throws SQLException, ClassNotFoundException {
 		Position position = null;
 
-		String sql = "SELECT * FROM POSITIONS WHERE id = id;";
+		String sql = "SELECT * FROM POSITIONS WHERE id=" + id;
 
 		ResultSet rs = Database.load(sql);
 

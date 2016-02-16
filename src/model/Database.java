@@ -70,13 +70,13 @@ public class Database {
 
 		// Positions table
 		sql = "CREATE TABLE POSITIONS "
-				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
+				+ "(id INT PRIMARY KEY NOT NULL, "
 				+ "position VARCHAR(30) NOT NULL)";
 		stmt.executeUpdate(sql);
 		// Initialize POSITIONS table
-		sql = "INSERT INTO POSITIONS (position) VALUES ('Manager')";
+		sql = "INSERT INTO POSITIONS (id, position) VALUES (1, 'Manager')";
 		stmt.executeUpdate(sql);
-		sql = "INSERT INTO POSITIONS (position) VALUES ('Employee')";
+		sql = "INSERT INTO POSITIONS (id, position) VALUES (2, 'Employee')";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE PERMISSIONS "

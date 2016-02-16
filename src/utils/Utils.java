@@ -1,11 +1,14 @@
 package utils;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -27,7 +30,6 @@ public class Utils {
 	}
 
 	public static String getFileName(String name) {
-		// R:\Dropbox\Dairy Palace program\CSV data\EMPLOYEE
 		int slashIndex = name.lastIndexOf("\\");
 		int pointIndex = name.lastIndexOf(".");
 
@@ -38,12 +40,36 @@ public class Utils {
 
 		return name.substring(slashIndex + 1, pointIndex);
 	}
+	
+	public static LocalTime getTimeFromString(String timeString) {
+		// Receives timeString as hh:mm and returns a LocalTime object
+		LocalTime time = null;
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+			time = LocalTime.parse(timeString, formatter);
+			System.out.printf("%s%n", time);
+			
+		} catch (DateTimeParseException exc) {
+			System.out.printf("%s is not parsable%n", timeString);
+			throw exc;
+		}
+		
+		return time;
+	}
 
-	public static Date getDateFromString(String dateString) throws ParseException {
-		// Receives dateString as mm/dd/yyyy and returns a Date object
-		Object date1 = new SimpleDateFormat("MM/dd/yyyy").parseObject(dateString);
-
-		return (Date) date1;
+	public static LocalDate getDateFromString(String dateString) throws ParseException {
+		// Receives dateString as mm/dd/yyyy and returns a LocalDate object
+		LocalDate date = null;
+		try {
+			DateTimeFormatter formatter
+					= DateTimeFormatter.ofPattern("yyyy-M-d");
+			date = LocalDate.parse(dateString, formatter);
+			System.out.printf("%s%n", date);
+		} catch (DateTimeParseException exc) {
+			System.out.printf("%s is not parsable!%n", dateString);
+			throw exc;      // Rethrow the exception.
+		}
+		return date;
 	}
 
 	public static Date getDateTimeFromString(String dateString) throws ParseException {

@@ -26,6 +26,7 @@ import utils.Utils;
  * @author Rob
  */
 public class ShiftFormHeader extends JPanel {
+
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
 	private JLabel dowLabel;
@@ -34,44 +35,44 @@ public class ShiftFormHeader extends JPanel {
 	private JTextField shiftField;
 	private JTextField dowField;
 	private JTextField enteredByField;
-	
+
 	private JButton nextButton;
 	private JButton prevButton;
-	
+
 	public ShiftFormHeader() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-		
+
 		layoutComponents();
 	}
-	
+
 	private void layoutComponents() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		Insets insetLabel = new Insets(0, 5, 0, 0);
 		Insets insetField = new Insets(0, 10, 0, 0);
-		
+
 		dateLabel = new JLabel("Date:");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
 		add(dateLabel, c);
 		c.insets = insetLabel;
-		
+
 		dateField = new JTextField(8);
 		c.gridx++;
 		add(dateField, c);
 		c.insets = insetField;
-		
+
 		shiftLabel = new JLabel("Shift:");
 		c.gridx++;
 		add(shiftLabel, c);
 		c.insets = insetLabel;
-		
+
 		shiftField = new JTextField(2);
 		c.gridx++;
 		add(shiftField, c);
 		c.insets = insetField;
-		
+
 		dowLabel = new JLabel("Day:");
 		c.gridx++;
 		add(dowLabel, c);
@@ -83,38 +84,39 @@ public class ShiftFormHeader extends JPanel {
 		c.gridx++;
 		add(dowField, c);
 		c.insets = insetField;
-		
+
 		enteredByLabel = new JLabel("Entered by:");
 		c.gridx++;
 		add(enteredByLabel, c);
 		c.insets = insetLabel;
-		
+
 		enteredByField = new JTextField(5);
 //		enteredByField.setBackground(new Color(240,240,240));
 //		enteredByField.setForeground(Color.WHITE);
 		c.gridx++;
 		add(enteredByField, c);
 		c.insets = new Insets(0, 20, 0, 0);
-		
+
 		prevButton = new JButton("<<");
 		c.anchor = GridBagConstraints.LINE_END;
 		c.gridx++;
 		add(prevButton, c);
 		c.insets = new Insets(0, 0, 0, 0);
-		
+
 		nextButton = new JButton(">>");
 		c.anchor = GridBagConstraints.LINE_END;
 		c.gridx++;
 		add(nextButton, c);
-		
+
 	}
-	
+
 	public void fillFields(ShiftData data) throws ParseException, Exception {
-		dateField.setText(data.getDate());
-		shiftField.setText(String.valueOf(data.getShift()));
-		// TODO What format is the date in ShiftDatas.getDate()?
-		dowField.setText(Utils.getDayOfWeekString(Utils.getDateFromString(data.getDate())));
-		String username = User.getUsernameFromId(data.getUserId());
-		enteredByField.setText(User.getUsernameFromId(data.getUserId()));
+		if (data.getDate() != null) {
+			dateField.setText(data.getDate().toString());
+			shiftField.setText(String.valueOf(data.getShift()));
+			dowField.setText(data.getDate().getDayOfWeek().toString());
+			String username = User.getUsernameFromId(data.getUserId());
+			enteredByField.setText(User.getUsernameFromId(data.getUserId()));
+		}
 	}
 }
