@@ -5,38 +5,45 @@
  */
 package model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 
 /**
  *
  * @author Rob
  */
 public class Vendor {
+
 	private int id;
 	private String name;
-	
+
 	private Database db;
+
+	public Vendor() {
+
+	}
 
 	public Vendor(int id) {
 		this.id = id;
-		
-		if(this.db == null) {
+
+		if (this.db == null) {
 			this.db = new Database();
 		}
 	}
-	
+
 	public Vendor(String name) {
 		this.name = name;
-		if(this.db == null) {
+		if (this.db == null) {
 			this.db = new Database();
 		}
+	}
+
+	public Vendor(ResultSet rs) throws SQLException {
+		this.id = Integer.parseInt(rs.getString("id"));
+		this.name = rs.getString("name");
 	}
 
 	public int getId() {
@@ -54,71 +61,71 @@ public class Vendor {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public static boolean importFromFile(File file) throws Exception {
-		// file is a CSV file obtained from a CSV filtered file chooser
-		BufferedReader br = null;
-		String line = "";
-		String cvsSplitBy = ",";
 
-		try {
-			br = new BufferedReader(new FileReader(file.toString()));
-			// First line is field names
-			line = br.readLine();
+	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
+//		 ***** ResultSet is from the DBF database *****
 
-			while ((line = br.readLine()) != null) {
-				// use comma as separator
-				String[] vnd = line.split(cvsSplitBy);
-				//TODO Get user ID from ENTERED_BY shft[2]
-				Vendor vendor = new Vendor(vnd[0]);
+		// rs is from a DBF record
+		boolean result = true;
 
-				vendor.insert();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return false;
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
-			}
+		Database db = new Database();
+		db.connect();
+		PreparedStatement pStmt = null;
+		String sql = "";
+
+		while (rs.next() && result) {
+			Vendor vendor = Vendor.getVendorFromDbfResultSet(rs);
+
+			sql = "INSERT INTO VENDORS (name) VALUES ( ?) ";
+
+			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
+
+			pStmt.setString(1, vendor.name);
+
+			result = Database.insert(pStmt) == 1;
 		}
-		
-		return true;
+
+		pStmt.close();
+		db.con.commit();
+		db.disconnect();
+
+		return result;
 	}
 
-	public boolean insert() throws Exception {
-		// Insert into Shift_Datas table
+	public static Vendor getVendorFromDbfResultSet(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
+		// Loads fields from the current row of rs, so do NOT move the row pointer!
+		Vendor data = new Vendor();
+
+		data.name = rs.getString("vendor");
+
+		return data;
+	}
+	
+	public static Vendor getVendorFromName(String name) throws SQLException, ClassNotFoundException {
+		String sql = "SELECT * FROM VENDORS WHERE name = '" + name + "'";
+
+		Vendor vendor = Vendor.getVendorFromSql(sql);
+
+		return vendor;
+		
+	}
+
+	public static Vendor getVendorFromSql(String sql) throws SQLException, ClassNotFoundException {
+		Vendor vendor = null;
+
+		Database db = new Database();
 		db.connect();
 
-		Connection c = null;
-		Statement stmt = null;
+		Statement stmt = db.con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
 
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:dairy.db");
-			c.setAutoCommit(false);
-
-			stmt = c.createStatement();
-			String sql = "INSERT INTO VENDORS (name) VALUES ('" + this.name + "');";
-			stmt.executeUpdate(sql);
-			
-			stmt.close();
-			c.commit();
-			c.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			return false;
+		if (rs.next()) {
+			vendor = new Vendor(rs);
 		}
 
-		return true;
+		db.disconnect();
+
+		return vendor;
 	}
-	
+
 }

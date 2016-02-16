@@ -26,6 +26,10 @@ public class Employee {
 	private Database db;
 
 	public Employee() {
+		this.firstName = "";
+		this.lastName = "";
+		this.empId = "";
+		
 		if (db == null) {
 			db = new Database();
 		}
@@ -58,7 +62,7 @@ public class Employee {
 
 	public static Employee getById(int id) throws SQLException, ClassNotFoundException {
 		// Retrieve Employee with id
-		Employee employee = null;
+		Employee employee = new Employee();
 
 		String sql = "SELECT * FROM EMPLOYEES WHERE id = id;";
 

@@ -69,6 +69,12 @@ public class DbfConnection {
 			case "register":
 				RegisterAudit.importData(rs);
 				break;
+			case "vendors":
+				Vendor.importData(rs);
+				break;
+			case "vendinv":
+				VendorInvoice.importData(rs);
+				break;
 		}
 				
 		stmt.close();
