@@ -25,7 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import model.DairyPreferences;
+import model.DairySettings;
 import model.Database;
 
 public class MainFrame extends JFrame implements ComponentListener {
@@ -35,7 +35,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private final StartPanel startPanel;
 	private final Controller controller;
 	private JFileChooser fileChooser;
-	private final DairyPreferences prefs;
+	private final DairySettings prefs;
 	private final Toolbar toolbar;
 	private MonthYearDialog monthYearDialog;
 	private boolean continueImport;
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 			Database.init();
 		}
 			
-		prefs = new DairyPreferences();
+		prefs = new DairySettings();
 
 		controller = new Controller();
 

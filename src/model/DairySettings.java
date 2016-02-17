@@ -15,14 +15,14 @@ import java.util.Calendar;
  *
  * Defines the preferences to be used by the program
  */
-public class DairyPreferences {
+public class DairySettings {
 	private int id;
 	private String importDirectory;
 	private int importMonth;
 	private int importYear;
 	private Dimension mainFrameSize;
 	
-	public DairyPreferences() throws SQLException, ClassNotFoundException {			
+	public DairySettings() throws SQLException, ClassNotFoundException {			
 		// Load preferences from database
 		// Will only be one record
 		String sql = "SELECT * FROM PREFERENCES";

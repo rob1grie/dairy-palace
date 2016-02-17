@@ -111,6 +111,8 @@ public class MonthYearDialog extends JDialog {
 		okButton = new JButton("OK");
 		buttonsPanel.add(okButton);
 		
+		// TODO Add keystroke listener for Enter and Esc
+		
 		cancelButton = new JButton("Cancel");
 		buttonsPanel.add(cancelButton);
 		

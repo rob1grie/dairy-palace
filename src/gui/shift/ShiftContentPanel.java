@@ -19,7 +19,7 @@ public class ShiftContentPanel extends JPanel {
 
 	public ShiftContentPanel() throws Exception {
 		tablePanel = new ShiftTablePanel();
-//		tablePanel.getTableModelData();
+		tablePanel.getTableModelData();
 		
 		formPanel = new ShiftFormPanel();
 		
@@ -28,6 +28,8 @@ public class ShiftContentPanel extends JPanel {
 		add(formPanel, FORMPANEL);
 		
 		showPanel(FORMPANEL);
+		
+		// TODO Populate tablePanel after displaying formPanel 
 	}
 	
 	public void showPanel(String name) {

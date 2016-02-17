@@ -7,7 +7,6 @@ package gui.shift;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JMenuItem;
@@ -35,16 +34,12 @@ public class ShiftTablePanel extends JPanel {
 		JMenuItem viewItem = new JMenuItem("View Details");
 		popup.add(viewItem);
 		
-		viewItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int row = table.getSelectedRow();
-				
-				if (tableListener != null) {
-					System.out.println("View details of row " + row);
-				}
+		viewItem.addActionListener((ActionEvent e) -> {
+			int row = table.getSelectedRow();
+			
+			if (tableListener != null) {
+				System.out.println("View details of row " + row);
 			}
-		
 		});
 		
 		setLayout(new BorderLayout());
@@ -52,16 +47,12 @@ public class ShiftTablePanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 	
-	private void loadRange(int start, int end) {
-		
-	}
-	
 	public void setData(List<ShiftData> data) {
 		tableModel.setData(data);
 	}
 	
 	public void getTableModelData() throws SQLException, Exception {
-		this.tableModel.load();
+		this.tableModel.loadRange();
 	}
 	
 	public void refresh() {
