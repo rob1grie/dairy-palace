@@ -187,7 +187,7 @@ public class User {
 		ResultSet rs = stmt.executeQuery(sql);
 
 		if (rs.next()) {
-			username = rs.getString(username);
+			username = rs.getString("username");
 		}
 
 		rs.close();

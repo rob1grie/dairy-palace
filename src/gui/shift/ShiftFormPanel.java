@@ -76,5 +76,6 @@ public class ShiftFormPanel extends JPanel {
 
 	public void fillFields(ShiftData data) throws Exception {
 		formHeader.fillFields(data);
+		formLeft.fillFields(data);
 	}
 }

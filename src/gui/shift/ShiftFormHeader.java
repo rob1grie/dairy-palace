@@ -4,13 +4,10 @@
  */
 package gui.shift;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import model.ShiftData;
 import model.User;
-import utils.Utils;
 
 /**
  *
@@ -114,7 +110,7 @@ public class ShiftFormHeader extends JPanel {
 		if (data.getDate() != null) {
 			dateField.setText(data.getDate().toString());
 			shiftField.setText(String.valueOf(data.getShift()));
-			dowField.setText(data.getDate().getDayOfWeek().toString());
+			dowField.setText(data.getDate().getDayOfWeek().toString().substring(0, 3));
 			String username = User.getUsernameFromId(data.getUserId());
 			enteredByField.setText(User.getUsernameFromId(data.getUserId()));
 		}

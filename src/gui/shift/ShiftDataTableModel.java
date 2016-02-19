@@ -7,6 +7,7 @@ package gui.shift;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -58,7 +59,7 @@ public class ShiftDataTableModel extends AbstractTableModel {
 		this.data = data;
 	}
 
-	public void loadRange() throws SQLException, ClassNotFoundException {
+	public void loadRange() throws SQLException, ClassNotFoundException, ParseException {
 		ShiftTableRange range = ShiftTableRange.getInstance();
 		
 		String sql = "SELECT * FROM SHIFT_DATAS "

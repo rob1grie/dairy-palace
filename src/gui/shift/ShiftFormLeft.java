@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import model.ShiftData;
 
 /**
  *
@@ -117,5 +118,15 @@ public class ShiftFormLeft extends JPanel {
 		c.gridy++;
 		c.gridwidth = 2;
 		add(otherPOPanel, c);
+	}
+	
+	public void fillFields(ShiftData data) {
+		if (data.getDate() != null) {
+			foodField.setText(Float.toString(data.getFood()));
+			restSupField.setText(Float.toString(data.getRestSupp()));
+			offSupField.setText(Float.toString(data.getOffSupp()));
+			repMaintField.setText(Float.toString(data.getRepMaint()));
+			freightField.setText(Float.toString(data.getFreight()));
+		}
 	}
 }

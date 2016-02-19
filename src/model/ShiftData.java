@@ -50,7 +50,7 @@ public class ShiftData {
 
 	}
 
-	public ShiftData(int id) throws SQLException, ClassNotFoundException {
+	public ShiftData(int id) throws SQLException, ClassNotFoundException, ParseException {
 		// Constructor using just the id
 		this.id = id;
 
@@ -87,16 +87,16 @@ public class ShiftData {
 
 	}
 
-	public ShiftData(ResultSet rs) throws SQLException {
+	public ShiftData(ResultSet rs) throws SQLException, ParseException {
 		// Constructor from a ResultSet presumably only containing one record
 		// Calling method must have moved the row pointer in the ResultSet
 		this.getShiftDataFromResultSet(rs);
 	}
 
-	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException {
+	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException, ParseException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
-//		this.shiftDate = rs.get
+		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString());
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
 		this.restSupp = rs.getFloat("rest_supp");
@@ -119,7 +119,7 @@ public class ShiftData {
 		this.mgrOnDuty = rs.getString("mgr_on_duty");
 	}
 
-	private void getShiftData() throws SQLException, ClassNotFoundException {
+	private void getShiftData() throws SQLException, ClassNotFoundException, ParseException {
 		// Gets the ShiftData record with this ID
 		String sql = "SELECT * FROM SHIFT_DATAS WHERE ID = " + this.id;
 
