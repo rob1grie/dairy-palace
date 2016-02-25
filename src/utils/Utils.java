@@ -64,7 +64,6 @@ public class Utils {
 			DateTimeFormatter formatter
 					= DateTimeFormatter.ofPattern("yyyy-M-d");
 			date = LocalDate.parse(dateString, formatter);
-			System.out.printf("%s%n", date);
 		} catch (DateTimeParseException exc) {
 			System.out.printf("%s is not parsable!%n", dateString);
 			throw exc;      // Rethrow the exception.

@@ -54,4 +54,9 @@ public class OtherPOPanel extends JPanel {
 		c.weighty = 1.0;
 		add(tablePanel, c);
 	}
+	
+	public void load(int shiftId) {
+		// Loads the panel with OtherPO data for shiftId
+		
+	}
 }

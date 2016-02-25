@@ -63,4 +63,7 @@ public class ShiftTablePanel extends JPanel {
 		this.tableListener = listener;
 	}
 	
+	public void load(ShiftData data) {
+		// TODO load table with data, having the latest as data
+	}
 }

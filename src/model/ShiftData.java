@@ -123,10 +123,7 @@ public class ShiftData {
 		// Gets the ShiftData record with this ID
 		String sql = "SELECT * FROM SHIFT_DATAS WHERE ID = " + this.id;
 
-		db = new Database();
-		db.connect();
-		Statement stmt = this.db.con.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
+		ResultSet rs = Database.load(sql);
 
 		if (rs.next()) {
 			this.getShiftDataFromResultSet(rs);

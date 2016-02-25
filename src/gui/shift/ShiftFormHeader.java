@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import model.ShiftData;
 import model.User;
+import org.apache.commons.lang3.text.WordUtils;
 
 /**
  *
@@ -55,6 +57,7 @@ public class ShiftFormHeader extends JPanel {
 		c.insets = insetLabel;
 
 		dateField = new JTextField(8);
+		dateField.setHorizontalAlignment(JTextField.CENTER);
 		c.gridx++;
 		add(dateField, c);
 		c.insets = insetField;
@@ -65,6 +68,7 @@ public class ShiftFormHeader extends JPanel {
 		c.insets = insetLabel;
 
 		shiftField = new JTextField(2);
+		shiftField.setHorizontalAlignment(JTextField.CENTER);
 		c.gridx++;
 		add(shiftField, c);
 		c.insets = insetField;
@@ -75,8 +79,7 @@ public class ShiftFormHeader extends JPanel {
 		c.insets = insetLabel;
 
 		dowField = new JTextField(4);
-//		dowField.setBackground(new Color(240,240,240));
-//		dowField.setForeground(Color.WHITE);
+		dowField.setHorizontalAlignment(JTextField.CENTER);
 		c.gridx++;
 		add(dowField, c);
 		c.insets = insetField;
@@ -87,8 +90,7 @@ public class ShiftFormHeader extends JPanel {
 		c.insets = insetLabel;
 
 		enteredByField = new JTextField(5);
-//		enteredByField.setBackground(new Color(240,240,240));
-//		enteredByField.setForeground(Color.WHITE);
+		enteredByField.setHorizontalAlignment(JTextField.CENTER);
 		c.gridx++;
 		add(enteredByField, c);
 		c.insets = new Insets(0, 20, 0, 0);
@@ -108,11 +110,15 @@ public class ShiftFormHeader extends JPanel {
 
 	public void fillFields(ShiftData data) throws ParseException, Exception {
 		if (data.getDate() != null) {
-			dateField.setText(data.getDate().toString());
+			/*
+    String out = departure.format(format);
+			*/
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-d-yyyy");
+			dateField.setText(data.getDate().format(format));
 			shiftField.setText(String.valueOf(data.getShift()));
-			dowField.setText(data.getDate().getDayOfWeek().toString().substring(0, 3));
-			String username = User.getUsernameFromId(data.getUserId());
-			enteredByField.setText(User.getUsernameFromId(data.getUserId()));
+			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
+//			String username = User.getInitialsFromId(data.getUserId());
+			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
 	}
 }

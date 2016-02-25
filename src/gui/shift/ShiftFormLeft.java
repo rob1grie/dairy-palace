@@ -120,7 +120,7 @@ public class ShiftFormLeft extends JPanel {
 		add(otherPOPanel, c);
 	}
 	
-	public void fillFields(ShiftData data) {
+	public void load(ShiftData data) {
 		if (data.getDate() != null) {
 			foodField.setText(Float.toString(data.getFood()));
 			restSupField.setText(Float.toString(data.getRestSupp()));

@@ -6,8 +6,8 @@
 package gui.shift;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import javax.swing.JPanel;
+import model.ShiftData;
 
 /**
  *
@@ -33,5 +33,10 @@ public class ShiftPanel extends JPanel {
 		
 		add(shiftToolbar, BorderLayout.NORTH);
 		add(shiftContentPanel, BorderLayout.CENTER);
+	}
+	
+	public void load(ShiftData data) {
+		// Loads ShiftFormPanel with data and sets top row of ShiftTablePanel to data
+		
 	}
 }

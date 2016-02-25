@@ -118,6 +118,18 @@ public class OtherPO {
 
 		db.disconnect();
 	}
+	
+	public static ArrayList<OtherPO> getShiftOtherPO(int shiftId) throws SQLException, ClassNotFoundException {
+		ArrayList<OtherPO> al = new ArrayList<>();
+		
+		String sql = "SELECT * FROM OTHER_PAID_OUTS WHERE shift_data_id = " + shiftId;
+		
+		ResultSet rs = Database.load(sql);
+		
+		for ()
+		
+		return al;
+	}
 
 	public static ArrayList<OtherPO> importData(ResultSet rs, int id) throws SQLException, ClassNotFoundException {
 		// Receives a ResultSet from a ShiftData DBF record and returns an ArrayList of OtherPO objects

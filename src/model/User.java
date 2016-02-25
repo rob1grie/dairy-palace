@@ -178,22 +178,28 @@ public class User {
 
 	public static String getUsernameFromId(int id) throws SQLException, ClassNotFoundException {
 		String username = "";
-
-		Database db = new Database();
-		db.connect();
-
-		Statement stmt = db.con.createStatement();
 		String sql = "SELECT username FROM USERS WHERE id = " + id;
-		ResultSet rs = stmt.executeQuery(sql);
+
+		ResultSet rs = Database.load(sql);
 
 		if (rs.next()) {
 			username = rs.getString("username");
 		}
 
-		rs.close();
-		db.disconnect();
-
 		return username;
+	}
+	
+	public static String getInitialsFromId(int id) throws SQLException, ClassNotFoundException {
+		String inits = "";
+		String sql = "SELECT initials FROM USERS WHERE id = " + id;
+		
+		ResultSet rs = Database.load(sql);
+		
+		if (rs.next()) {
+			inits = rs.getString("initials");
+		}
+		
+		return inits;
 	}
 
 	public static User getUserFromUsername(String userName) throws SQLException, ClassNotFoundException {
@@ -215,17 +221,11 @@ public class User {
 	private static User getUserFromSql(String sql) throws SQLException, ClassNotFoundException {
 		User user = null;
 
-		Database db = new Database();
-		db.connect();
-
-		Statement stmt = db.con.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
+		ResultSet rs = Database.load(sql);
 
 		if (rs.next()) {
 			user = new User(rs);
 		}
-
-		db.disconnect();
 
 		return user;
 

@@ -49,7 +49,7 @@ public class ShiftFormPanel extends JPanel {
 			}
 
 			try {
-				this.fillFields(data);
+				this.load(data);
 			} catch (Exception ex) {
 				Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
 			}
@@ -74,8 +74,8 @@ public class ShiftFormPanel extends JPanel {
 		add(formFooter, BorderLayout.SOUTH);
 	}
 
-	public void fillFields(ShiftData data) throws Exception {
+	public void load(ShiftData data) throws Exception {
 		formHeader.fillFields(data);
-		formLeft.fillFields(data);
+		formLeft.load(data);
 	}
 }
