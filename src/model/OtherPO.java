@@ -23,8 +23,6 @@ public class OtherPO {
 	private String label;
 	private float cost;
 
-	private Database db;
-
 	public OtherPO(int id) throws SQLException, ClassNotFoundException {
 		if (id == -1) {
 			// Creating a new empty OtherPO
@@ -36,10 +34,6 @@ public class OtherPO {
 		} else {
 			this.id = id;
 
-			if (this.db == null) {
-				db = new Database();
-			}
-
 			getOtherPO();
 		}
 	}
@@ -49,15 +43,19 @@ public class OtherPO {
 		this.label = label;
 		this.cost = cost;
 	}
+	
+	public OtherPO(ResultSet rs) throws SQLException {
+		// Constructor using a ResultSet
+		this.shiftDataId = rs.getInt("shift_data_id");
+		this.label = rs.getString("label");
+		this.cost = rs.getFloat("cost");
+	}
 
 	public void getOtherPO() throws SQLException, ClassNotFoundException {
 		// Gets OtherPO with this id
 		String sql = "SELECT * FROM OTHER_PAID_OUTS WHERE ID=" + this.id;
 
-		this.db = new Database();
-		this.db.connect();
-		Statement stmt = this.db.con.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
+		ResultSet rs = Database.load(sql);
 
 		try {
 			while (rs.next()) {
@@ -69,8 +67,6 @@ public class OtherPO {
 		} catch (SQLException e) {
 			Logger.getLogger(ShiftData.class.getName()).log(Level.SEVERE, null, e);
 		}
-
-		db.disconnect();
 	}
 
 	public int getId() {
@@ -109,14 +105,8 @@ public class OtherPO {
 		// Save this to a new record
 		String sql = "INSERT INTO OTHER_PAID_OUTS (shift_data_id, label, cost) "
 				+ "VALUES (" + this.shiftDataId + ", '" + this.label + "', " + this.cost + ")";
-		db = new Database();
-		db.connect();
-		Statement stmt = db.con.createStatement();
-
-		int id = stmt.executeUpdate(sql);
-		this.id = id;
-
-		db.disconnect();
+		
+		Database.insert(sql);
 	}
 	
 	public static ArrayList<OtherPO> getShiftOtherPO(int shiftId) throws SQLException, ClassNotFoundException {
@@ -126,7 +116,9 @@ public class OtherPO {
 		
 		ResultSet rs = Database.load(sql);
 		
-		for ()
+		while (rs.next()) {
+			al.add(new OtherPO(rs));
+		}
 		
 		return al;
 	}

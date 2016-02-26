@@ -13,7 +13,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Database;
 import model.OtherPO;
-import model.ShiftData;
 
 /**
  *
