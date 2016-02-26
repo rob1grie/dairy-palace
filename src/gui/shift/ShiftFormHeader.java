@@ -7,8 +7,9 @@ package gui.shift;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,7 +25,7 @@ import org.apache.commons.lang3.text.WordUtils;
  *
  * @author Rob
  */
-public class ShiftFormHeader extends JPanel {
+public class ShiftFormHeader extends JPanel implements ActionListener {
 
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
@@ -97,12 +98,14 @@ public class ShiftFormHeader extends JPanel {
 		c.insets = new Insets(0, 20, 0, 0);
 
 		prevButton = new JButton("<<");
+		prevButton.setName("Prev");
 		c.anchor = GridBagConstraints.LINE_END;
 		c.gridx++;
 		add(prevButton, c);
 		c.insets = new Insets(0, 0, 0, 0);
 
 		nextButton = new JButton(">>");
+		nextButton.setName("Next");
 		c.anchor = GridBagConstraints.LINE_END;
 		c.gridx++;
 		add(nextButton, c);
@@ -111,14 +114,20 @@ public class ShiftFormHeader extends JPanel {
 
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		if (data.getDate() != null) {
-			/*
-    String out = departure.format(format);
-			*/
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-d-yyyy");
 			dateField.setText(data.getDate().format(format));
 			shiftField.setText(String.valueOf(data.getShift()));
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton clicked = (JButton) e.getSource();
+		String label = clicked.getName();
+
+//		shiftToolbarListener.viewSelected(label);
+		
 	}
 }
