@@ -70,7 +70,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 		startPanel = new StartPanel();
 
 		shiftPanel = new ShiftPanel();
-		// On startup fill shiftPanel with most recent data
+		shiftPanel.loadLatest();
 		
 
 		contentPanel.add(startPanel, STARTPANEL);

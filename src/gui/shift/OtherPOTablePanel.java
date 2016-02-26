@@ -60,7 +60,7 @@ public class OtherPOTablePanel extends JPanel {
 		this.tableListener = listener;
 	}
 	
-	public void load(int shiftId) throws Exception {
+	public void load(int shiftId) throws SQLException, ClassNotFoundException {
 		this.tableModel.load(shiftId);
 	}
 		

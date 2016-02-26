@@ -37,12 +37,14 @@ public class ShiftData {
 	private float zTx;
 	private float zCoupon;
 	private float schoolCharges;
+	private float totalCashPaidOut;
 	private float taxExemptSales;
 	private float donations;
 	private float giftCerts;
 	private float ecards;
 	private float discounts;
 	private String mgrOnDuty;
+	private ArrayList<OtherPO> otherPO;
 
 	public ShiftData() {
 
@@ -82,16 +84,18 @@ public class ShiftData {
 		this.ecards = Float.parseFloat(ecards);
 		this.discounts = Float.parseFloat(discounts);
 		this.mgrOnDuty = mgrOnDuty;
+		
+		this.otherPO = new ArrayList<>();
 
 	}
 
-	public ShiftData(ResultSet rs) throws SQLException, ParseException {
+	public ShiftData(ResultSet rs) throws SQLException, ParseException, ClassNotFoundException {
 		// Constructor from a ResultSet presumably only containing one record
 		// Calling method must have moved the row pointer in the ResultSet
 		this.getShiftDataFromResultSet(rs);
 	}
 
-	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException, ParseException {
+	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException, ParseException, ClassNotFoundException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.shift = rs.getInt("shift");
 		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString());
@@ -115,6 +119,9 @@ public class ShiftData {
 		this.ecards = rs.getFloat("ecards");
 		this.discounts = rs.getFloat("discounts");
 		this.mgrOnDuty = rs.getString("mgr_on_duty");
+		
+		this.otherPO = OtherPO.getShiftOtherPO(this.id);
+		this.setTotalCashPaidOut();
 	}
 
 	private void getShiftData() throws SQLException, ClassNotFoundException, ParseException {
@@ -127,6 +134,14 @@ public class ShiftData {
 			this.getShiftDataFromResultSet(rs);
 		}
 		rs.close();
+	}
+	
+	private void setTotalCashPaidOut() {
+		this.totalCashPaidOut = 0;
+		
+		for (OtherPO other : this.otherPO) {
+			this.totalCashPaidOut += other.getCost();
+		}
 	}
 
 	public int getId() {
@@ -264,7 +279,11 @@ public class ShiftData {
 	public void setSchoolCharges(float schoolCharges) {
 		this.schoolCharges = schoolCharges;
 	}
-
+	
+	public float getTotalCashPaidOut() {
+		return totalCashPaidOut;
+	}
+	
 	public float getTaxExemptSales() {
 		return taxExemptSales;
 	}

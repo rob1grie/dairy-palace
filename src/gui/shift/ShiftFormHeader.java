@@ -7,6 +7,7 @@ package gui.shift;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
@@ -108,7 +109,7 @@ public class ShiftFormHeader extends JPanel {
 
 	}
 
-	public void fillFields(ShiftData data) throws ParseException, Exception {
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		if (data.getDate() != null) {
 			/*
     String out = departure.format(format);
@@ -117,7 +118,6 @@ public class ShiftFormHeader extends JPanel {
 			dateField.setText(data.getDate().format(format));
 			shiftField.setText(String.valueOf(data.getShift()));
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
-//			String username = User.getInitialsFromId(data.getUserId());
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
 	}

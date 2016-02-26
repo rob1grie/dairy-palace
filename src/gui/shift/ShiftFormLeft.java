@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,6 +84,7 @@ public class ShiftFormLeft extends JPanel {
 		
 		foodField = new JTextField(7);
 		foodField.setMinimumSize(fieldWidth);
+		foodField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridx = 1;
 		c.gridy = 1;
 		c.insets = new Insets(20, 15, 0, 0);
@@ -91,21 +93,25 @@ public class ShiftFormLeft extends JPanel {
 		c.insets = new Insets(7, 15, 0, 0);
 		restSupField = new JTextField(7);
 		restSupField.setMinimumSize(fieldWidth);
+		restSupField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(restSupField, c);
 		
 		offSupField = new JTextField(7);
 		offSupField.setMinimumSize(fieldWidth);
+		offSupField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(offSupField, c);
 		
 		repMaintField = new JTextField(7);
 		repMaintField.setMinimumSize(fieldWidth);
+		repMaintField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(repMaintField, c);
 		
 		freightField = new JTextField(7);
 		freightField.setMinimumSize(fieldWidth);
+		freightField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 //		c.weighty = 1.0;
 		add(freightField, c);
@@ -120,7 +126,7 @@ public class ShiftFormLeft extends JPanel {
 		add(otherPOPanel, c);
 	}
 	
-	public void load(ShiftData data) {
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		if (data.getDate() != null) {
 			foodField.setText(Float.toString(data.getFood()));
 			restSupField.setText(Float.toString(data.getRestSupp()));

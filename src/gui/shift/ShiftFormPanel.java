@@ -5,11 +5,9 @@
  */
 package gui.shift;
 
-import controller.ShiftController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -60,8 +58,9 @@ public class ShiftFormPanel extends JPanel {
 		add(formFooter, BorderLayout.SOUTH);
 	}
 
-	public void load(ShiftData data) throws Exception {
-		formHeader.fillFields(data);
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
+		formHeader.load(data);
 		formLeft.load(data);
+		formRight.load(data);
 	}
 }

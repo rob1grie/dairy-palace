@@ -5,7 +5,10 @@
  */
 package gui.shift;
 
+import controller.ShiftController;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+import java.text.ParseException;
 import javax.swing.JPanel;
 import model.ShiftData;
 
@@ -31,8 +34,15 @@ public class ShiftPanel extends JPanel {
 		add(shiftContentPanel, BorderLayout.CENTER);
 	}
 	
-	public void load(ShiftData data) {
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		// Loads ShiftFormPanel with data and sets top row of ShiftTablePanel to data
-		
+		this.shiftContentPanel.load(data);
+	}
+	
+	public void loadLatest() throws SQLException, ClassNotFoundException, ParseException {
+		// Gets the record for the latest ShiftData record and loads the panel
+		int lastId = ShiftController.getLastDataId();
+		ShiftData data = new ShiftData(lastId);
+		this.load(data);
 	}
 }

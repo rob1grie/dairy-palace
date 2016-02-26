@@ -18,7 +18,7 @@ public class ShiftDataTableModel extends AbstractTableModel {
 
 	private List<ShiftData> data;
 
-	private String[] colNames = {"Date", "Shift", "Total Paid Outs"};
+	private final String[] colNames = {"Date", "Shift", "Total Paid Outs"};
 
 	public ShiftDataTableModel() {
 		data = new LinkedList<>();
@@ -69,7 +69,7 @@ public class ShiftDataTableModel extends AbstractTableModel {
 		try (ResultSet rs = Database.load(sql)) {
 			while (rs.next()) {
 				ShiftData shiftData = new ShiftData(rs.getInt("id"));
-				data.add(shiftData);
+				this.data.add(shiftData);
 			}
 		}
 

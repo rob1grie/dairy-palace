@@ -4,6 +4,7 @@
 package gui.shift;
 
 import java.awt.CardLayout;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 import model.ShiftData;
 
@@ -38,7 +39,7 @@ public class ShiftContentPanel extends JPanel {
 		cl.show(this, name);
 	}
 	
-	public void load(ShiftData data) throws Exception {
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		// Loads ShiftFormPanel with data and sets top row of ShiftTablePanel to data
 		formPanel.load(data);
 		tablePanel.load(data);

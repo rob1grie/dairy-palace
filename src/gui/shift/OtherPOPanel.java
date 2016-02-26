@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -55,8 +56,8 @@ public class OtherPOPanel extends JPanel {
 		add(tablePanel, c);
 	}
 	
-	public void load(int shiftId) {
+	public void load(int shiftId) throws SQLException, ClassNotFoundException {
 		// Loads the panel with OtherPO data for shiftId
-		
+		this.tablePanel.load(shiftId);
 	}
 }

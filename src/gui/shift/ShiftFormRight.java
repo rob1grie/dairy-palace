@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import model.ShiftData;
 
 /**
  *
@@ -69,20 +70,7 @@ public class ShiftFormRight extends JPanel {
 		c.gridy = 0;
 		c.insets = new Insets(20, 0, 0, 10);
 		add(totalCashPOsLabel, c);
-		
-		endingPettyCashLabel = new JLabel("Ending Petty Cash:");
-		c.gridy++;
-		c.insets = new Insets(7, 0, 0, 10);
-		add(endingPettyCashLabel, c);
-		
-		creditCardsLabel = new JLabel("Credit Cards:");
-		c.gridy++;
-		add(creditCardsLabel, c);
-		
-		depositLabel = new JLabel("Deposit:");
-		c.gridy++;
-		add(depositLabel, c);
-		
+				
 		cashAccountedForLabel = new JLabel("Cash Accounted For:");
 		c.gridy++;
 		add(cashAccountedForLabel, c);
@@ -98,10 +86,6 @@ public class ShiftFormRight extends JPanel {
 		netShiftSalesLabel = new JLabel("Net Shift Sales:");
 		c.gridy++;
 		add(netShiftSalesLabel, c);
-		
-		beginningPettyCashLabel = new JLabel("Beginning Petty Cash:");
-		c.gridy++;
-		add(beginningPettyCashLabel, c);
 		
 		taxLabel = new JLabel("Tax:");
 		c.gridy++;
@@ -123,61 +107,69 @@ public class ShiftFormRight extends JPanel {
 		//////// Layout fields //////////////
 		
 		totalCashPOsField = new JTextField(7);
+		totalCashPOsField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridx = 1;
 		c.gridy = 0;
 		c.weighty = 0.0;
 		c.insets = new Insets(20, 10, 0, 0);
 		add(totalCashPOsField, c);
 		
-		endingPettyCashField = new JTextField(7);
-		c.gridy++;
-		c.insets = new Insets(7, 10, 0, 0);
-		add(endingPettyCashField, c);
-		
-		creditCardsField = new JTextField(7);
-		c.gridy++;
-		add(creditCardsField, c);
-		
-		depositField = new JTextField(7);
-		c.gridy++;
-		add(depositField, c);
-		
 		cashAccountedForField = new JTextField(7);
+		cashAccountedForField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(cashAccountedForField, c);
 		
 		shiftSalesField = new JTextField(7);
+		shiftSalesField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(shiftSalesField, c);
 		
 		overringsField = new JTextField(7);
+		overringsField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(overringsField, c);
 		
 		netShiftSalesField = new JTextField(7);
+		netShiftSalesField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(netShiftSalesField, c);
 		
-		beginningPettyCashField = new JTextField(7);
-		c.gridy++;
-		add(beginningPettyCashField, c);
-		
 		taxField = new JTextField(7);
+		taxField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(taxField, c);
 		
 		discountsField = new JTextField(7);
+		discountsField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(discountsField, c);
 		
 		ovtShortField = new JTextField(7);
+		ovtShortField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		add(ovtShortField, c);
 		
 		cashToAccountForField = new JTextField(7);
+//		cashToAccountForField.setHorizontalAlignment(JTextField.RIGHT);
 		c.gridy++;
 		c.weighty = 1.0;
 		add(cashToAccountForField, c);
+	}
+	
+	public void load(ShiftData data) {
+		// Load the right panel with data
+		this.totalCashPOsField.setText(Float.toString(data.getTotalCashPaidOut()));
+//		this.endingPettyCashField.setText(Float.toString(data.get));		endingPettyCash
+//		this.creditCardsField.setText(Float.toString(data.getCredCards()));
+//		this.depositField.setText(Float.toString(data.getd));			deposit
+//		this.cashAccountedForField.setText(Float.toString(data.getc));	cashAccountedFor
+//		this.shiftSalesField.setText(Float.toString(data.gets));			shiftSales
+//		this.beginningPettyCashField.setText(Float.toString(data.));		beginningPettyCash
+		this.taxField.setText(Float.toString(data.getzTx()));
+		this.discountsField.setText(Float.toString(data.getDiscounts()));
+//		this.ovtShortField.setText(Float.toString(data.get));				ovtShort
+//		this.cashAccountedForField.setText(Float.toString(data.get));		cashAccountedFor
+		
 	}
 	
 }
