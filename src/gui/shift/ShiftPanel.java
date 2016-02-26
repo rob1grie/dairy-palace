@@ -15,7 +15,7 @@ import model.ShiftData;
  */
 public class ShiftPanel extends JPanel {
 	private ShiftContentPanel shiftContentPanel;
-	private ShiftToolbar shiftToolbar;
+	private final ShiftToolbar shiftToolbar;
 	
 	public ShiftPanel() throws Exception {
 		setLayout(new BorderLayout());
@@ -23,12 +23,8 @@ public class ShiftPanel extends JPanel {
 		shiftContentPanel = new ShiftContentPanel();
 		shiftToolbar = new ShiftToolbar();
 		
-		shiftToolbar.setToolbarListener(new ShiftToolbarListener() {
-
-			@Override
-			public void viewSelected(String name) {
-				shiftContentPanel.showPanel(name);
-			}
+		shiftToolbar.setToolbarListener((String name1) -> {
+			shiftContentPanel.showPanel(name1);
 		});
 		
 		add(shiftToolbar, BorderLayout.NORTH);

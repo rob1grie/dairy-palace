@@ -128,5 +128,7 @@ public class ShiftFormLeft extends JPanel {
 			repMaintField.setText(Float.toString(data.getRepMaint()));
 			freightField.setText(Float.toString(data.getFreight()));
 		}
+		
+		this.otherPOPanel.load(data.getId());
 	}
 }

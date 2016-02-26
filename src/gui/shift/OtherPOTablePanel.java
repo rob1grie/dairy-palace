@@ -48,7 +48,7 @@ public class OtherPOTablePanel extends JPanel {
 		tableModel.setData(data);
 	}
 	
-	public void getTableModelData(int shiftID) throws SQLException, Exception {
+	public void getTableModelData(int shiftID) throws SQLException, ClassNotFoundException {
 		this.tableModel.load(shiftID);
 	}
 	
@@ -58,6 +58,10 @@ public class OtherPOTablePanel extends JPanel {
 
 	public void setShiftDataTableListener(OtherPOTableListener listener) {
 		this.tableListener = listener;
+	}
+	
+	public void load(int shiftId) throws Exception {
+		this.tableModel.load(shiftId);
 	}
 		
 }

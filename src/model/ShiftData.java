@@ -44,8 +44,6 @@ public class ShiftData {
 	private float discounts;
 	private String mgrOnDuty;
 
-	private Database db;
-
 	public ShiftData() {
 
 	}
@@ -129,8 +127,6 @@ public class ShiftData {
 			this.getShiftDataFromResultSet(rs);
 		}
 		rs.close();
-
-		db.disconnect();
 	}
 
 	public int getId() {

@@ -40,20 +40,6 @@ public class ShiftFormPanel extends JPanel {
 
 		layoutComponents();
 
-		if (ShiftController.getLastDataId() > 0) {
-			ShiftController controller = new ShiftController();
-			try {
-				data = controller.getData(ShiftController.getLastDataId());
-			} catch (Exception ex) {
-				Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
-			}
-
-			try {
-				this.load(data);
-			} catch (Exception ex) {
-				Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
 	}
 
 	public void layoutComponents() {

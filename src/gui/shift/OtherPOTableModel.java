@@ -59,7 +59,7 @@ public class OtherPOTableModel extends AbstractTableModel {
 		this.data = data;
 	}
 	
-	public void load(int shiftID) throws SQLException, Exception {
+	public void load(int shiftID) throws SQLException, ClassNotFoundException {
 		data.clear();
 		
 		String sql = "SELECT id FROM OTHER_PAID_OUTS WHERE shift_data_id = " + shiftID + " ORDER BY id;";
