@@ -35,9 +35,8 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 	private JTextField shiftField;
 	private JTextField dowField;
 	private JTextField enteredByField;
-
-	private JButton nextButton;
-	private JButton prevButton;
+	
+	private ShiftFormHeaderToolbar shiftFormHeaderToolbar;
 
 	public ShiftFormHeader() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
@@ -97,18 +96,8 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 		add(enteredByField, c);
 		c.insets = new Insets(0, 20, 0, 0);
 
-		prevButton = new JButton("<<");
-		prevButton.setName("Prev");
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridx++;
-		add(prevButton, c);
-		c.insets = new Insets(0, 0, 0, 0);
-
-		nextButton = new JButton(">>");
-		nextButton.setName("Next");
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridx++;
-		add(nextButton, c);
+		shiftFormHeaderToolbar = new ShiftFormHeaderToolbar();
+		
 
 	}
 
