@@ -33,10 +33,12 @@ public class ShiftFormHeaderToolbar extends JPanel implements ActionListener {
 		setLayout(new FlowLayout());
 
 		prevButton = new JButton("<<");
+		prevButton.addActionListener(this);
 		prevButton.setName("Prev");
 		add(prevButton);
 
 		nextButton = new JButton(">>");
+		nextButton.addActionListener(this);
 		nextButton.setName("Next");
 		add(nextButton);
 		
@@ -44,6 +46,14 @@ public class ShiftFormHeaderToolbar extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		JButton clicked = (JButton) e.getSource();
+		String label = clicked.getName();
+
+		if (label.equals("Next")) {
+			this.shiftFormHeaderToolbarListener.nextRecord();
+		}
+		else {
+			this.shiftFormHeaderToolbarListener.previousRecord();
+		}
 	}
 }

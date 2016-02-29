@@ -26,8 +26,12 @@ public class ShiftPanel extends JPanel {
 		shiftContentPanel = new ShiftContentPanel();
 		shiftToolbar = new ShiftToolbar();
 		
-		shiftToolbar.setToolbarListener((String name1) -> {
-			shiftContentPanel.showPanel(name1);
+		shiftToolbar.setToolbarListener(new ShiftToolbarListener() {
+
+			@Override
+			public void viewSelected(String name) {
+				shiftContentPanel.showPanel(name);
+			}
 		});
 		
 		add(shiftToolbar, BorderLayout.NORTH);

@@ -7,12 +7,9 @@ package gui.shift;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -25,7 +22,7 @@ import org.apache.commons.lang3.text.WordUtils;
  *
  * @author Rob
  */
-public class ShiftFormHeader extends JPanel implements ActionListener {
+public class ShiftFormHeader extends JPanel {
 
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
@@ -97,6 +94,19 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 		c.insets = new Insets(0, 20, 0, 0);
 
 		shiftFormHeaderToolbar = new ShiftFormHeaderToolbar();
+		shiftFormHeaderToolbar.setToolbarListener(new ShiftFormHeaderToolbarListener() {
+
+			@Override
+			public void nextRecord() {
+				System.out.println("Next record");
+			}
+
+			@Override
+			public void previousRecord() {
+				System.out.println("Previous record");
+			}
+			
+		});
 		c.gridx++;
 		add(shiftFormHeaderToolbar, c);
 		c.insets = insetField;
@@ -110,13 +120,5 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton clicked = (JButton) e.getSource();
-		String label = clicked.getName();
-
-//		shiftToolbarListener.viewSelected(label);
 	}
 }
