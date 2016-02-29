@@ -35,7 +35,7 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 	private JTextField shiftField;
 	private JTextField dowField;
 	private JTextField enteredByField;
-	
+
 	private ShiftFormHeaderToolbar shiftFormHeaderToolbar;
 
 	public ShiftFormHeader() {
@@ -97,8 +97,9 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 		c.insets = new Insets(0, 20, 0, 0);
 
 		shiftFormHeaderToolbar = new ShiftFormHeaderToolbar();
-		
-
+		c.gridx++;
+		add(shiftFormHeaderToolbar, c);
+		c.insets = insetField;
 	}
 
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
@@ -117,6 +118,5 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 		String label = clicked.getName();
 
 //		shiftToolbarListener.viewSelected(label);
-		
 	}
 }
