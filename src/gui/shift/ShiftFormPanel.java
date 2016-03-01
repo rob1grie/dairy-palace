@@ -24,14 +24,15 @@ public class ShiftFormPanel extends JPanel {
 	private ShiftFormLeft formLeft;
 	private ShiftFormFooter formFooter;
 	private JPanel formCenter;
+	private ShiftData shiftData;
 
 	public ShiftFormPanel() {
 		Dimension dim = getPreferredSize();
 		dim.width = 375;
 		setPreferredSize(dim);
 		setMinimumSize(dim);
-		ShiftData data = null;
-
+		this.shiftData = null;
+		
 		Border innerBorder = BorderFactory.createTitledBorder("Shift Data");
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
@@ -44,6 +45,20 @@ public class ShiftFormPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		formHeader = new ShiftFormHeader();
+		formHeader.setShiftFormHeaderListener(new ShiftFormHeaderListener() {
+			@Override
+			public void changeRecord(String direction) {
+				switch (direction) {
+					case "Previous":
+						System.out.println("Previous");
+						break;
+					case "Next":
+						System.out.println("Next");
+						break;
+				}
+			}
+		});
+		
 		formRight = new ShiftFormRight();
 		formLeft = new ShiftFormLeft();
 		formFooter = new ShiftFormFooter();
@@ -57,10 +72,18 @@ public class ShiftFormPanel extends JPanel {
 		add(formCenter, BorderLayout.CENTER);
 		add(formFooter, BorderLayout.SOUTH);
 	}
+	
+	public ShiftData getShiftData() {
+		return this.shiftData;
+	}
+	
+	public void setShiftData(ShiftData data) {
+		this.shiftData = data;
+	}
 
-	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
-		formHeader.load(data);
-		formLeft.load(data);
-		formRight.load(data);
+	public void load() throws SQLException, ClassNotFoundException {
+		formHeader.load(this.shiftData);
+		formLeft.load(this.shiftData);
+		formRight.load(this.shiftData);
 	}
 }

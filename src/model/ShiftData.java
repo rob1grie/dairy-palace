@@ -45,6 +45,8 @@ public class ShiftData {
 	private float discounts;
 	private String mgrOnDuty;
 	private ArrayList<OtherPO> otherPO;
+	private int previousId;
+	private int nextId;
 
 	public ShiftData() {
 
@@ -57,38 +59,6 @@ public class ShiftData {
 		this.getShiftData();
 	}
 
-	public ShiftData(String shift, LocalDate shiftDate, int userId, String food, String restSupp, String offSupp,
-			String repMaint, String freight, String credCards, String storeCash, String zDeptTl,
-			String overrings, String begCash, String zTx, String zCoupon, String schoolCharges,
-			String taxExemptSales, String donations, String giftCerts, String ecards, String discounts, String mgrOnDuty) throws ParseException {
-		// Constructor being passed all values for the object
-		this.shift = Integer.parseInt(shift);
-		this.shiftDate = shiftDate;
-		this.userId = userId;
-		this.food = Float.parseFloat(food);
-		this.restSupp = Float.parseFloat(restSupp);
-		this.offSupp = Float.parseFloat(offSupp);
-		this.repMaint = Float.parseFloat(repMaint);
-		this.freight = Float.parseFloat(freight);
-		this.credCards = Float.parseFloat(credCards);
-		this.storeCash = Float.parseFloat(storeCash);
-		this.zDeptTl = Float.parseFloat(zDeptTl);
-		this.overrings = Float.parseFloat(overrings);
-		this.begCash = Float.parseFloat(begCash);
-		this.zTx = Float.parseFloat(zTx);
-		this.zCoupon = Float.parseFloat(zCoupon);
-		this.schoolCharges = Float.parseFloat(schoolCharges);
-		this.taxExemptSales = Float.parseFloat(taxExemptSales);
-		this.donations = Float.parseFloat(donations);
-		this.giftCerts = Float.parseFloat(giftCerts);
-		this.ecards = Float.parseFloat(ecards);
-		this.discounts = Float.parseFloat(discounts);
-		this.mgrOnDuty = mgrOnDuty;
-		
-		this.otherPO = new ArrayList<>();
-
-	}
-
 	public ShiftData(ResultSet rs) throws SQLException, ParseException, ClassNotFoundException {
 		// Constructor from a ResultSet presumably only containing one record
 		// Calling method must have moved the row pointer in the ResultSet
@@ -97,6 +67,7 @@ public class ShiftData {
 
 	private void getShiftDataFromResultSet(ResultSet rs) throws SQLException, ParseException, ClassNotFoundException {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
+		this.id = rs.getInt("id");
 		this.shift = rs.getInt("shift");
 		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString());
 		this.userId = rs.getInt("user_id");
@@ -128,12 +99,11 @@ public class ShiftData {
 		// Gets the ShiftData record with this ID
 		String sql = "SELECT * FROM SHIFT_DATAS WHERE ID = " + this.id;
 
-		ResultSet rs = Database.load(sql);
-
-		if (rs.next()) {
-			this.getShiftDataFromResultSet(rs);
+		try (ResultSet rs = Database.load(sql)) {
+			if (rs.next()) {
+				this.getShiftDataFromResultSet(rs);
+			}
 		}
-		rs.close();
 	}
 	
 	private void setTotalCashPaidOut() {
@@ -331,6 +301,22 @@ public class ShiftData {
 	public void setMgrOnDuty(String mgrOnDuty) {
 		this.mgrOnDuty = mgrOnDuty;
 	}
+	
+	public int getPreviousId() {
+		return this.previousId;
+	}
+	
+	public void setPreviousId(int id) {
+		this.previousId = id;
+	}
+	
+	public int getNextId() {
+		return this.nextId;
+	}
+	
+	public void setNextId(int id) {
+		this.nextId = id;
+	}
 
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
 		/*
@@ -404,7 +390,9 @@ public class ShiftData {
 			}
 		}
 
-		pStmt.close();
+		if (pStmt != null) {
+			pStmt.close();
+		}
 		db.con.commit();
 		db.disconnect();
 

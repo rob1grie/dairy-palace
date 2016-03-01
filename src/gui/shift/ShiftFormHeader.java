@@ -7,6 +7,8 @@ package gui.shift;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
@@ -22,7 +24,7 @@ import org.apache.commons.lang3.text.WordUtils;
  *
  * @author Rob
  */
-public class ShiftFormHeader extends JPanel  {
+public class ShiftFormHeader extends JPanel implements ActionListener {
 
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
@@ -34,6 +36,7 @@ public class ShiftFormHeader extends JPanel  {
 	private JTextField enteredByField;
 
 	private ShiftFormHeaderToolbar shiftFormHeaderToolbar;
+	private ShiftFormHeaderListener shiftFormHeaderListener;
 
 	public ShiftFormHeader() {
 		setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
@@ -98,12 +101,16 @@ public class ShiftFormHeader extends JPanel  {
 
 			@Override
 			public void changeRecord(String direction) {
-				System.out.println(direction);
+			
 			}			
 		});
 		c.gridx++;
 		add(shiftFormHeaderToolbar, c);
 		c.insets = insetField;
+	}
+	
+	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
+		this.shiftFormHeaderListener = listener;
 	}
 
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
@@ -114,5 +121,10 @@ public class ShiftFormHeader extends JPanel  {
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }
