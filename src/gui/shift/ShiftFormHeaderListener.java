@@ -9,6 +9,6 @@ package gui.shift;
  *
  * @author rob
  */
-public interface ShiftFormHeaderToolbarListener {
+public interface ShiftFormHeaderListener {
 	public void changeRecord(String direction);
 }

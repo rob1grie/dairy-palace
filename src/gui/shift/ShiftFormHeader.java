@@ -22,7 +22,7 @@ import org.apache.commons.lang3.text.WordUtils;
  *
  * @author Rob
  */
-public class ShiftFormHeader extends JPanel {
+public class ShiftFormHeader extends JPanel  {
 
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
@@ -97,15 +97,9 @@ public class ShiftFormHeader extends JPanel {
 		shiftFormHeaderToolbar.setToolbarListener(new ShiftFormHeaderToolbarListener() {
 
 			@Override
-			public void nextRecord() {
-				System.out.println("Next record");
-			}
-
-			@Override
-			public void previousRecord() {
-				System.out.println("Previous record");
-			}
-			
+			public void changeRecord(String direction) {
+				System.out.println(direction);
+			}			
 		});
 		c.gridx++;
 		add(shiftFormHeaderToolbar, c);
