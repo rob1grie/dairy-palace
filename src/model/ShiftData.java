@@ -93,6 +93,9 @@ public class ShiftData {
 		
 		this.otherPO = OtherPO.getShiftOtherPO(this.id);
 		this.setTotalCashPaidOut();
+		
+		this.setPreviousId();
+		this.setNextId();
 	}
 
 	private void getShiftData() throws SQLException, ClassNotFoundException, ParseException {
@@ -306,16 +309,26 @@ public class ShiftData {
 		return this.previousId;
 	}
 	
-	public void setPreviousId(int id) {
-		this.previousId = id;
+	public void setPreviousId() throws SQLException, ClassNotFoundException {
+		// Returns either the previous ID or 0
+		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS WHERE id < " + this.id;
+		ResultSet rs = Database.load(sql);
+		if (rs.next()) {
+			this.previousId = rs.getInt("id");
+		}
 	}
 	
 	public int getNextId() {
 		return this.nextId;
 	}
 	
-	public void setNextId(int id) {
-		this.nextId = id;
+	public void setNextId() throws SQLException, ClassNotFoundException {
+		// Returns either the next ID or 0
+		String sql = "SELECT MIN(id) AS id FROM SHIFT_DATAS WHERE id > " + this.id;
+		ResultSet rs = Database.load(sql);
+		if (rs.next()) {
+			this.nextId = rs.getInt("id");
+		}
 	}
 
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {

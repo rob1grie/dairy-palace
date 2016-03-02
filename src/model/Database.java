@@ -54,9 +54,8 @@ public class Database {
 		// Initialize database by creating tables if they don't exist
 		Database db = new Database();
 		db.connect();
-		Statement stmt = null;
-
-		stmt = db.con.createStatement();
+		Statement stmt = db.con.createStatement();
+		
 		// Users table
 		String sql = "CREATE TABLE USERS "
 				+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "

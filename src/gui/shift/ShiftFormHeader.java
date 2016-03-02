@@ -140,6 +140,21 @@ public class ShiftFormHeader extends JPanel {
 			shiftField.setText(String.valueOf(data.getShift()));
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
+			
+			// ShiftData sets previousId and nextId to -1 if no previous or next records are found
+			if (data.getPreviousId() == 0) {
+				this.prevButton.setEnabled(false);
+			}
+			else {
+				this.prevButton.setEnabled(true);
+			}
+			
+			if (data.getNextId() == 0) {
+				this.nextButton.setEnabled(false);
+			}
+			else {
+				this.nextButton.setEnabled(true);
+			}
 		}
 	}
 }

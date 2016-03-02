@@ -83,10 +83,10 @@ public class ShiftFormPanel extends JPanel {
 		this.shiftData = data;
 	}
 
-	public void load() throws SQLException, ClassNotFoundException {
-		formHeader.load(this.shiftData);
-		formLeft.load(this.shiftData);
-		formRight.load(this.shiftData);
+	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
+		formHeader.load(data);
+		formLeft.load(data);
+		formRight.load(data);
 	}
 	
 	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
