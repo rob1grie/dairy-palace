@@ -5,7 +5,10 @@
  */
 package gui.shift;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.EventObject;
+import model.ShiftData;
 
 /**
  *
@@ -31,6 +34,12 @@ public class ShiftFormHeaderEvent extends EventObject {
 
 	public void setButtonName(String buttonName) {
 		this.buttonName = buttonName;
+	}
+	
+	public static ShiftData getNewShiftData(int id) throws SQLException, ClassNotFoundException, ParseException {
+		ShiftData data = new ShiftData(id);
+		
+		return data;
 	}
 	
 }

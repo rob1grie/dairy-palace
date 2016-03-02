@@ -8,6 +8,7 @@ package gui.shift;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.text.ParseException;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -24,6 +25,7 @@ public class ShiftFormPanel extends JPanel {
 	private ShiftFormLeft formLeft;
 	private ShiftFormFooter formFooter;
 	private JPanel formCenter;
+	private ShiftData shiftData;
 	private ShiftFormHeaderListener shiftFormHeaderListener;
 
 	public ShiftFormPanel() {
@@ -31,6 +33,8 @@ public class ShiftFormPanel extends JPanel {
 		dim.width = 375;
 		setPreferredSize(dim);
 		setMinimumSize(dim);
+		
+		this.shiftData = new ShiftData();
 		
 		Border innerBorder = BorderFactory.createTitledBorder("Shift Data");
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -42,7 +46,7 @@ public class ShiftFormPanel extends JPanel {
 
 	public void layoutComponents() {
 		setLayout(new BorderLayout());
-
+		
 		formHeader = new ShiftFormHeader();
 		formHeader.setShiftFormHeaderListener(new ShiftFormHeaderListener() {
 			@Override
@@ -50,7 +54,7 @@ public class ShiftFormPanel extends JPanel {
 				String name = e.getButtonName();
 				switch (name) {
 					case "Next":
-						System.out.println("Next");
+						
 						break;
 					case "Previous":
 						System.out.println("Previous");
@@ -72,11 +76,31 @@ public class ShiftFormPanel extends JPanel {
 		add(formCenter, BorderLayout.CENTER);
 		add(formFooter, BorderLayout.SOUTH);
 	}
+
+	public ShiftData getShiftData() {
+		return shiftData;
+	}
+
+	public void setShiftData(ShiftData shiftData) {
+		this.shiftData = shiftData;
+	}
 	
-	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
-		formHeader.load(data);
-		formLeft.load(data);
-		formRight.load(data);
+	public void load() throws SQLException, ClassNotFoundException {
+		formHeader.load(this.shiftData);
+		formLeft.load(this.shiftData);
+		formRight.load(this.shiftData);
+	}
+	
+	private void loadNext() throws SQLException, ClassNotFoundException, ParseException {
+		if (this.shiftData.getNextId() > 0) {
+			this.shiftData = new ShiftData(this.shiftData.getNextId());
+		}
+	}
+	
+	private void loadPrevious() throws SQLException, ClassNotFoundException, ParseException {
+		if (this.shiftData.getPreviousId() > 0) {
+			this.shiftData = new ShiftData(this.shiftData.getPreviousId());
+		}
 	}
 	
 	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {

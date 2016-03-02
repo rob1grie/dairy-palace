@@ -41,7 +41,8 @@ public class ShiftContentPanel extends JPanel {
 	
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		// Loads ShiftFormPanel with data and sets top row of ShiftTablePanel to data
-		formPanel.load(data);
+		formPanel.setShiftData(data);
+		formPanel.load();
 		tablePanel.load(data);
 	}
 }
