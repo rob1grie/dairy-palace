@@ -5,10 +5,12 @@
  */
 package gui.shift;
 
+import java.util.EventListener;
+
 /**
  *
  * @author rob
  */
-public interface ShiftFormHeaderListener {
-	public void changeRecord(String direction);
+public interface ShiftFormHeaderListener extends EventListener {
+	public void shiftFormHeaderEventOccurred(ShiftFormHeaderEvent e);
 }

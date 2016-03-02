@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -24,7 +25,7 @@ import org.apache.commons.lang3.text.WordUtils;
  *
  * @author Rob
  */
-public class ShiftFormHeader extends JPanel implements ActionListener {
+public class ShiftFormHeader extends JPanel {
 
 	private JLabel dateLabel;
 	private JLabel shiftLabel;
@@ -35,7 +36,9 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 	private JTextField dowField;
 	private JTextField enteredByField;
 
-	private ShiftFormHeaderToolbar shiftFormHeaderToolbar;
+	private JButton nextButton;
+	private JButton prevButton;
+
 	private ShiftFormHeaderListener shiftFormHeaderListener;
 
 	public ShiftFormHeader() {
@@ -96,19 +99,36 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 		add(enteredByField, c);
 		c.insets = new Insets(0, 20, 0, 0);
 
-		shiftFormHeaderToolbar = new ShiftFormHeaderToolbar();
-		shiftFormHeaderToolbar.setToolbarListener(new ShiftFormHeaderToolbarListener() {
-
+		prevButton = new JButton("<<");
+		prevButton.setName("Previous");
+		prevButton.addActionListener(new ActionListener() {
 			@Override
-			public void changeRecord(String direction) {
-			
-			}			
+			public void actionPerformed(ActionEvent e) {
+				ShiftFormHeaderEvent ev = new ShiftFormHeaderEvent(prevButton, "Previous");
+				if (shiftFormHeaderListener != null) {
+					shiftFormHeaderListener.shiftFormHeaderEventOccurred(ev);
+				}
+			}
 		});
 		c.gridx++;
-		add(shiftFormHeaderToolbar, c);
-		c.insets = insetField;
+		add(prevButton, c);
+
+		nextButton = new JButton(">>");
+		nextButton.setName("Next");
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ShiftFormHeaderEvent ev = new ShiftFormHeaderEvent(nextButton, "Next");
+				if (shiftFormHeaderListener != null) {
+					shiftFormHeaderListener.shiftFormHeaderEventOccurred(ev);
+				}
+			}
+		});
+		c.gridx++;
+		add(nextButton, c);
+
 	}
-	
+
 	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
 		this.shiftFormHeaderListener = listener;
 	}
@@ -121,10 +141,5 @@ public class ShiftFormHeader extends JPanel implements ActionListener {
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
 		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }

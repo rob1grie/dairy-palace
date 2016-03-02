@@ -19,10 +19,10 @@ public class ShiftFormHeaderEvent extends EventObject {
 		super(source);
 	}
 	
-	public ShiftFormHeaderEvent(Object source, String name) {
+	public ShiftFormHeaderEvent(Object source, String buttonName) {
 		super(source);
 		
-		this.buttonName = name;
+		this.buttonName = buttonName;
 	}
 
 	public String getButtonName() {

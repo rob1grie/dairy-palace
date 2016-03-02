@@ -25,6 +25,7 @@ public class ShiftFormPanel extends JPanel {
 	private ShiftFormFooter formFooter;
 	private JPanel formCenter;
 	private ShiftData shiftData;
+	private ShiftFormHeaderListener shiftFormHeaderListener;
 
 	public ShiftFormPanel() {
 		Dimension dim = getPreferredSize();
@@ -47,13 +48,14 @@ public class ShiftFormPanel extends JPanel {
 		formHeader = new ShiftFormHeader();
 		formHeader.setShiftFormHeaderListener(new ShiftFormHeaderListener() {
 			@Override
-			public void changeRecord(String direction) {
-				switch (direction) {
-					case "Previous":
-						System.out.println("Previous");
-						break;
+			public void shiftFormHeaderEventOccurred(ShiftFormHeaderEvent e) {
+				String name = e.getButtonName();
+				switch (name) {
 					case "Next":
 						System.out.println("Next");
+						break;
+					case "Previous":
+						System.out.println("Previous");
 						break;
 				}
 			}
@@ -85,5 +87,9 @@ public class ShiftFormPanel extends JPanel {
 		formHeader.load(this.shiftData);
 		formLeft.load(this.shiftData);
 		formRight.load(this.shiftData);
+	}
+	
+	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
+		this.shiftFormHeaderListener = listener;
 	}
 }
