@@ -24,7 +24,6 @@ public class ShiftFormPanel extends JPanel {
 	private ShiftFormLeft formLeft;
 	private ShiftFormFooter formFooter;
 	private JPanel formCenter;
-	private ShiftData shiftData;
 	private ShiftFormHeaderListener shiftFormHeaderListener;
 
 	public ShiftFormPanel() {
@@ -32,7 +31,6 @@ public class ShiftFormPanel extends JPanel {
 		dim.width = 375;
 		setPreferredSize(dim);
 		setMinimumSize(dim);
-		this.shiftData = null;
 		
 		Border innerBorder = BorderFactory.createTitledBorder("Shift Data");
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
@@ -75,14 +73,6 @@ public class ShiftFormPanel extends JPanel {
 		add(formFooter, BorderLayout.SOUTH);
 	}
 	
-	public ShiftData getShiftData() {
-		return this.shiftData;
-	}
-	
-	public void setShiftData(ShiftData data) {
-		this.shiftData = data;
-	}
-
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
 		formHeader.load(data);
 		formLeft.load(data);
