@@ -444,5 +444,18 @@ public class ShiftData {
 
 		return data;
 	}
+	
+	public static int getLastDataId() throws SQLException, ClassNotFoundException {
+		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS";
+		int lastId = 0;
+
+			ResultSet rs = Database.load(sql);
+			if (rs.next()) {
+				lastId = rs.getInt("id");
+			}
+			rs.close();
+			
+		return lastId;
+	}
 
 }

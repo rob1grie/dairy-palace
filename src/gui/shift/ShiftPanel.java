@@ -5,7 +5,6 @@
  */
 package gui.shift;
 
-import controller.ShiftController;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -45,7 +44,7 @@ public class ShiftPanel extends JPanel {
 	
 	public void loadLatest() throws SQLException, ClassNotFoundException, ParseException {
 		// Gets the record for the latest ShiftData record and loads the panel
-		int lastId = ShiftController.getLastDataId();
+		int lastId = ShiftData.getLastDataId();
 		ShiftData data = new ShiftData(lastId);
 		this.load(data);
 	}
