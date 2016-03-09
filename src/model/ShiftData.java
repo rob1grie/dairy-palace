@@ -90,28 +90,30 @@ public class ShiftData {
 		this.ecards = rs.getFloat("ecards");
 		this.discounts = rs.getFloat("discounts");
 		this.mgrOnDuty = rs.getString("mgr_on_duty");
-		
+
 		this.otherPO = OtherPO.getShiftOtherPO(this.id);
 		this.setTotalCashPaidOut();
-		
-		this.setPreviousId();
-		this.setNextId();
+
+		this.setPreviousId(rs);
+		this.setNextId(rs);
 	}
 
 	private void getShiftData() throws SQLException, ClassNotFoundException, ParseException {
 		// Gets the ShiftData record with this ID
-		String sql = "SELECT * FROM SHIFT_DATAS WHERE ID = " + this.id;
+		String sql = "SELECT * FROM SHIFT_DATAS "
+				+ "WHERE ID >= " + (this.id - 1) + " AND ID <= " + (this.id + 1)
+				+ " ORDER BY SHIFT_DATE , SHIFT";
 
-		try (ResultSet rs = Database.load(sql)) {
+		try (ResultSet rs = Database.loadFromPrepared(sql)) {
 			if (rs.next()) {
 				this.getShiftDataFromResultSet(rs);
 			}
 		}
 	}
-	
+
 	private void setTotalCashPaidOut() {
 		this.totalCashPaidOut = 0;
-		
+
 		for (OtherPO other : this.otherPO) {
 			this.totalCashPaidOut += other.getCost();
 		}
@@ -252,11 +254,11 @@ public class ShiftData {
 	public void setSchoolCharges(float schoolCharges) {
 		this.schoolCharges = schoolCharges;
 	}
-	
+
 	public float getTotalCashPaidOut() {
 		return totalCashPaidOut;
 	}
-	
+
 	public float getTaxExemptSales() {
 		return taxExemptSales;
 	}
@@ -304,31 +306,39 @@ public class ShiftData {
 	public void setMgrOnDuty(String mgrOnDuty) {
 		this.mgrOnDuty = mgrOnDuty;
 	}
-	
+
 	public int getPreviousId() {
 		return this.previousId;
 	}
-	
-	public void setPreviousId() throws SQLException, ClassNotFoundException {
+
+	public void setPreviousId(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// Returns either the previous ID or 0
-		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS WHERE id < " + this.id;
-		ResultSet rs = Database.load(sql);
-		if (rs.next()) {
+
+		int test = rs.getInt("id");
+
+		if (rs.previous()) {
 			this.previousId = rs.getInt("id");
+		} else {
+			this.previousId = 0;
 		}
+		// Row pointer needs to be returned to its previous location
+		rs.next();
+		test = rs.getInt("id");
 	}
-	
+
 	public int getNextId() {
 		return this.nextId;
 	}
-	
-	public void setNextId() throws SQLException, ClassNotFoundException {
+
+	public void setNextId(ResultSet rs) throws SQLException, ClassNotFoundException {
 		// Returns either the next ID or 0
-		String sql = "SELECT MIN(id) AS id FROM SHIFT_DATAS WHERE id > " + this.id;
-		ResultSet rs = Database.load(sql);
 		if (rs.next()) {
 			this.nextId = rs.getInt("id");
+		} else {
+			this.nextId = 0;
 		}
+		// Row pointer needs to be returned to its previous location
+		rs.previous();
 	}
 
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
@@ -387,7 +397,7 @@ public class ShiftData {
 			while (gk.next()) {
 				shift.id = gk.getInt("1");
 			}
-			
+
 			if (result) {
 				ArrayList<OtherPO> otherPOs = OtherPO.importData(rs, shift.id);
 
@@ -444,17 +454,20 @@ public class ShiftData {
 
 		return data;
 	}
-	
+
 	public static int getLastDataId() throws SQLException, ClassNotFoundException {
-		String sql = "SELECT MAX(id) AS id FROM SHIFT_DATAS";
+		String sql = "select id from shift_datas "
+				+ "where shift_date = (select max(shift_date) as shift_date from shift_datas) and "
+				+ "shift = (select max(shift) as shift from shift_datas where shift_date = "
+				+ "(select max(shift_date) as shift_date from shift_datas))";
 		int lastId = 0;
 
-			ResultSet rs = Database.load(sql);
-			if (rs.next()) {
-				lastId = rs.getInt("id");
-			}
-			rs.close();
-			
+		ResultSet rs = Database.load(sql);
+		if (rs.next()) {
+			lastId = rs.getInt("id");
+		}
+		rs.close();
+
 		return lastId;
 	}
 

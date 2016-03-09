@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -33,9 +35,9 @@ public class ShiftFormPanel extends JPanel {
 		dim.width = 375;
 		setPreferredSize(dim);
 		setMinimumSize(dim);
-		
+
 		this.shiftData = new ShiftData();
-		
+
 		Border innerBorder = BorderFactory.createTitledBorder("Shift Data");
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
@@ -46,23 +48,33 @@ public class ShiftFormPanel extends JPanel {
 
 	public void layoutComponents() {
 		setLayout(new BorderLayout());
-		
+
 		formHeader = new ShiftFormHeader();
-		formHeader.setShiftFormHeaderListener(new ShiftFormHeaderListener() {
-			@Override
-			public void shiftFormHeaderEventOccurred(ShiftFormHeaderEvent e) {
-				String name = e.getButtonName();
-				switch (name) {
-					case "Next":
-						
-						break;
-					case "Previous":
-						System.out.println("Previous");
-						break;
+		formHeader.setShiftFormHeaderListener((ShiftFormHeaderEvent e) -> {
+			String name1 = e.getButtonName();
+			switch (name1) {
+				case "Next": {
+					try {
+						this.loadNext();
+						this.load();
+					} catch (SQLException | ClassNotFoundException | ParseException ex) {
+						Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				}
+				break;
+				case "Previous":
+			{
+				try {
+					this.loadPrevious();
+					this.load();
+				} catch (SQLException | ClassNotFoundException | ParseException ex) {
+					Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
+					break;
+			}
 		});
-		
+
 		formRight = new ShiftFormRight();
 		formLeft = new ShiftFormLeft();
 		formFooter = new ShiftFormFooter();
@@ -84,25 +96,25 @@ public class ShiftFormPanel extends JPanel {
 	public void setShiftData(ShiftData shiftData) {
 		this.shiftData = shiftData;
 	}
-	
+
 	public void load() throws SQLException, ClassNotFoundException {
 		formHeader.load(this.shiftData);
 		formLeft.load(this.shiftData);
 		formRight.load(this.shiftData);
 	}
-	
+
 	private void loadNext() throws SQLException, ClassNotFoundException, ParseException {
 		if (this.shiftData.getNextId() > 0) {
 			this.shiftData = new ShiftData(this.shiftData.getNextId());
 		}
 	}
-	
+
 	private void loadPrevious() throws SQLException, ClassNotFoundException, ParseException {
 		if (this.shiftData.getPreviousId() > 0) {
 			this.shiftData = new ShiftData(this.shiftData.getPreviousId());
 		}
 	}
-	
+
 	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
 		this.shiftFormHeaderListener = listener;
 	}
