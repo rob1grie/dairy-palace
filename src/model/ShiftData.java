@@ -23,6 +23,7 @@ public class ShiftData {
 	private int id;
 	private int shift;
 	private LocalDate shiftDate;
+	private String shiftDateShift;
 	private int userId;
 	private float food;
 	private float restSupp;
@@ -70,6 +71,7 @@ public class ShiftData {
 		this.id = rs.getInt("id");
 		this.shift = rs.getInt("shift");
 		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString());
+		this.shiftDateShift = this.shiftDate.toString() + "." + this.shift;
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
 		this.restSupp = rs.getFloat("rest_supp");
@@ -94,15 +96,14 @@ public class ShiftData {
 		this.otherPO = OtherPO.getShiftOtherPO(this.id);
 		this.setTotalCashPaidOut();
 
-		this.setPreviousId(rs);
-		this.setNextId(rs);
+		this.setPreviousId();
+		this.setNextId();
 	}
 
 	private void getShiftData() throws SQLException, ClassNotFoundException, ParseException {
 		// Gets the ShiftData record with this ID
 		String sql = "SELECT * FROM SHIFT_DATAS "
-				+ "WHERE ID >= " + (this.id - 1) + " AND ID <= " + (this.id + 1)
-				+ " ORDER BY SHIFT_DATE , SHIFT";
+				+ "WHERE ID = " + this.id;
 
 		try (ResultSet rs = Database.loadFromPrepared(sql)) {
 			if (rs.next()) {
@@ -311,34 +312,38 @@ public class ShiftData {
 		return this.previousId;
 	}
 
-	public void setPreviousId(ResultSet rs) throws SQLException, ClassNotFoundException {
-		// Returns either the previous ID or 0
+	public void setPreviousId() throws SQLException, ClassNotFoundException {
+		// Gets the ID of the previous record, or 0
+		String sql = "SELECT ID FROM SHIFT_DATAS WHERE SHIFT_DATE_SHIFT = "
+				+ "(SELECT MAX(SHIFT_DATE_SHIFT) FROM SHIFT_DATAS "
+				+  "WHERE SHIFT_DATE_SHIFT < '" + this.shiftDateShift + "')";
+		
+		ResultSet rs = Database.load(sql);
 
-		int test = rs.getInt("id");
-
-		if (rs.previous()) {
+		if (rs.next()) {
 			this.previousId = rs.getInt("id");
 		} else {
 			this.previousId = 0;
 		}
-		// Row pointer needs to be returned to its previous location
-		rs.next();
-		test = rs.getInt("id");
 	}
 
 	public int getNextId() {
 		return this.nextId;
 	}
 
-	public void setNextId(ResultSet rs) throws SQLException, ClassNotFoundException {
-		// Returns either the next ID or 0
+	public void setNextId() throws SQLException, ClassNotFoundException {
+		// Gets the ID of the next record, or 0
+		String sql = "SELECT ID FROM SHIFT_DATAS WHERE SHIFT_DATE_SHIFT = "
+				+ "(SELECT MIN(SHIFT_DATE_SHIFT) FROM SHIFT_DATAS "
+				+  "WHERE SHIFT_DATE_SHIFT > '" + this.shiftDateShift + "')";
+		
+		ResultSet rs = Database.load(sql);
+
 		if (rs.next()) {
 			this.nextId = rs.getInt("id");
 		} else {
 			this.nextId = 0;
 		}
-		// Row pointer needs to be returned to its previous location
-		rs.previous();
 	}
 
 	public static boolean importData(ResultSet rs) throws SQLException, ClassNotFoundException, ParseException {
@@ -363,8 +368,8 @@ public class ShiftData {
 
 			sql = "INSERT INTO SHIFT_DATAS (shift, shift_date, user_id, food, rest_supp, off_supp, rep_maint, freight, cred_cards, "
 					+ "store_cash, z_dept_tl, overrings, beg_cash, z_tx, z_coupon, school_charges, tax_exempt_sales, donations, "
-					+ "gift_certs, ecards, discounts, mgr_on_duty) "
-					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+					+ "gift_certs, ecards, discounts, mgr_on_duty, shift_date_shift) "
+					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
 			pStmt = db.con.prepareStatement(sql, new String[]{"ID"});
 
@@ -390,6 +395,7 @@ public class ShiftData {
 			pStmt.setFloat(20, shift.ecards);
 			pStmt.setFloat(21, shift.discounts);
 			pStmt.setString(22, shift.mgrOnDuty);
+			pStmt.setString(23, shift.shiftDateShift);
 
 			result = Database.insert(pStmt) == 1;
 			ResultSet gk = pStmt.getGeneratedKeys(); // will return the ID in id);
@@ -428,6 +434,7 @@ public class ShiftData {
 
 		data.shift = rs.getInt("shift");
 		data.shiftDate = Utils.getDateFromString(rs.getDate("this_date").toString());
+		data.shiftDateShift = data.shiftDate.toString() + "." + data.shift;
 
 		// Get ID using the initials of this user
 		String userName = rs.getString("entered_by");

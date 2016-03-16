@@ -126,6 +126,7 @@ public class Database {
 					+ "(id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 					+ "shift INT NOT NULL, "
 					+ "shift_date DATE NOT NULL, "
+					+ "shift_date_shift VARCHAR(15) NOT NULL, "
 					+ "user_id INT NOT NULL, "
 					+ "food REAL NOT NULL DEFAULT 0.0, "
 					+ "rest_supp REAL NOT NULL DEFAULT 0.0, "
@@ -150,7 +151,7 @@ public class Database {
 		}
 
 		sql = "CREATE INDEX SHIFTDATESHIFT "
-				+ "ON SHIFT_DATAS (SHIFT_DATE, SHIFT)";
+				+ "ON SHIFT_DATAS (SHIFT_DATE_SHIFT)";
 		stmt.executeUpdate(sql);
 
 		if (!names.contains("OTHER_PAID_OUTS")) {

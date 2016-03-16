@@ -51,9 +51,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 		super("Dairy Palace of Canton - DairyBooks v3");
 
 		// Check that database exists
+		// Set a flag if database has just been initialized
+		boolean newDb = false;
+		
 		File f = new File("dairydb");	
 		if (!f.exists()) {
 			Database.init();
+			newDb = true;
 		}
 			
 		prefs = new DairySettings();

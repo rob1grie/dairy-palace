@@ -106,7 +106,7 @@ public class Utils {
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 		return format.format(date);
 	}
-
+	
 	public static String parseDateTimeToString(Date date) throws ParseException {
 		// Returns Date object from String MM/dd/yyyy hh:mm a
 		DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
