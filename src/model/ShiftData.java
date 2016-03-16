@@ -113,7 +113,7 @@ public class ShiftData {
 	}
 
 	private void setTotalCashPaidOut() {
-		this.totalCashPaidOut = 0;
+		this.totalCashPaidOut = this.food + this.restSupp + this.offSupp + this.repMaint + this.freight;
 
 		for (OtherPO other : this.otherPO) {
 			this.totalCashPaidOut += other.getCost();

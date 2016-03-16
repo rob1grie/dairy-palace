@@ -3,11 +3,13 @@
  */
 package gui.shift;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,7 +38,7 @@ public class ShiftFormLeft extends JPanel {
 	
 	private OtherPOPanel otherPOPanel;
 	
-	// TODO Implement another pane for Other
+	// TODO  Figure out why left text fields change size when main window height reaches a certain point
 	
 	public ShiftFormLeft() {
 		
@@ -48,7 +50,7 @@ public class ShiftFormLeft extends JPanel {
 	
 	private void layoutComponents() {
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(375,200));
+		setPreferredSize(new Dimension(385,200));
 //		setMinimumSize(new Dimension(375,200));
 		GridBagConstraints c = new GridBagConstraints();
 		Dimension fieldWidth = new Dimension(100, 20);
@@ -127,12 +129,14 @@ public class ShiftFormLeft extends JPanel {
 	}
 	
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
+		DecimalFormat myFormat = new DecimalFormat("###0.00");
+		
 		if (data.getDate() != null) {
-			foodField.setText(Float.toString(data.getFood()));
-			restSupField.setText(Float.toString(data.getRestSupp()));
-			offSupField.setText(Float.toString(data.getOffSupp()));
-			repMaintField.setText(Float.toString(data.getRepMaint()));
-			freightField.setText(Float.toString(data.getFreight()));
+			foodField.setText(myFormat.format(data.getFood()));
+			restSupField.setText(myFormat.format(data.getRestSupp()));
+			offSupField.setText(myFormat.format(data.getOffSupp()));
+			repMaintField.setText(myFormat.format(data.getRepMaint()));
+			freightField.setText(myFormat.format(data.getFreight()));
 		}
 		
 		this.otherPOPanel.load(data.getId());
