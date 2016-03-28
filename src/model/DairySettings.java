@@ -40,7 +40,7 @@ public class DairySettings {
 			this.importMonth = Calendar.getInstance().get(Calendar.MONTH);
 			this.importYear = Calendar.getInstance().get(Calendar.YEAR);
 		
-			this.mainFrameSize = new Dimension(600, 500);
+			this.mainFrameSize = new Dimension(850, 540);
 			
 			this.insert();
 		}

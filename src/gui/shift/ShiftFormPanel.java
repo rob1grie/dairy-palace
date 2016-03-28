@@ -5,6 +5,7 @@
  */
 package gui.shift;
 
+import gui.MainFooter;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.sql.ResultSet;
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import model.Database;
@@ -30,7 +30,6 @@ public class ShiftFormPanel extends JPanel {
 	private ShiftFormHeader formHeader;
 	private ShiftFormRight formRight;
 	private ShiftFormLeft formLeft;
-	private ShiftFormFooter formFooter;
 	private JPanel formCenter;
 	private ShiftData shiftData;
 	private ShiftFormHeaderListener shiftFormHeaderListener;
@@ -89,7 +88,6 @@ public class ShiftFormPanel extends JPanel {
 
 		formRight = new ShiftFormRight();
 		formLeft = new ShiftFormLeft();
-		formFooter = new ShiftFormFooter();
 
 		formCenter = new JPanel();
 		formCenter.setLayout(new BorderLayout());
@@ -98,7 +96,6 @@ public class ShiftFormPanel extends JPanel {
 
 		add(formHeader, BorderLayout.NORTH);
 		add(formCenter, BorderLayout.CENTER);
-		add(formFooter, BorderLayout.SOUTH);
 	}
 
 	public ShiftData getShiftData() {
@@ -131,6 +128,7 @@ public class ShiftFormPanel extends JPanel {
 		LocalDate date = Utils.getDateFromString(formHeader.getDate(), "M-d-yyyy");
 		String shift = formHeader.getShift();
 
+		// TODO Implement validation of date and shift fields
 //		if (!Utils.validateDateText(date.toString())) {
 //			JOptionPane.showMessageDialog(
 //					this,

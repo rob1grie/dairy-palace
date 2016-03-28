@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon Mar 28 13:34:36 CDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-be81-94a2-00000000002e 
-on database directory /home/rob/Dropbox/NetBeansProjects/dairy-palace/dairydb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Mon Mar 28 14:48:44 CDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-bec5-723f-00000000002e 
+on database directory /home/rob/Dropbox/NetBeansProjects/dairy-palace/dairydb with class loader sun.misc.Launcher$AppClassLoader@33909752 
 Loaded from file:/home/rob/Dropbox/NetBeansProjects/dairy-palace/src/libraries/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_74-b02

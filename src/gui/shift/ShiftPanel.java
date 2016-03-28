@@ -33,7 +33,7 @@ public class ShiftPanel extends JPanel {
 			}
 		});
 		
-		add(shiftToolbar, BorderLayout.NORTH);
+		add(shiftToolbar, BorderLayout.SOUTH);
 		add(shiftContentPanel, BorderLayout.CENTER);
 	}
 	

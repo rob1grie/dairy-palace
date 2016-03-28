@@ -33,6 +33,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private final JPanel contentPanel;
 	private final ShiftPanel shiftPanel;
 	private final StartPanel startPanel;
+	private final MainFooter footerPanel;
 	private final Controller controller;
 	private JFileChooser fileChooser;
 	private final DairySettings prefs;
@@ -94,9 +95,13 @@ public class MainFrame extends JFrame implements ComponentListener {
 				System.gc();
 			}
 		});
+		
+		footerPanel = new MainFooter();
+		footerPanel.setMessage("Welcome to DairyBooks 3.0");
 
 		add(toolbar, BorderLayout.NORTH);
 		add(contentPanel, BorderLayout.CENTER);
+		add(footerPanel, BorderLayout.SOUTH);
 
 		setSize(prefs.getMainFrameSize());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
