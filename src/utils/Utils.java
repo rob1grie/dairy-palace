@@ -124,4 +124,22 @@ public class Utils {
 
 		return size;
 	}
+	
+	public static boolean validateDateText(String dateText) {
+		// Validates that dateText is in the format mm-dd-yyyy and represents a valid date
+		
+		int firstDash = dateText.indexOf("-");
+		if (firstDash < 1) {
+			return false;
+		}
+		
+		int secondDash = dateText.indexOf(dateText, firstDash+1);
+		if (secondDash < 3) {
+			return false;
+		}
+		
+		
+		
+		return true;		
+	}
 }

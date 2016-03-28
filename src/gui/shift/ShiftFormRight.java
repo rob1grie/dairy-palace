@@ -160,18 +160,17 @@ public class ShiftFormRight extends JPanel {
 		// Load the right panel with data
 		DecimalFormat myFormat = new DecimalFormat("###0.00");
 
-//		foodField.setText(myFormat.format(data.getFood()));
 		this.totalCashPOsField.setText(myFormat.format(data.getTotalCashPaidOut()));
-//		this.endingPettyCashField.setText(Float.toString(data.get));		endingPettyCash
-//		this.creditCardsField.setText(Float.toString(data.getCredCards()));
-//		this.depositField.setText(Float.toString(data.getd));			deposit
-//		this.cashAccountedForField.setText(Float.toString(data.getc));	cashAccountedFor
-//		this.shiftSalesField.setText(Float.toString(data.gets));			shiftSales
-//		this.beginningPettyCashField.setText(Float.toString(data.));		beginningPettyCash
+//		this.endingPettyCashField.setText(myFormat.format(data.get));
+//		this.creditCardsField.setText(myFormat.format(data.getCredCards()));
+//		this.depositField.setText(myFormat.format(data.getd));
+//		this.cashAccountedForField.setText(myFormat.format(data.getc));	
+//		this.shiftSalesField.setText(myFormat.format(data.gets));
+//		this.beginningPettyCashField.setText(myFormat.format(data.getBegCash()));
 		this.taxField.setText(myFormat.format(data.getzTx()));
 		this.discountsField.setText(myFormat.format(data.getDiscounts()));
-//		this.ovtShortField.setText(Float.toString(data.get));				ovtShort
-//		this.cashAccountedForField.setText(Float.toString(data.get));		cashAccountedFor
+//		this.ovtShortField.setText(myFormat.format(data.getOverrings()));
+//		this.cashAccountedForField.setText(myFormat.format(data.getc));
 
 	}
 

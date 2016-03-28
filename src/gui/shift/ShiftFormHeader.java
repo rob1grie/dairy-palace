@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,6 +39,7 @@ public class ShiftFormHeader extends JPanel {
 
 	private JButton nextButton;
 	private JButton prevButton;
+	private JButton gotoButton;
 
 	private ShiftFormHeaderListener shiftFormHeaderListener;
 
@@ -126,6 +128,16 @@ public class ShiftFormHeader extends JPanel {
 		});
 		c.gridx++;
 		add(nextButton, c);
+		
+		gotoButton = new JButton("GoTo");
+		gotoButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Go To clicked");
+			}
+		});
+		c.gridx++;
+		add(gotoButton, c);
 
 	}
 
@@ -156,5 +168,12 @@ public class ShiftFormHeader extends JPanel {
 				this.nextButton.setEnabled(true);
 			}
 		}
+	}
+	
+	private void gotoShiftData() {
+		String date = this.dateField.getText();
+		String shift = this.shiftField.getText();
+		
+		
 	}
 }
