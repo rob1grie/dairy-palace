@@ -34,8 +34,7 @@ public class OtherPOTablePanel extends JPanel {
 	public OtherPOTablePanel() {
 		tableModel = new OtherPOTableModel();
 		table = new JTable(tableModel);
-		table.getColumnModel().getColumn(1).setCellRenderer(
-			new DecimalFormatRenderer() );
+		table.getColumnModel().getColumn(1).setCellRenderer(new DecimalFormatRenderer() );
 		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
@@ -77,7 +76,6 @@ public class OtherPOTablePanel extends JPanel {
 		public Component getTableCellRendererComponent(
 			JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			value = formatter.format((Number)value);
-			
 			return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 	}
