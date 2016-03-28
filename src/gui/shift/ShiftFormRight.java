@@ -5,7 +5,6 @@
  */
 package gui.shift;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -61,7 +60,7 @@ public class ShiftFormRight extends JPanel {
 
 	private void layoutComponents() {
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(375, 200));
+//		setPreferredSize(new Dimension(375, 200));
 		GridBagConstraints c = new GridBagConstraints();
 
 		//////// Layout labels //////////////

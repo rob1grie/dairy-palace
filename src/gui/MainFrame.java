@@ -37,7 +37,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 	private final Controller controller;
 	private JFileChooser fileChooser;
 	private final DairySettings prefs;
-	private final Toolbar toolbar;
+	private final ToolbarPanel toolbarPanel;
 	private MonthYearDialog monthYearDialog;
 	private boolean continueImport;
 	private ImportFilter importFilter;
@@ -67,7 +67,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		setLayout(new BorderLayout());
 
-		toolbar = new Toolbar();
+		toolbarPanel = new ToolbarPanel();
 
 		contentPanel = new JPanel(new CardLayout());
 		contentPanel.addComponentListener(this);
@@ -83,10 +83,6 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		setJMenuBar(createMenuBar());
 
-		toolbar.setToolbarListener((String name1) -> {
-			setVisiblePanel(name1);
-		});
-
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -99,7 +95,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 		footerPanel = new MainFooter();
 		footerPanel.setMessage("Welcome to DairyBooks 3.0");
 
-		add(toolbar, BorderLayout.NORTH);
+		add(toolbarPanel, BorderLayout.NORTH);
 		add(contentPanel, BorderLayout.CENTER);
 		add(footerPanel, BorderLayout.SOUTH);
 

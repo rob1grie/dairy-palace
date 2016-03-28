@@ -8,21 +8,21 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class Toolbar extends JPanel implements ActionListener {
+public class ModeToolbar extends JPanel implements ActionListener {
 
 	private JButton shiftButton;
 	private JButton registerButton;
 	private JButton invoiceButton;
 	
-	private ToolbarListener toolbarListener;
+	private ModeToolbarListener toolbarListener;
 
-	public Toolbar() {
+	public ModeToolbar() {
 		setBorder(BorderFactory.createEtchedBorder());
 
 		layoutToolbar();
 	}
 	
-	public void setToolbarListener(ToolbarListener listener) {
+	public void setToolbarListener(ModeToolbarListener listener) {
 		this.toolbarListener = listener;
 	}
 

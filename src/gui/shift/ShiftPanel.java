@@ -5,6 +5,8 @@
  */
 package gui.shift;
 
+import gui.ViewToolbarListener;
+import gui.ViewToolbar;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -17,15 +19,15 @@ import model.ShiftData;
  */
 public class ShiftPanel extends JPanel {
 	private ShiftContentPanel shiftContentPanel;
-	private final ShiftToolbar shiftToolbar;
+	private final ViewToolbar shiftToolbar;
 	
 	public ShiftPanel() throws Exception {
 		setLayout(new BorderLayout());
 		
 		shiftContentPanel = new ShiftContentPanel();
-		shiftToolbar = new ShiftToolbar();
+		shiftToolbar = new ViewToolbar();
 		
-		shiftToolbar.setToolbarListener(new ShiftToolbarListener() {
+		shiftToolbar.setToolbarListener(new ViewToolbarListener() {
 
 			@Override
 			public void viewSelected(String name) {

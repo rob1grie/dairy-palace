@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.shift;
+package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -17,20 +17,20 @@ import javax.swing.JPanel;
  *
  * @author Rob
  */
-public class ShiftToolbar extends JPanel implements ActionListener {
+public class ViewToolbar extends JPanel implements ActionListener {
 	private JButton formButton;
 	private JButton tableButton;
 	
-	private ShiftToolbarListener shiftToolbarListener;
+	private ViewToolbarListener viewToolbarListener;
 	
-	public ShiftToolbar() {
+	public ViewToolbar() {
 		setBorder(BorderFactory.createEtchedBorder());
 
 		layoutToolbar();
 	}
 
-	public void setToolbarListener(ShiftToolbarListener listener) {
-		this.shiftToolbarListener = listener;
+	public void setToolbarListener(ViewToolbarListener listener) {
+		this.viewToolbarListener = listener;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 		JButton clicked = (JButton) e.getSource();
 		String label = clicked.getName();
 
-		shiftToolbarListener.viewSelected(label);
+		viewToolbarListener.viewSelected(label);
 		// TODO Hide selected button and show the other
 	}
 

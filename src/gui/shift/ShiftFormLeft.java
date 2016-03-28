@@ -50,7 +50,7 @@ public class ShiftFormLeft extends JPanel {
 	
 	private void layoutComponents() {
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(385,200));
+//		setPreferredSize(new Dimension(385,200));
 //		setMinimumSize(new Dimension(375,200));
 		GridBagConstraints c = new GridBagConstraints();
 		Dimension fieldWidth = new Dimension(100, 20);

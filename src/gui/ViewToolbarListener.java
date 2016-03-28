@@ -9,6 +9,6 @@ package gui;
  *
  * @author Rob
  */
-public interface ToolbarListener {
-	public void modeSelected(String name);
+public interface ViewToolbarListener {
+	public void viewSelected(String name);
 }
