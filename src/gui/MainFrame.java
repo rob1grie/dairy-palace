@@ -365,9 +365,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 			if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION) {
 				try {
 					prefs.setImportDirectory(fileChooser.getSelectedFile().toString());
-				} catch (SQLException ex) {
-					Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (SQLException | ClassNotFoundException ex) {
 					Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 				}
 				try {
@@ -381,16 +379,12 @@ public class MainFrame extends JFrame implements ComponentListener {
 						if (monthYearDialog.validateFields()) {
 							try {
 								MainFrame.this.prefs.setImportMonth(month);
-							} catch (SQLException ex) {
-								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (ClassNotFoundException ex) {
+							} catch (SQLException | ClassNotFoundException ex) {
 								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							try {
 								MainFrame.this.prefs.setImportYear(year);
-							} catch (SQLException ex) {
-								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-							} catch (ClassNotFoundException ex) {
+							} catch (SQLException | ClassNotFoundException ex) {
 								Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 							}
 							
@@ -435,14 +429,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 				if (Database.init()) {
 					JOptionPane.showMessageDialog(MainFrame.this, "Database was successfully initialized");
 				}
-			} catch (SQLException ex) {
-				String msg = ex.getMessage();
-				JOptionPane.showMessageDialog(
-						MainFrame.this,
-						"There was an error initializing the database:\r\n" + msg,
-						"Initializing Error",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (ClassNotFoundException ex) {
+			} catch (SQLException | ClassNotFoundException ex) {
 				String msg = ex.getMessage();
 				JOptionPane.showMessageDialog(
 						MainFrame.this,
@@ -476,9 +463,7 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		try {
 			prefs.setMainFrameSize(e.getComponent().getParent().getParent().getBounds().getSize());
-		} catch (SQLException ex) {
-			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ClassNotFoundException ex) {
+		} catch (SQLException | ClassNotFoundException ex) {
 			Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}

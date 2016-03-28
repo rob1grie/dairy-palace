@@ -30,11 +30,15 @@ public class ShiftPanel extends JPanel {
 			@Override
 			public void viewSelected(String name) {
 				shiftContentPanel.showPanel(name);
+				shiftToolbar.toggleVisible();
 			}
 		});
 		
 		add(shiftToolbar, BorderLayout.SOUTH);
 		add(shiftContentPanel, BorderLayout.CENTER);
+		
+		shiftContentPanel.showPanel(ShiftContentPanel.FORMPANEL);
+		shiftToolbar.toggleVisible(ShiftContentPanel.TABLEPANEL);
 	}
 	
 	public void load(ShiftData data) throws SQLException, ClassNotFoundException {

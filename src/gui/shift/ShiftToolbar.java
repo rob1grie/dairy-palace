@@ -39,6 +39,7 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 		String label = clicked.getName();
 
 		shiftToolbarListener.viewSelected(label);
+		
 		// TODO Hide selected button and show the other
 	}
 
@@ -62,4 +63,29 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 		
 	}
 	
+	public void toggleVisible() {
+		// Toggles which button is visible, testing formButton for visibility
+		if (this.formButton.isVisible()) {
+			this.formButton.setVisible(false);
+			this.tableButton.setVisible(true);
+		}
+		else {
+			this.formButton.setVisible(true);
+			this.tableButton.setVisible(false);
+		}
+	}
+	
+	public void toggleVisible(String buttonName) {
+		// Overridden method to specifiy which button will be visible
+		switch (buttonName) {
+			case "Form":
+				this.formButton.setVisible(true);
+				this.tableButton.setVisible(false);
+				break;
+			case "Table":
+				this.formButton.setVisible(false);
+				this.tableButton.setVisible(true);
+				break;
+		}
+	}
 }
