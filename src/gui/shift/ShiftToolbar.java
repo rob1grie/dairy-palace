@@ -6,7 +6,9 @@
 package gui.shift;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
@@ -20,6 +22,10 @@ import javax.swing.JPanel;
 public class ShiftToolbar extends JPanel implements ActionListener {
 	private JButton formButton;
 	private JButton tableButton;
+	private JButton newButton;
+	private JButton editButton;
+	private JButton saveButton;
+	private JButton cancelButton;
 	
 	private ShiftToolbarListener shiftToolbarListener;
 	
@@ -36,30 +42,34 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton clicked = (JButton) e.getSource();
-		String label = clicked.getName();
+		String name = clicked.getName();
 
-		shiftToolbarListener.viewSelected(label);
-		
-		// TODO Hide selected button and show the other
+		shiftToolbarListener.viewSelected(name);
 	}
 
 	private void layoutToolbar() {
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.gridx = 2;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_END;
+		c.insets = new Insets(0,600,0,0);
 		
 		formButton = new JButton("Form View");
 		tableButton = new JButton("Table View");
-		
 		Dimension buttonDim = tableButton.getPreferredSize();
 
 		formButton.addActionListener(this);
 		formButton.setName("Form");
 		formButton.setPreferredSize(buttonDim);
+		add(formButton, c);
 		
 		tableButton.addActionListener(this);
 		tableButton.setName("Table");
-		
-		add(formButton);
-		add(tableButton);
+		c.gridx++;
+		add(tableButton, c);
 		
 	}
 	
