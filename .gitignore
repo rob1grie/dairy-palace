@@ -6,3 +6,5 @@ project.properties
 private.xml
 private.properties
 /nbproject/
+/dairydb/log/
+/dairydb/seg0/
