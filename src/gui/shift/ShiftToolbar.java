@@ -51,11 +51,10 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.gridx = 2;
+		c.gridx = 0;
 		c.gridy = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.PAGE_END;
-		c.insets = new Insets(0,600,0,0);
+		c.anchor = GridBagConstraints.LAST_LINE_END;
+		c.weightx = 0.5;
 		
 		formButton = new JButton("Form View");
 		tableButton = new JButton("Table View");
@@ -70,6 +69,7 @@ public class ShiftToolbar extends JPanel implements ActionListener {
 		tableButton.setName("Table");
 		c.gridx++;
 		add(tableButton, c);
+		
 		
 	}
 	
