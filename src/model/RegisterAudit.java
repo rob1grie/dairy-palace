@@ -75,7 +75,7 @@ public class RegisterAudit {
 	}
 
 	private void getRegisterAuditFromResultSet(ResultSet rs) throws SQLException, ParseException {
-		this.auditDate = Utils.getDateFromString(rs.getDate("audit_date").toString());
+		this.auditDate = Utils.getDateFromString(rs.getDate("audit_date").toString(), "yyyy-M-d");
 		this.auditTime = Utils.getTimeFromString(rs.getTime("audit_time").toString());
 		this.shift = rs.getInt("shift");
 		this.tapeRead = rs.getFloat("tape_read");
@@ -232,7 +232,7 @@ public class RegisterAudit {
 
 		data.shift = rs.getInt("shift");
 
-		LocalDate auditDate = Utils.getDateFromString(rs.getString("this_date"));
+		LocalDate auditDate = Utils.getDateFromString(rs.getString("this_date"), "yyyy-M-d");
 		LocalTime auditTime = Utils.getTimeFromString(rs.getString("time") + " " + rs.getString("ampm"));
 		data.auditDate = auditDate;
 		data.auditTime = auditTime;

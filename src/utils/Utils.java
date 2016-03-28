@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -57,12 +58,12 @@ public class Utils {
 		return time;
 	}
 
-	public static LocalDate getDateFromString(String dateString) throws ParseException {
+	public static LocalDate getDateFromString(String dateString, String format) throws ParseException {
 		// Receives dateString as mm/dd/yyyy and returns a LocalDate object
 		LocalDate date = null;
 		try {
 			DateTimeFormatter formatter
-					= DateTimeFormatter.ofPattern("yyyy-M-d");
+					= DateTimeFormatter.ofPattern(format);
 			date = LocalDate.parse(dateString, formatter);
 		} catch (DateTimeParseException exc) {
 			System.out.printf("%s is not parsable!%n", dateString);
@@ -128,18 +129,11 @@ public class Utils {
 	public static boolean validateDateText(String dateText) {
 		// Validates that dateText is in the format mm-dd-yyyy and represents a valid date
 		
-		int firstDash = dateText.indexOf("-");
-		if (firstDash < 1) {
+		String exp = "^(((((((0?[13578])|(1[02]))[\\.\\-/]?((0?[1-9])|([12]\\d)|(3[01])))|(((0?[469])|(11))[\\.\\-/]?((0?[1-9])|([12]\\d)|(30)))|((0?2)[\\.\\-/]?((0?[1-9])|(1\\d)|(2[0-8]))))[\\.\\-/]?(((19)|(20))?([\\d][\\d]))))|((0?2)[\\.\\-/]?(29)[\\.\\-/]?(((19)|(20))?(([02468][048])|([13579][26])))))$";
+		if (!Pattern.matches(exp, dateText)) {
 			return false;
 		}
-		
-		int secondDash = dateText.indexOf(dateText, firstDash+1);
-		if (secondDash < 3) {
-			return false;
-		}
-		
-		
-		
-		return true;		
+
+		return true;
 	}
 }

@@ -9,18 +9,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import model.Database;
 import model.ShiftData;
 import model.User;
 import org.apache.commons.lang3.text.WordUtils;
+import utils.Utils;
 
 /**
  *
@@ -128,17 +132,29 @@ public class ShiftFormHeader extends JPanel {
 		});
 		c.gridx++;
 		add(nextButton, c);
-		
+
 		gotoButton = new JButton("GoTo");
+		gotoButton.setName("GoTo");
 		gotoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Go To clicked");
+				ShiftFormHeaderEvent ev = new ShiftFormHeaderEvent(gotoButton, "GoTo");
+				if (shiftFormHeaderListener != null) {
+					shiftFormHeaderListener.shiftFormHeaderEventOccurred(ev);
+				}				
 			}
 		});
 		c.gridx++;
 		add(gotoButton, c);
 
+	}
+	
+	public String getDate() {
+		return this.dateField.getText();
+	}
+	
+	public String getShift() {
+		return this.shiftField.getText();
 	}
 
 	public void setShiftFormHeaderListener(ShiftFormHeaderListener listener) {
@@ -152,28 +168,20 @@ public class ShiftFormHeader extends JPanel {
 			shiftField.setText(String.valueOf(data.getShift()));
 			dowField.setText(WordUtils.capitalizeFully(data.getDate().getDayOfWeek().toString().substring(0, 3)));
 			enteredByField.setText(User.getInitialsFromId(data.getUserId()));
-			
+
 			// ShiftData sets previousId and nextId to -1 if no previous or next records are found
 			if (data.getPreviousId() == 0) {
 				this.prevButton.setEnabled(false);
-			}
-			else {
+			} else {
 				this.prevButton.setEnabled(true);
 			}
-			
+
 			if (data.getNextId() == 0) {
 				this.nextButton.setEnabled(false);
-			}
-			else {
+			} else {
 				this.nextButton.setEnabled(true);
 			}
 		}
 	}
-	
-	private void gotoShiftData() {
-		String date = this.dateField.getText();
-		String shift = this.shiftField.getText();
-		
-		
-	}
+
 }

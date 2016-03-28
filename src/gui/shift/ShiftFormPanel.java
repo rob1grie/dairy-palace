@@ -7,14 +7,19 @@ package gui.shift;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import model.Database;
 import model.ShiftData;
+import utils.Utils;
 
 /**
  *
@@ -60,18 +65,25 @@ public class ShiftFormPanel extends JPanel {
 					} catch (SQLException | ClassNotFoundException | ParseException ex) {
 						Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
 					}
-				}
-				break;
-				case "Previous":
-			{
-				try {
-					this.loadPrevious();
-					this.load();
-				} catch (SQLException | ClassNotFoundException | ParseException ex) {
-					Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			}
 					break;
+				}
+				case "Previous": {
+					try {
+						this.loadPrevious();
+						this.load();
+					} catch (SQLException | ClassNotFoundException | ParseException ex) {
+						Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					break;
+				}
+				case "GoTo": {
+					try {
+						this.gotoShiftData();
+					} catch (SQLException | ClassNotFoundException | ParseException ex) {
+						Logger.getLogger(ShiftFormPanel.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					break;
+				}
 			}
 		});
 
@@ -112,6 +124,33 @@ public class ShiftFormPanel extends JPanel {
 	private void loadPrevious() throws SQLException, ClassNotFoundException, ParseException {
 		if (this.shiftData.getPreviousId() > 0) {
 			this.shiftData = new ShiftData(this.shiftData.getPreviousId());
+		}
+	}
+
+	private void gotoShiftData() throws SQLException, ClassNotFoundException, ParseException {
+		LocalDate date = Utils.getDateFromString(formHeader.getDate(), "M-d-yyyy");
+		String shift = formHeader.getShift();
+
+//		if (!Utils.validateDateText(date.toString())) {
+//			JOptionPane.showMessageDialog(
+//					this,
+//					"Please enter a valid date (mm-dd-yyy)",
+//					"Invalid Entry",
+//					JOptionPane.ERROR_MESSAGE);
+//			return;
+//		}
+
+		int sh = Integer.parseInt(shift);
+		if ((sh < 1) || (sh > 3)) {
+			sh = 1;
+		}
+
+		String sql = "SELECT id FROM SHIFT_DATAS WHERE shift_date = '" + date.toString() + "' AND shift = " + sh;
+		ResultSet rs = Database.load(sql);
+
+		if (rs.next()) {
+			this.shiftData = new ShiftData(rs.getInt("id"));
+			this.load();
 		}
 	}
 

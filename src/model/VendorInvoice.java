@@ -128,7 +128,7 @@ public class VendorInvoice {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		VendorInvoice data = new VendorInvoice();
 
-		data.invoiceDate = Utils.getDateFromString(rs.getString("this_date"));
+		data.invoiceDate = Utils.getDateFromString(rs.getString("this_date"), "yyyy-M-d");
 		String test = data.invoiceDate.toString();
 
 		// Some imported records have an empty MGR field

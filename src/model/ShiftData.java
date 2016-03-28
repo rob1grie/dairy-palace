@@ -70,7 +70,7 @@ public class ShiftData {
 		// Loads fields from the current row of rs, so do NOT move the row pointer!
 		this.id = rs.getInt("id");
 		this.shift = rs.getInt("shift");
-		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString());
+		this.shiftDate = Utils.getDateFromString(rs.getDate("shift_date").toString(), "yyyy-M-d");
 		this.shiftDateShift = this.shiftDate.toString() + "." + this.shift;
 		this.userId = rs.getInt("user_id");
 		this.food = rs.getFloat("food");
@@ -433,7 +433,7 @@ public class ShiftData {
 		ShiftData data = new ShiftData();
 
 		data.shift = rs.getInt("shift");
-		data.shiftDate = Utils.getDateFromString(rs.getDate("this_date").toString());
+		data.shiftDate = Utils.getDateFromString(rs.getDate("this_date").toString(), "yyyy-M-d");
 		data.shiftDateShift = data.shiftDate.toString() + "." + data.shift;
 
 		// Get ID using the initials of this user
