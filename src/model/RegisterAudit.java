@@ -22,6 +22,10 @@ import utils.Utils;
  */
 public class RegisterAudit {
 
+	public static int getLastDataId() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 	private int id;
 	private LocalDate auditDate;
 	private LocalTime auditTime;

@@ -7,13 +7,32 @@ package gui.register;
 
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import model.RegisterAudit;
 
 /**
  *
  * @author rob
  */
-public class RegisterContentPanel extends JPanel {
+public final class RegisterContentPanel extends JPanel {
+	private final RegisterTablePanel tablePanel;
+	private final RegisterFormPanel formPanel;
+	
+	final static String TABLEPANEL = "Table";
+	final static String FORMPANEL = "Form";
+
 	public RegisterContentPanel() {
+		tablePanel = new RegisterTablePanel();
+		tablePanel.getTableModelData();
+		
+		formPanel = new RegisterFormPanel();
+		
+		setLayout(new CardLayout());
+		add(tablePanel, TABLEPANEL);
+		add(formPanel, FORMPANEL);
+		
+		showPanel(FORMPANEL);
+		
+		// TODO Populate tablePanel after displaying formPanel 
 		
 	}
 	
@@ -21,4 +40,8 @@ public class RegisterContentPanel extends JPanel {
 		CardLayout cl = (CardLayout)getLayout();
 		cl.show(this, name);
 	} 
+
+	void load(RegisterAudit data) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 }

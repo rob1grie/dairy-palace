@@ -5,10 +5,12 @@
  */
 package gui.register;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author rob
  */
-public class RegisterFormPanel {
+public class RegisterFormPanel extends JPanel {
 	
 }

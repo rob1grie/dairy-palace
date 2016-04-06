@@ -5,10 +5,16 @@
  */
 package gui.register;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author rob
  */
-public class RegisterTablePanel {
+public class RegisterTablePanel extends JPanel {
+
+	void getTableModelData() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 	
 }

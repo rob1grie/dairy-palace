@@ -3,53 +3,53 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.shift;
+package gui.register;
 
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.JPanel;
-import model.ShiftData;
+import model.RegisterAudit;
 
 /**
  *
  * @author Rob
  */
-public class ShiftPanel extends JPanel {
-	private ShiftContentPanel shiftContentPanel;
-	private final ShiftToolbar shiftToolbar;
+public class RegisterPanel extends JPanel {
+	private RegisterContentPanel registerContentPanel;
+	private final RegisterToolbar registerToolbar;
 	
-	public ShiftPanel() throws Exception {
+	public RegisterPanel() throws Exception {
 		setLayout(new BorderLayout());
 		
-		shiftContentPanel = new ShiftContentPanel();
-		shiftToolbar = new ShiftToolbar();
+		registerContentPanel = new RegisterContentPanel();
+		registerToolbar = new RegisterToolbar();
 		
-		shiftToolbar.setToolbarListener(new ShiftToolbarListener() {
+		registerToolbar.setToolbarListener(new RegisterToolbarListener() {
 
 			@Override
 			public void viewSelected(String name) {
-				shiftContentPanel.showPanel(name);
-				shiftToolbar.toggleVisible();
+				registerContentPanel.showPanel(name);
+				registerToolbar.toggleVisible();
 			}
 		});
 		
-		add(shiftToolbar, BorderLayout.SOUTH);
-		add(shiftContentPanel, BorderLayout.CENTER);
+		add(registerToolbar, BorderLayout.SOUTH);
+		add(registerContentPanel, BorderLayout.CENTER);
 		
-		shiftContentPanel.showPanel(ShiftContentPanel.FORMPANEL);
-		shiftToolbar.toggleVisible(ShiftContentPanel.TABLEPANEL);
+		registerContentPanel.showPanel(RegisterContentPanel.FORMPANEL);
+		registerToolbar.toggleVisible(RegisterContentPanel.TABLEPANEL);
 	}
 	
-	public void load(ShiftData data) throws SQLException, ClassNotFoundException {
+	public void load(RegisterAudit data) throws SQLException, ClassNotFoundException {
 		// Loads ShiftFormPanel with data and sets top row of ShiftTablePanel to data
-		this.shiftContentPanel.load(data);
+		this.registerContentPanel.load(data);
 	}
 	
 	public void loadLatest() throws SQLException, ClassNotFoundException, ParseException {
 		// Gets the record for the latest ShiftData record and loads the panel
-		int lastId = ShiftData.getLastDataId();
-		ShiftData data = new ShiftData(lastId);
+		int lastId = RegisterAudit.getLastDataId();
+		RegisterAudit data = new RegisterAudit(lastId);
 		this.load(data);
 	}
 }
