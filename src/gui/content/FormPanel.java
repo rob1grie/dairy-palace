@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.register;
+package gui.content;
+
+import javax.swing.JPanel;
 
 /**
  *
  * @author rob
  */
-public class RegisterFormPanel {
+public class FormPanel extends JPanel {
 	
 }

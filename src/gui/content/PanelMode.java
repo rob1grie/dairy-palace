@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.register;
+package gui.content;
 
 /**
  *
  * @author rob
  */
-public interface RegisterToolbarListener {
-
-	void viewSelected(String name); 
-	
+public enum PanelMode {
+	FORMVIEW, TABLEVIEW
 }

@@ -3,22 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.register;
+package gui.content;
 
-import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 /**
  *
  * @author rob
  */
-public class RegisterContentPanel extends JPanel {
-	public RegisterContentPanel() {
-		
+public class TablePanel extends JPanel {
+
+	void getTableModelData() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
-	public void showPanel(String name) {
-		CardLayout cl = (CardLayout)getLayout();
-		cl.show(this, name);
-	} 
 }
