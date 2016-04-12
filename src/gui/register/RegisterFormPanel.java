@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+import model.RegisterAudit;
 
 /**
  *
@@ -42,6 +43,8 @@ public class RegisterFormPanel extends JPanel {
 	private JCheckBox mgrAuditField;
 	private JTextField mgrField;
 	private JTextField deltaField;
+	
+	private RegisterAudit registerData;
 	
 	public RegisterFormPanel() {
 		
@@ -140,6 +143,7 @@ public class RegisterFormPanel extends JPanel {
 		add(deltaLabel, c);
 		
 		deltaField = new JTextField(4);
+		deltaField.setEditable(false);
 		c.gridx++;
 		add(deltaField, c);
 		

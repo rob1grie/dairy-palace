@@ -112,7 +112,8 @@ public class MainFrame extends JFrame implements ComponentListener {
 		setLocationRelativeTo(null);
 		setVisible(true);
 
-		setVisiblePanel("Start");
+		// TODO  Temporarily start with Register Audit tab showing
+		setVisiblePanel("Register");
 	}
 
 	public ImportFilter getImportFilter() {
