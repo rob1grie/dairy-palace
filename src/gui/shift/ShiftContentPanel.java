@@ -13,8 +13,8 @@ import model.ShiftData;
  * @author Rob
  */
 public class ShiftContentPanel extends JPanel {
-	private ShiftTablePanel tablePanel;
-	private ShiftFormPanel formPanel;
+	private final ShiftTablePanel tablePanel;
+	private final ShiftFormPanel formPanel;
 	
 	final static String TABLEPANEL = "Table";
 	final static String FORMPANEL = "Form";

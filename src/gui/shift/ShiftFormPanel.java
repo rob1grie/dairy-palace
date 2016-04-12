@@ -50,7 +50,7 @@ public class ShiftFormPanel extends JPanel {
 
 	}
 
-	public void layoutComponents() {
+	private void layoutComponents() {
 		setLayout(new BorderLayout());
 
 		formHeader = new ShiftFormHeader();

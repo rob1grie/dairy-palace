@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import gui.register.RegisterPanel;
 import gui.shift.ShiftPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -31,8 +32,9 @@ import model.Database;
 public class MainFrame extends JFrame implements ComponentListener {
 
 	private final JPanel contentPanel;
-	private final ShiftPanel shiftPanel;
 	private final StartPanel startPanel;
+	private final ShiftPanel shiftPanel;
+	private final RegisterPanel registerPanel;
 	private final MainFooter footerPanel;
 	private final Controller controller;
 	private JFileChooser fileChooser;
@@ -76,10 +78,12 @@ public class MainFrame extends JFrame implements ComponentListener {
 
 		shiftPanel = new ShiftPanel();
 		shiftPanel.loadLatest();
-		
+
+		registerPanel = new RegisterPanel();
 
 		contentPanel.add(startPanel, STARTPANEL);
 		contentPanel.add(shiftPanel, SHIFTPANEL);
+		contentPanel.add(registerPanel, REGISTERPANEL);
 
 		setJMenuBar(createMenuBar());
 
